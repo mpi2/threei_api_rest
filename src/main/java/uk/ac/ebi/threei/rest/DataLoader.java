@@ -1,7 +1,10 @@
 package uk.ac.ebi.threei.rest;
 
+import java.io.File;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.ExitCodeEvent;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -20,6 +23,22 @@ public class DataLoader implements CommandLineRunner {
 		@Override
 		public void run(String... args) throws Exception {
 
+			if(args.length>0){
+			String dataFileLocation=args[0];
+			System.out.println("data file presented as "+dataFileLocation.trim());
+			File csvFile=new File(dataFileLocation);
+			if(csvFile.exists()){
+				System.out.println("file exists! We can now get the data");
+				this.getData(csvFile);
+				
+				
+			}
+			}else{
+				System.out.println("you need to specify the full path to the file as the first argument at the command line!!!");
+				System.out.println("Exiting application");
+				System.exit(1);
+			}
+			
 			repository.deleteAll();
 
 			// save a couple of customers
@@ -43,6 +62,13 @@ public class DataLoader implements CommandLineRunner {
 				System.out.println(customer);
 			}
 
+			System.exit(0);
+		}
+
+		private void getData(File csvFile) {
+			// read in file line by line and add to CellParameter objects for loading into mongodb
+			
+			
 		}
 
 	}
