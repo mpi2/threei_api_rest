@@ -19,6 +19,9 @@ public class CellParameter {
 	private String cellType;
 	private String cellSubtype;
 	
+	public CellParameter(){
+		
+	}
 	
 	public CellParameter(String parameterId, String parameterName, String assay, String cellType, String cellSubtype){
 		this.parameterId=parameterId;
