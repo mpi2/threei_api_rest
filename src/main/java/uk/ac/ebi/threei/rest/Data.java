@@ -33,19 +33,19 @@ public class Data {
 		this.id = id;
 	}
 
-	private List<List<String>> data=new ArrayList<>();
+	private List<List<Integer>> data=new ArrayList<>();
 
-	public List<List<String>> getData() {
+	public List<List<Integer>> getData() {
 		return data;
 	}
 
-	public void setData(List<List<String>> data) {
+	public void setData(List<List<Integer>> data) {
 		this.data = data;
 	}
 	
 	public String writeData() {
 		String allData="";//should use String builder?
-		for(List<String> cell:data) {
+		for(List<Integer> cell:data) {
 			allData+=cell;
 		}
 		return allData;

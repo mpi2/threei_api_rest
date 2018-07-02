@@ -157,20 +157,20 @@ public class DataLoader implements CommandLineRunner {
 				int row=0;
 				for (String gene : geneSymbols) {
 					boolean isRow=false;
-					String value="0";//default is zero for each cell meaning no data.
+					Integer value=0;//default is zero for each cell meaning no data.
 					
 					
 						if(geneProcedureDisplayNameToValueMap.containsKey(gene+"_"+header)) {
 						
 							//add the cell with data here
-							value=geneProcedureDisplayNameToValueMap.get(gene+"_"+header).toString();
+							value=geneProcedureDisplayNameToValueMap.get(gene+"_"+header);
 							//System.out.println("value from data="+value);
 						
 						}
 					
-					List<String> cellData = new ArrayList<>();
-					cellData.add(String.valueOf(column));
-					cellData.add(String.valueOf(row));
+					List<Integer> cellData = new ArrayList<>();
+					cellData.add(column);
+					cellData.add(row);
 					
 					System.out.println("value="+value);
 					
