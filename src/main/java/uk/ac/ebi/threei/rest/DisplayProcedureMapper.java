@@ -58,6 +58,20 @@ public class DisplayProcedureMapper {
 			}
 			return realProcedureTodDisplayName.get(procedureName);
 		}
+		
+		/**
+		 * get the index of the column from the default column order - used by heatmap
+		 * @param procedureName
+		 * @return
+		 */
+	public static Integer getColumnIndexForHeaderDisplayName(String procedureDisplayName) {
+		for (int i = 0; i < displayHeaderOrder.length; i++) {
+			if (displayHeaderOrder[i].equalsIgnoreCase(procedureDisplayName)) {
+				return i;
+			}
+		}
+		return -1;
+	}
 	
 	
 	public static String[] getDisplayHeaderOrder(){
