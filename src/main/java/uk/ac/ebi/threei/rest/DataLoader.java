@@ -27,7 +27,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
 
 //need this annotation if using the loader - comment out if not...?
-@SpringBootApplication
+//@SpringBootApplication
 public class DataLoader implements CommandLineRunner {
 	private static String COMMA=",";
 	SortedSet<String> geneSymbols=new TreeSet<>();
