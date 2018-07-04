@@ -12,6 +12,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.SortedSet;
@@ -30,7 +31,7 @@ import org.springframework.stereotype.Component;
 //@SpringBootApplication
 public class DataLoader implements CommandLineRunner {
 	private static String COMMA = ",";
-	SortedSet<String> geneSymbols = new TreeSet<>();
+	SortedSet<String> geneSymbols = new TreeSet<>(Collections.reverseOrder());//set it up in reverse order so genes are at the top as highcharts row 0 is at the bottom - not what we want!
 
 	@Autowired
 	private CellParameterRepository repository;
