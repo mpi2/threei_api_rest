@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.function.Function;
@@ -28,7 +29,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
 
 //need this annotation if using the loader - comment out if not...?
-//@SpringBootApplication
+@SpringBootApplication
 public class DataLoader implements CommandLineRunner {
 	private static String COMMA = ",";
 	SortedSet<String> geneSymbols = new TreeSet<>(Collections.reverseOrder());//set it up in reverse order so genes are at the top as highcharts row 0 is at the bottom - not what we want!
@@ -41,6 +42,7 @@ public class DataLoader implements CommandLineRunner {
 
 	private Data procedureData;
 	private List<CellParameter> cellParameters;
+	private Set<String> uniqueCellTypesForHeaders;
 
 	public static void main(String[] args) {
 		System.out.println("running main method in DataLoader!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -69,6 +71,7 @@ public class DataLoader implements CommandLineRunner {
 			if (csvFile.exists()) {
 				System.out.println("file exists! We can now get the data");
 				cellParameters = this.getData(csvFile);
+				uniqueCellTypesForHeaders=this.getUniqueCellTypesForHeaders(cellParameters);
 
 			} else {
 				System.err.println("file not found!!!");
@@ -83,15 +86,24 @@ public class DataLoader implements CommandLineRunner {
 			System.out.println("Exiting application");
 			System.exit(1);
 		}
-		dataRepository.deleteAll();
-		repository.deleteAll();
+		//dataRepository.deleteAll();
+		//repository.deleteAll();
 		// HashMap<String, CellParameter> uniqueCellNames=new HashMap<>();
 		// procedure heatmap data
 		this.saveProcedureHeatmapData();
 		// cellParameters
-		saveParemeterToCells();
+		//saveParemeterToCells();
 
 		System.exit(0);
+	}
+
+	private Set<String> getUniqueCellTypesForHeaders(List<CellParameter> cellParameters2) {
+		Set<String> headers=new TreeSet<>();
+		for(CellParameter cell:cellParameters) {
+			String cellType=cell.getCellType();
+			headers.add(cellType);
+		}
+		return headers;
 	}
 
 	private Data getProcedureDataFromCsv(File hitsDataFile) {
