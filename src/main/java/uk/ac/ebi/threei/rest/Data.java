@@ -28,9 +28,12 @@ public class Data {
 
 	List<String> rowHeaders=new ArrayList<>();
 	
+	
+	
 	@Override
 	public String toString() {
-		return "Data [id=" + id + ", heatmapType=" + heatmapType + ", data=" + data + "]";
+		return "Data [columnHeaders=" + columnHeaders + "\n, rowHeaders=" + rowHeaders + ", id=" + id + ", heatmapType="
+				+ heatmapType + "\n, data=" + data + "]";
 	}
 
 	@Id private String id;

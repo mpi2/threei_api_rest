@@ -29,11 +29,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Component;
 
 //need this annotation if using the loader - comment out if not...?
-@SpringBootApplication
+//@SpringBootApplication
 public class DataLoader implements CommandLineRunner {
 	private static String COMMA = ",";
 	SortedSet<String> geneSymbols = new TreeSet<>(Collections.reverseOrder());//set it up in reverse order so genes are at the top as highcharts row 0 is at the bottom - not what we want!
 
+	private HashMap<String, Integer> geneConstructParameterToSignificance;
+	
 	@Autowired
 	private CellParameterRepository repository;
 
@@ -41,6 +43,7 @@ public class DataLoader implements CommandLineRunner {
 	private DataRepository dataRepository;
 
 	private Data procedureData;
+	private Data cellTypeData;
 	private List<CellParameter> cellParameters;
 	private Set<String> uniqueCellTypesForHeaders;
 
@@ -59,7 +62,16 @@ public class DataLoader implements CommandLineRunner {
 			if (hitsDataFile.exists()) {
 				System.out.println("hits file exists");
 				procedureData = this.getProcedureDataFromCsv(hitsDataFile);
-				// cleanFile(hitsDataFile);
+				geneConstructParameterToSignificance = getGeneToParameterHitsFromFile(hitsDataFile);
+				int i=0;
+				for(String key: geneConstructParameterToSignificance.keySet()) {
+					System.out.println("geneConstructParameterToSignificance key="+key);
+					i++;
+					if(i>10)break;
+				}
+				
+				
+				// cleanFile(hitsDataFile);//only to be used on original file to remove wierd newlines
 			} else {
 				System.err.println("hits data file doesn't exist here:" + hitsDataFileLocation);
 			}
@@ -72,6 +84,11 @@ public class DataLoader implements CommandLineRunner {
 				System.out.println("file exists! We can now get the data");
 				cellParameters = this.getData(csvFile);
 				uniqueCellTypesForHeaders=this.getUniqueCellTypesForHeaders(cellParameters);
+				
+				//now we need to construct the cell type map by looping though the headers for celltype and then allocating if
+				//any of the parameters associated to that header for that gene are significant using the prev loaded hit file
+				cellTypeData=createCellTypeHeatmap(uniqueCellTypesForHeaders, cellParameters, geneConstructParameterToSignificance );
+				//System.out.println("celltypeData="+cellTypeData);
 
 			} else {
 				System.err.println("file not found!!!");
@@ -86,15 +103,89 @@ public class DataLoader implements CommandLineRunner {
 			System.out.println("Exiting application");
 			System.exit(1);
 		}
-		//dataRepository.deleteAll();
-		//repository.deleteAll();
+		
 		// HashMap<String, CellParameter> uniqueCellNames=new HashMap<>();
 		// procedure heatmap data
-		this.saveProcedureHeatmapData();
-		// cellParameters
-		//saveParemeterToCells();
+		saveDataToMongo();
 
 		System.exit(0);
+	}
+
+	private Data createCellTypeHeatmap(Set<String> uniqueCellTypesForHeaders2, List<CellParameter> cellParameters2,
+			HashMap<String, Integer> geneConstructParameterToSignificance2) {
+		Data localCellTypeData=new Data();
+		localCellTypeData.setHeatmapType("cellType");
+		int column = 0;
+
+		for (String header : uniqueCellTypesForHeaders2) {
+			localCellTypeData.addColumnHeader(header);
+			// cellData.addColumnHeader(header);
+			
+			int row=0;
+			
+			for (String gene : geneSymbols) {
+				localCellTypeData.addRowHeader(gene);
+				
+				Integer value = 0;// default is zero for each cell meaning no data.
+				
+				//System.out.println("looking for |"+gene + "_" + header+"|");
+				//need to look at header and get the parameter names for that cell type, then look get the highest significance from that list and return it
+				value = getHighestSignificanceForCellTypeHeadeer(geneConstructParameterToSignificance2, header, gene);
+
+				List<Integer> cellData = new ArrayList<>();
+				cellData.add(column);
+				cellData.add(row);
+
+				//System.out.println("value=" + value);
+
+				cellData.add(value);
+				//System.out.println("adding celldata=" + cellData);
+				localCellTypeData.getData().add(cellData);
+				row++;
+			}
+			column++;
+		}
+		return localCellTypeData;
+	}
+
+	private Integer getHighestSignificanceForCellTypeHeadeer(
+			HashMap<String, Integer> geneConstructParameterToSignificance2, String header, String gene) {
+		int highestSignficance = 0;
+		List<String> parameterNamesForHeader = this.getParametersForCellType(header, cellParameters);
+
+		for (String paramName : parameterNamesForHeader) {
+			if (geneConstructParameterToSignificance2.containsKey(gene + "_" + paramName)) {
+
+				// add the cell with data here
+				int value = geneConstructParameterToSignificance2.get(gene + "_" + paramName);
+				if (highestSignficance < value) {
+					highestSignficance = value;
+				}
+				
+
+			}
+		}
+		System.out.println("returning highest significance=" + highestSignficance);
+		return highestSignficance;
+	}
+
+	private List<String> getParametersForCellType(String header, List<CellParameter> cellParameters2) {
+		List<String> cellParameterNames=new ArrayList<>();
+		for(CellParameter cParam:cellParameters2) {
+			if(cParam.getCellType().equals(header)){
+				cellParameterNames.add(cParam.getParameterName());
+			};
+		}
+		return cellParameterNames;
+	}
+
+	private void saveDataToMongo() {
+		dataRepository.deleteAll();
+		repository.deleteAll();
+		dataRepository.save(procedureData);
+		dataRepository.save(cellTypeData);
+		// cellParameters
+		saveParemeterToCells();
 	}
 
 	private Set<String> getUniqueCellTypesForHeaders(List<CellParameter> cellParameters2) {
@@ -127,7 +218,8 @@ public class DataLoader implements CommandLineRunner {
 				String[] columns = line.split(COMMA);
 				if (!columns[0].equals("Id")) {// if id is headers so want to ignore
 					String geneSymbol = columns[1];
-					geneSymbols.add(geneSymbol);
+					String construct=columns[3];
+					geneSymbols.add(geneSymbol+"_"+construct);
 					if (columns.length >= 6) {
 						procedureName = columns[5];
 					} else {
@@ -136,7 +228,7 @@ public class DataLoader implements CommandLineRunner {
 					String displayProcedureName = DisplayProcedureMapper.getDisplayNameForProcedure(procedureName);
 					String significance = columns[11];
 					int significanceScore = SignificanceType.getRankFromSignificanceName(columns[11]).intValue();
-					String key = geneSymbol + "_" + displayProcedureName;
+					String key = geneSymbol + "_" + construct+"_"+displayProcedureName;
 					if (geneProcedureDisplayNameToValueMap.containsKey(key)) {
 						int oldScore = geneProcedureDisplayNameToValueMap.get(key);
 						if (oldScore < significanceScore) {
@@ -196,20 +288,124 @@ public class DataLoader implements CommandLineRunner {
 				cellData.add(column);
 				cellData.add(row);
 
-				System.out.println("value=" + value);
+				//System.out.println("value=" + value);
 
 				cellData.add(value);
-				System.out.println("adding celldata=" + cellData);
+				//System.out.println("adding celldata=" + cellData);
 				procedureData.getData().add(cellData);
 				row++;
 			}
 			column++;
 		}
 
-		System.out.println("procedureData=" + procedureData.writeData());
+		//System.out.println("procedureData=" + procedureData.writeData());
 		return procedureData;
 	}
 
+	
+	
+	public HashMap<String, Integer> getGeneToParameterHitsFromFile(File hitsDataFile) {
+
+		// read in file line by line and add to CellParameter objects for loading into
+		// mongodb
+		//Data procedureData = new Data();
+		//procedureData.setHeatmapType("procedure");
+		HashMap<String, Integer> geneParameterToSigValueMap = new HashMap<>();
+
+		try {
+
+			InputStream inputFS = new FileInputStream(hitsDataFile);
+			BufferedReader br = new BufferedReader(new InputStreamReader(inputFS));
+			// skip the header of the csv
+			String line;
+			int linesRead = 0;
+			while ((line = br.readLine()) != null) {
+
+				// System.out.println(line);
+				String parameterName = "";
+				String[] columns = line.split(COMMA);
+				if (!columns[0].equals("Id")) {// if id is headers so want to ignore
+					String geneSymbol = columns[1];
+					//geneSymbols.add(geneSymbol);
+					String construct=columns[3];
+					if (columns.length >= 7) {
+						parameterName = columns[7];
+					} else {
+						System.out.println("columns size is not 6 so can't get procedureName for line=" + line);
+					}
+					String significance = columns[11];
+					int significanceScore = SignificanceType.getRankFromSignificanceName(columns[11]).intValue();
+					String key = geneSymbol + "_" +construct+"_"+ parameterName;
+					if (geneParameterToSigValueMap.containsKey(key)) {
+						int oldScore = geneParameterToSigValueMap.get(key);
+						if (oldScore < significanceScore) {
+							geneParameterToSigValueMap.put(key, significanceScore);
+							// System.out.println("geneSymbol="+geneSymbol+" procedureName="+procedureName+"
+							// displayName="+DisplayProcedureMapper.getDisplayNameForProcedure(procedureName)+"
+							// significance="+significance +" new
+							// significance="+SignificanceType.getRankFromSignificanceName(columns[11]));
+
+							// System.out.println("old score is"+oldScore+" which should be different to
+							// "+geneProcedureDisplayNameToValueMap.get(key));
+						} // otherwise do nothing
+					} else {
+						//System.out.println("adding key in GeneToParameterHitsFromFile"+key);
+						geneParameterToSigValueMap.put(key, significanceScore);
+					}
+					linesRead++;
+					// System.out.println(linesRead);
+				}
+			}
+			System.out.println("generated gene to parameter sig map");
+			System.out.println("number of rows=" + geneParameterToSigValueMap.keySet().size());
+			//System.out.println("number of parameters/columns=" + DisplayProcedureMapper.getDisplayHeaderOrder().length);
+
+			// dataArray = br.lines().skip(1).map(mapToItem).collect(Collectors.toList());
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+//		int column = 0;
+//
+//		for (String header : DisplayProcedureMapper.getDisplayHeaderOrder()) {
+//			procedureData.addColumnHeader(header);
+//			// cellData.addColumnHeader(header);
+//			boolean isColumn = false;
+//			int row = 0;
+//			for (String gene : geneSymbols) {
+//				procedureData.addRowHeader(gene);
+//				boolean isRow = false;
+//				Integer value = 0;// default is zero for each cell meaning no data.
+//
+//				if (geneProcedureDisplayNameToValueMap.containsKey(gene + "_" + header)) {
+//
+//					// add the cell with data here
+//					value = geneProcedureDisplayNameToValueMap.get(gene + "_" + header);
+//					// System.out.println("value from data="+value);
+//
+//				}
+//
+//				List<Integer> cellData = new ArrayList<>();
+//				cellData.add(column);
+//				cellData.add(row);
+//
+//				System.out.println("value=" + value);
+//
+//				cellData.add(value);
+//				System.out.println("adding celldata=" + cellData);
+//				procedureData.getData().add(cellData);
+//				row++;
+//			}
+//			column++;
+//		}
+
+		//System.out.println("procedureData=" + procedureData.writeData());
+		return geneParameterToSigValueMap;
+	
+	}
+	
+	
 	private Integer getGeneIndex(String geneString) {
 		int i = 0;
 		for (String gene : geneSymbols) {
@@ -285,61 +481,16 @@ public class DataLoader implements CommandLineRunner {
 		return procedureData;
 	}
 
-	/**
-	 * just save data into an array for the Procedure heatmap that should match the
-	 * column headers for procedures
-	 */
-	private void saveProcedureHeatmapData() {
-		// save just as a data array of arrays so looks like this at return from REST
-		// service:
-		// [column, row (going up), value] note value should be 0,1,2,3 so we can order
-		// in significance
-		// data: [[0, 0, 0], [0, 1, 1], [0, 2, 2], [0, 3, 3], [0, 4, 3], [1, 0, 0], [1,
-		// 1, 1], [1, 2, 2], [1, 3, 3], [1, 4, 3]]
-
-		dataRepository.save(procedureData);
-
-		// fetch all customers
-		System.out.println("Customers found with findAll():");
-		System.out.println("-------------------------------");
-		for (Data data : dataRepository.findAll()) {
-			System.out.println(data);
-		}
-		System.out.println();
-
-		// fetch an individual customer
-
-		// System.out.println("Customers found with
-		// findByParameterId('MGP_PBI_001_001'):");
-		// System.out.println("--------------------------------");
-		// for (CellParameter customer :
-		// dataRepository.findByParameterId("MGP_PBI_001_001")) {
-		// System.out.println(customer);
-		// }
-
-	}
+	
+	
+	
 
 	private void saveParemeterToCells() {
 		for (CellParameter cellParam : cellParameters) {
-			System.out.println("cellParam=" + cellParam.toString());
+			//System.out.println("cellParam=" + cellParam.toString());
 			repository.save(cellParam);
 		}
 
-		// fetch all customers
-		System.out.println("Customers found with findAll():");
-		System.out.println("-------------------------------");
-		for (CellParameter customer : repository.findAll()) {
-			System.out.println(customer);
-		}
-		System.out.println();
-
-		// fetch an individual customer
-
-		System.out.println("Customers found with findByParameterId('MGP_PBI_001_001'):");
-		System.out.println("--------------------------------");
-		for (CellParameter customer : repository.findByParameterId("MGP_PBI_001_001")) {
-			System.out.println(customer);
-		}
 	}
 
 	private List<CellParameter> getData(File csvFile) {
