@@ -32,6 +32,7 @@ import org.springframework.stereotype.Component;
 //@SpringBootApplication
 public class DataLoader implements CommandLineRunner {
 	private static String COMMA = ",";
+	private static String KEY_DELIMITER=" ";
 	SortedSet<String> geneSymbols = new TreeSet<>(Collections.reverseOrder());//set it up in reverse order so genes are at the top as highcharts row 0 is at the bottom - not what we want!
 
 	private HashMap<String, Integer> geneConstructParameterToSignificance;
@@ -154,10 +155,10 @@ public class DataLoader implements CommandLineRunner {
 		List<String> parameterNamesForHeader = this.getParametersForCellType(header, cellParameters);
 
 		for (String paramName : parameterNamesForHeader) {
-			if (geneConstructParameterToSignificance2.containsKey(gene + "_" + paramName)) {
+			if (geneConstructParameterToSignificance2.containsKey(gene + KEY_DELIMITER + paramName)) {
 
 				// add the cell with data here
-				int value = geneConstructParameterToSignificance2.get(gene + "_" + paramName);
+				int value = geneConstructParameterToSignificance2.get(gene + KEY_DELIMITER + paramName);
 				if (highestSignficance < value) {
 					highestSignficance = value;
 				}
@@ -219,7 +220,7 @@ public class DataLoader implements CommandLineRunner {
 				if (!columns[0].equals("Id")) {// if id is headers so want to ignore
 					String geneSymbol = columns[1];
 					String construct=columns[3];
-					geneSymbols.add(geneSymbol+"_"+construct);
+					geneSymbols.add(geneSymbol+KEY_DELIMITER+construct);
 					if (columns.length >= 6) {
 						procedureName = columns[5];
 					} else {
@@ -228,7 +229,7 @@ public class DataLoader implements CommandLineRunner {
 					String displayProcedureName = DisplayProcedureMapper.getDisplayNameForProcedure(procedureName);
 					String significance = columns[11];
 					int significanceScore = SignificanceType.getRankFromSignificanceName(columns[11]).intValue();
-					String key = geneSymbol + "_" + construct+"_"+displayProcedureName;
+					String key = geneSymbol + KEY_DELIMITER + construct+KEY_DELIMITER+displayProcedureName;
 					if (geneProcedureDisplayNameToValueMap.containsKey(key)) {
 						int oldScore = geneProcedureDisplayNameToValueMap.get(key);
 						if (oldScore < significanceScore) {
@@ -276,10 +277,10 @@ public class DataLoader implements CommandLineRunner {
 				boolean isRow = false;
 				Integer value = 0;// default is zero for each cell meaning no data.
 
-				if (geneProcedureDisplayNameToValueMap.containsKey(gene + "_" + header)) {
+				if (geneProcedureDisplayNameToValueMap.containsKey(gene + KEY_DELIMITER + header)) {
 
 					// add the cell with data here
-					value = geneProcedureDisplayNameToValueMap.get(gene + "_" + header);
+					value = geneProcedureDisplayNameToValueMap.get(gene + KEY_DELIMITER + header);
 					// System.out.println("value from data="+value);
 
 				}
@@ -335,7 +336,7 @@ public class DataLoader implements CommandLineRunner {
 					}
 					String significance = columns[11];
 					int significanceScore = SignificanceType.getRankFromSignificanceName(columns[11]).intValue();
-					String key = geneSymbol + "_" +construct+"_"+ parameterName;
+					String key = geneSymbol + KEY_DELIMITER +construct+KEY_DELIMITER+ parameterName;
 					if (geneParameterToSigValueMap.containsKey(key)) {
 						int oldScore = geneParameterToSigValueMap.get(key);
 						if (oldScore < significanceScore) {
