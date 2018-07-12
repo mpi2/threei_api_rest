@@ -3,6 +3,7 @@ package uk.ac.ebi.threei.rest;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -10,7 +11,8 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 @RepositoryRestResource(collectionResourceRel = "Data", path = "data")
 public interface DataRepository extends MongoRepository<Data, String> {
-
+	
+	
 	public static final String[] procedureDisplayHeaderOrder={ 
 			"Homozygous viability at P14",
 	         "Homozygous Fertility",
@@ -31,6 +33,8 @@ public interface DataRepository extends MongoRepository<Data, String> {
 	 * @param heatmapType
 	 * @return
 	 */
+	
+	
 	
 	
 	List<Data> findByHeatmapType(@Param("heatmapType") String heatmapType);
