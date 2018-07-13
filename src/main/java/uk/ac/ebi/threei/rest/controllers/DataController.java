@@ -13,6 +13,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,17 +32,19 @@ public class DataController {
 	@Autowired
 	DataRepository dataRepo;
 	
-	@RequestMapping("/heatmapdata/")
+	@CrossOrigin(origins = "*", maxAge = 3600)
+	@RequestMapping("/data")
 	@ResponseBody
-	public HttpEntity<Data> dataController(Model model, @RequestParam(value = "heatmapType", required = false, defaultValue="") String heatmapType, @RequestParam(value = "keywords", required = false) String keyword,
+	public HttpEntity<Data> dataController(Model model, @RequestParam(value = "heatmapType", required = false, defaultValue="procedure") String heatmapType, @RequestParam(value = "keywords", required = false) String keyword,
 			@RequestParam(value = "construct", required = false) String construct) {
-		System.out.println("keywords=" + keyword + " construct=" + construct);
+		System.out.println("calling data controller with heatmapType"+ heatmapType+" keywords=" + keyword + " construct=" + construct);
 		
+		//should extract these into methods in a data service for unit testing purposes
 		List<Data> dataList = dataRepo.findAll();
 		Data data = new Data();
 		if(heatmapType.equals("cell")){
 			data=dataList.get(1);
-		}else {
+		}else if(heatmapType.equals("procedure")){
 			data=dataList.get(0);
 		}
 		return new ResponseEntity<Data>(data, HttpStatus.OK);

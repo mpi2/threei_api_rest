@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-@RepositoryRestResource(collectionResourceRel = "Data", path = "data")
+@RepositoryRestResource(collectionResourceRel = "Data", path = "heatmapdata")
 public interface DataRepository extends MongoRepository<Data, String> {
 	
 	
