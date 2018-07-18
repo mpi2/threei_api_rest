@@ -27,6 +27,7 @@ import uk.ac.ebi.threei.rest.CellParameter;
 import uk.ac.ebi.threei.rest.CellParameterRepository;
 import uk.ac.ebi.threei.rest.Data;
 import uk.ac.ebi.threei.rest.DataRepository;
+import uk.ac.ebi.threei.rest.UniqueSubCellTypes;
 import uk.ac.ebi.threei.rest.services.GeneDTO;
 import uk.ac.ebi.threei.rest.services.GeneService;
 @RestController
@@ -82,19 +83,21 @@ public class DataController {
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/cellSubTypes")
 	@ResponseBody
-	public HttpEntity<Set<String>> cellSubTypes(Model model) {
+	public HttpEntity<UniqueSubCellTypes> cellSubTypes(Model model) {
 		System.out.println("calling get cell subtypes");
-		
-		if(uniqueSubCellTypes==null) {
-			uniqueSubCellTypes=new TreeSet<>();
-		//should extract these into methods in a data service for unit testing purposes
-		List<CellParameter> dataList = cellRepo.findAll();
-		
-		for(CellParameter cellP: dataList) {
-			uniqueSubCellTypes.add(cellP.getCellSubtype());
+
+		if (uniqueSubCellTypes == null) {
+			uniqueSubCellTypes = new TreeSet<>();
+			// should extract these into methods in a data service for unit testing purposes
+			List<CellParameter> dataList = cellRepo.findAll();
+
+			for (CellParameter cellP : dataList) {
+				uniqueSubCellTypes.add(cellP.getCellSubtype());
+			}
 		}
-		}
-		return new ResponseEntity<Set<String>>(uniqueSubCellTypes, HttpStatus.OK);
+		UniqueSubCellTypes types=new UniqueSubCellTypes();
+		types.getTypes().addAll(uniqueSubCellTypes);
+		return new ResponseEntity<UniqueSubCellTypes>(types, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*", maxAge = 3600)
