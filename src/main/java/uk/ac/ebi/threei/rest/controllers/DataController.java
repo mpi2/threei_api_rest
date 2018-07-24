@@ -43,7 +43,14 @@ public class DataController {
 	private SortedSet<String>uniqueSubCellTypes;
 	private SortedSet<String> uniqueAssays;
 	private SortedSet<String> uniqueCellTypes;
-	
+	/**
+	 * Gets the data for the heatmap display
+	 * @param model
+	 * @param heatmapType
+	 * @param keyword
+	 * @param construct
+	 * @return
+	 */
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/data")
 	@ResponseBody
@@ -61,6 +68,9 @@ public class DataController {
 		}
 		return new ResponseEntity<Data>(data, HttpStatus.OK);
 	}
+	
+	
+
 	
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/cellTypes")
