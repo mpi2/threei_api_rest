@@ -23,6 +23,15 @@ public class CellHeatmapRow {
 	private Integer alphaDeltaTCells=0;
 	private Integer nKCells=0;
 	private Integer nktCells=0;
+	private Integer bCellPrecursors=0;
+	private Integer dendriticCells=0;
+	private Integer granulocytes=0;
+	private Integer tregCells=0;
+	private Integer cD4TCells=0;
+	private Integer monocytesMacrophages=0;
+	private Integer totalAlphBetaTCells=0;
+	private Integer bCells=0;
+	private Integer cd8TCells=0;
 	public Integer getAlphaDeltaTCells() {
 		return alphaDeltaTCells;
 	}
@@ -119,15 +128,6 @@ public class CellHeatmapRow {
 		cd8TCells = cd8tCells;
 	}
 
-	private Integer bCellPrecursors=0;
-	private Integer dendriticCells=0;
-	private Integer granulocytes=0;
-	private Integer tregCells=0;
-	private Integer cD4TCells=0;
-	private Integer monocytesMacrophages=0;
-	private Integer totalAlphBetaTCells=0;
-	private Integer bCells=0;
-	private Integer cd8TCells=0;
 
 	public String getId() {
 		return id;
