@@ -137,11 +137,6 @@ public class CellHeatmapRow {
 		this.id = id;
 	}
 
-	
-	public static String[] getProceduredisplayheaderorder() {
-		return procedureDisplayHeaderOrder;
-	}
-
 	public void setGene(String gene) {
 		this.gene = gene;
 	}
@@ -243,28 +238,9 @@ public class CellHeatmapRow {
 		
 	}
 	
-//	private void setVarabileFromKey(String procedureKey, Integer integer) {
-//		
-//			Integer localVariable=this.getVariableFromString(procedureKey);
-//			localVariable=integer;
-//			
-//		
-//	}
+	
+		
+	}
 
 	
-	public static final String[] procedureDisplayHeaderOrder={ 
-			"Homozygous viability at P14",
-	         "Homozygous Fertility",
-	        "Haematology",
-	         "Peripheral Blood Leukocytes",
-	       "Spleen",
-	         "Mesenteric Lymph Node",
-	       "Bone Marrow",
-	        "Ear Epidermis",
-	        "Anti-nuclear Antibodies",
-	        "Cytotoxic T Cell Function",
-	        "DSS Challenge",
-	         "Influenza",
-	        "Trichuris Challenge",
-	        "Salmonella Challenge"};
-}
+

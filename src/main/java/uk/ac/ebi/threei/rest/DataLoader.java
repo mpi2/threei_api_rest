@@ -14,7 +14,10 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -398,12 +401,19 @@ public class DataLoader implements CommandLineRunner {
 	private List<CellHeatmapRow> getCellHeatmapRowsFromCsv(Set<String> uniqueCellTypesForHeaders2, List<CellParameter> cellParameters2,
 			HashMap<String, Integer> geneConstructParameterToSignificance2) {
 		List<CellHeatmapRow> cellHeatmapRows=new ArrayList<>();
-
+		Map<String, CellHeatmapRow> cellHeatmapRowsMap=new LinkedHashMap<>();
+		//We only want row for each gene construct combination so lets get back any row previously created for that to then test highest score?
+		
 			for (String geneConstruct : geneConstructSymbols) {
+				CellHeatmapRow row;
 				String geneConstructArray[]=geneConstruct.split(KEY_DELIMITER);
 				String gene=geneConstructArray[0];
 				String construct=geneConstructArray[1];
-				CellHeatmapRow row=new CellHeatmapRow(gene, construct);
+				if(!cellHeatmapRowsMap.containsKey(geneConstruct)) {
+					row=new CellHeatmapRow(gene, construct);
+					cellHeatmapRowsMap.put(geneConstruct, row);
+				}
+				row=cellHeatmapRowsMap.get(geneConstruct);//should always be one as if not already created and added above
 				
 				for (String header : uniqueCellTypesForHeaders2) {
 					//localCellTypeData.addColumnHeader(header);
@@ -416,18 +426,64 @@ public class DataLoader implements CommandLineRunner {
 				//need to look at header and get the parameter names for that cell type, then look get the highest significance from that list and return it
 				
 				value = getHighestSignificanceForCellTypeHeadeer(geneConstructParameterToSignificance2, header, gene, construct);
-				System.out.println("value="+value);
+				//System.out.println("value="+value);
 				row.getProcedureSignificance().put(header,value);
 				
 				//cell
 				
 				}
-				System.out.println("adding cellRow="+row);
-				row.setFieldsFromMap();
-				cellHeatmapRows.add(row);
+				
+				
 			}
 			
-		
+			//loop over the oredered set and add to list after setting variables from map and emptying map
+			for(Entry<String, CellHeatmapRow> entry : cellHeatmapRowsMap.entrySet()) {
+			CellHeatmapRow row=entry.getValue();
+			row.setFieldsFromMap();
+			row.procedureSignificance=Collections.emptyMap();
+			cellHeatmapRows.add(row);
+			}
+			
+			
+			
+			
+//			Data localCellTypeData=new Data();
+//			localCellTypeData.setHeatmapType("cellType");
+//			int column = 0;
+//
+//			for (String header : uniqueCellTypesForHeaders2) {
+//				localCellTypeData.addColumnHeader(header);
+//				// cellData.addColumnHeader(header);
+//				
+//				int row=0;
+//				
+//				for (String geneConstruct : geneConstructSymbols) {
+//					String geneConstructArray[]=geneConstruct.split(KEY_DELIMITER);
+//					String gene=geneConstructArray[0];
+//					String construct=geneConstructArray[1];
+//					localCellTypeData.addRowHeader(gene+" "+construct);
+//					
+//					Integer value = 0;// default is zero for each cell meaning no data.
+//					
+//					//System.out.println("looking for |"+gene + "_" + header+"|");
+//					//need to look at header and get the parameter names for that cell type, then look get the highest significance from that list and return it
+//					value = getHighestSignificanceForCellTypeHeadeer(geneConstructParameterToSignificance2, header, gene, construct);
+//
+//					List<Integer> cellData = new ArrayList<>();
+//					cellData.add(column);
+//					cellData.add(row);
+//
+//					//System.out.println("value=" + value);
+//
+//					cellData.add(value);
+//					//System.out.println("adding celldata=" + cellData);
+//					localCellTypeData.getData().add(cellData);
+//					row++;
+//				}
+//				column++;
+//			}
+			
+		System.out.println("cellHeatmapRows size="+cellHeatmapRows.size());
 		return cellHeatmapRows;
 	}
 

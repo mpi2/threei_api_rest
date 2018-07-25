@@ -66,7 +66,7 @@ public class DataController {
 	@ResponseBody
 	public HttpEntity<Data> dataController(Model model, @RequestParam(value = "heatmapType", required = false, defaultValue="procedure") String heatmapType, @RequestParam(value = "keywords", required = false) String keyword,
 			@RequestParam(value = "construct", required = false) String construct) {
-		System.out.println("calling data controller with heatmapType"+ heatmapType+" keywords=" + keyword + " construct=" + construct);
+		System.out.println("calling old cell data method with "+ heatmapType+" keywords=" + keyword + " construct=" + construct);
 		
 		//should extract these into methods in a data service for unit testing purposes
 		List<Data> dataList = dataRepo.findAll();
@@ -149,7 +149,7 @@ public class DataController {
 		cellData.add(rowI);
 		cellData.add(value);
 		data.getData().add(cellData);
-		System.out.println("adding cell data="+cellData);
+		//System.out.println("adding cell data="+cellData);
 	}
 	
 	/**
@@ -165,19 +165,79 @@ public class DataController {
 	public HttpEntity<Data> cellHeatmap(Model model, @RequestParam(value = "keywords", required = false) String keyword,
 			@RequestParam(value = "construct", required = false) String construct) {
 System.out.println("calling cell heatmap controller with " + keyword + " construct=" + construct);
-		
+	Data data = new Data();//obect that holds all the data for this chart display
 		//should extract these into methods in a data service for unit testing purposes
 		List<CellHeatmapRow> cellRows = cellHeatmapRowsRepository.findAll();//get an easily readable form of the rows for the heatmap
+		System.out.println("cellrows size="+cellRows.size());
 		//loop through the rows and get the row headers for (gene symbols)
 		ArrayList<String> rowHeaders=new ArrayList<>();
+		int rowI=0;
 		for(CellHeatmapRow row:cellRows) {
 			rowHeaders.add(row.getGene());
+			//System.out.println("gene="+row.getGene()+" constr="+row.getConstruct());
 			//note we are not getting the construct here as this should be added to the cells in the normal way as the first column
 			
 			//we can get the data for the rows cells here as well and just access the variables for the headers in the order they are specified - hard coded I know- but we can use spring to do sorting and paging etc.
 			//row.get
+			
+			
+				//note we are not getting the construct here as this should be added to the cells in the normal way as the first column
+				//we can get the data for the rows cells here as well and just access the variables for the headers in the order they are specified - hard coded I know- but we can use spring to do sorting and paging etc.
+//			"γδ T cells",
+//			"NK cells",
+//			"NKT cells",
+//			"B cell precursors",
+//			"Dendritic cells",
+//			"Granulocytes",
+//			"Treg cells",
+//			"CD4 T cells",
+//			"Monocytes / Macrophages",
+//			"Total αβ T cells",
+//			"B cells",
+//			"CD8 T cells",
+//	        "DSS Challenge",
+//	         "Influenza",
+//	        "Trichuris Challenge",
+//	        "Salmonella Challenge"};
+			
+			//oh this is horrible as we need to make sure these are in the same order as the column headers otherwise madness ensues
+				int columnI=0;
+				addCellData(data, columnI, rowI, row.getAlphaDeltaTCells());
+				columnI++;
+				addCellData(data, columnI, rowI, row.getnKCells());
+				columnI++;
+				addCellData(data, columnI, rowI, row.getNktCells());
+				columnI++;
+				addCellData(data, columnI, rowI, row.getbCellPrecursors());
+				columnI++;
+				addCellData(data, columnI, rowI, row.getDendriticCells());
+				columnI++;
+				addCellData(data, columnI, rowI, row.getGranulocytes());
+				columnI++;
+				addCellData(data, columnI, rowI, row.getTregCells());
+				columnI++;
+				addCellData(data, columnI, rowI, row.getcD4TCells());
+				columnI++;
+				addCellData(data, columnI, rowI, row.getMonocytesMacrophages());
+				columnI++;
+				addCellData(data, columnI, rowI, row.getTotalAlphBetaTCells());
+				columnI++;
+				addCellData(data, columnI, rowI, row.getbCells());
+				columnI++;
+				addCellData(data, columnI, rowI, row.getCd8TCells());
+				columnI++;
+//				addCellData(data, columnI, rowI, row.getdSSChallenge());
+//				columnI++;
+//				addCellData(data, columnI, rowI, row.getInfluenza());
+//				columnI++;
+//				addCellData(data, columnI, rowI, row.getTrichurisChallenge());
+//				columnI++;
+//				addCellData(data, columnI, rowI, row.getSalmonellaChallenge());
+//				columnI++;
+				
+				rowI++;
+			
 		}
-		Data data = new Data();
 		ArrayList<String> cellHeaders = new ArrayList<>(Arrays.asList(CellHeatmapRowsRepository.cellDisplayHeaderOrder));
 		data.setColumnHeaders(cellHeaders);
 		data.setRowHeaders(rowHeaders);
