@@ -19,20 +19,20 @@ public class ProcedureHeatmapRow {
 	
 	//hard coding these so we can use spring ordering easily - seems wierd but we already have the columns hard coded for order and display name anyway so not flexible already.
 
-	private Integer homozygousViabilityAtP14;
-	private Integer homozygousFertility;
-	private Integer haematology;
-	private Integer peripheralBloodLeukocytes;
-	private Integer spleen;
-	private Integer mesentericLymphNode;
-	private Integer boneMarrow;
-	private Integer earEpidermis;
-	private Integer antinuclearAntibodies;
-	private Integer cytotoxicTCellFunction;
-	private Integer dSSChallenge;
-	private Integer influenza;
-	private Integer trichurisChallenge;
-	private Integer salmonellaChallenge;
+	private Integer homozygousViabilityAtP14=0;
+	private Integer homozygousFertility=0;
+	private Integer haematology=0;
+	private Integer peripheralBloodLeukocytes=0;
+	private Integer spleen=0;
+	private Integer mesentericLymphNode=0;
+	private Integer boneMarrow=0;
+	private Integer earEpidermis=0;
+	private Integer antinuclearAntibodies=0;
+	private Integer cytotoxicTCellFunction=0;
+	private Integer dSSChallenge=0;
+	private Integer influenza=0;
+	private Integer trichurisChallenge=0;
+	private Integer salmonellaChallenge=0;
 
 	public String getId() {
 		return id;

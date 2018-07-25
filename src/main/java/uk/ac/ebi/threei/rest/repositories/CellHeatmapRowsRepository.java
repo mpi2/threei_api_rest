@@ -1,5 +1,5 @@
 
-package uk.ac.ebi.threei.rest;
+package uk.ac.ebi.threei.rest.repositories;
 
 import java.util.List;
 
@@ -9,21 +9,25 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-@RepositoryRestResource(collectionResourceRel = "ProcedureHeatmapRow", path = "procedureheatmaprows")
-public interface ProcedureHeatmapRowsRepository extends MongoRepository<ProcedureHeatmapRow, String> {
+import uk.ac.ebi.threei.rest.CellHeatmapRow;
+
+@RepositoryRestResource(collectionResourceRel = "CellHeatmapRow", path = "cellheatmaprows")
+public interface CellHeatmapRowsRepository extends MongoRepository<CellHeatmapRow, String> {
 	
 	
-	public static final String[] procedureDisplayHeaderOrder={ 
-			"Homozygous viability at P14",
-	         "Homozygous Fertility",
-	        "Haematology",
-	         "Peripheral Blood Leukocytes",
-	       "Spleen",
-	         "Mesenteric Lymph Node",
-	       "Bone Marrow",
-	        "Ear Epidermis",
-	        "Anti-nuclear Antibodies",
-	        "Cytotoxic T Cell Function",
+	public static final String[] cellDisplayHeaderOrder={ 
+			"γδ T cells",
+			"NK cells",
+			"NKT cells",
+			"B cell precursors",
+			"Dendritic cells",
+			"Granulocytes",
+			"Treg cells",
+			"CD4 T cells",
+			"Monocytes / Macrophages",
+			"Total αβ T cells",
+			"B cells",
+			"CD8 T cells",
 	        "DSS Challenge",
 	         "Influenza",
 	        "Trichuris Challenge",
@@ -40,7 +44,7 @@ public interface ProcedureHeatmapRowsRepository extends MongoRepository<Procedur
 	//List<HeatmapRow> findByHeatmapType(@Param("heatmapType") String heatmapType);
 	
 	
-	List<ProcedureHeatmapRow> findAll();
+	List<CellHeatmapRow> findAll();
 	
 
 }

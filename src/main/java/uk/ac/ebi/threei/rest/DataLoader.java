@@ -31,6 +31,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
+import uk.ac.ebi.threei.rest.repositories.CellHeatmapRowsRepository;
+import uk.ac.ebi.threei.rest.repositories.CellParameterRepository;
+import uk.ac.ebi.threei.rest.repositories.DataRepository;
+import uk.ac.ebi.threei.rest.repositories.ProcedureHeatmapRowsRepository;
+
 //need this annotation if using the loader - comment out if not...?
 //@SpringBootApplication
 public class DataLoader implements CommandLineRunner {
@@ -54,13 +59,16 @@ public class DataLoader implements CommandLineRunner {
 	@Autowired
 	private DataRepository dataRepository;
 	@Autowired
-	private ProcedureHeatmapRowsRepository dataRowsRespository;
+	private ProcedureHeatmapRowsRepository procedureRowsRespository;
+	@Autowired
+	private CellHeatmapRowsRepository cellRowsRespository;
 
 	private Data procedureData;
 	private Data cellTypeData;
 	private List<CellParameter> cellParameters;
 	private Set<String> uniqueCellTypesForHeaders;
 	private List<ProcedureHeatmapRow> procedureRowData;
+	private List<CellHeatmapRow> cellHeatmapRows;
 	
 
 	public static void main(String[] args) {
@@ -105,6 +113,7 @@ public class DataLoader implements CommandLineRunner {
 				//now we need to construct the cell type map by looping though the headers for celltype and then allocating if
 				//any of the parameters associated to that header for that gene are significant using the prev loaded hit file
 				cellTypeData=createCellTypeHeatmap(uniqueCellTypesForHeaders, cellParameters, geneConstructParameterToSignificance );
+				cellHeatmapRows=getCellHeatmapRowsFromCsv(uniqueCellTypesForHeaders, cellParameters, geneConstructParameterToSignificance );
 				//System.out.println("celltypeData="+cellTypeData);
 
 			} else {
@@ -140,14 +149,17 @@ public class DataLoader implements CommandLineRunner {
 			
 			int row=0;
 			
-			for (String gene : geneConstructSymbols) {
-				localCellTypeData.addRowHeader(gene);
+			for (String geneConstruct : geneConstructSymbols) {
+				String geneConstructArray[]=geneConstruct.split(KEY_DELIMITER);
+				String gene=geneConstructArray[0];
+				String construct=geneConstructArray[1];
+				localCellTypeData.addRowHeader(gene+" "+construct);
 				
 				Integer value = 0;// default is zero for each cell meaning no data.
 				
 				//System.out.println("looking for |"+gene + "_" + header+"|");
 				//need to look at header and get the parameter names for that cell type, then look get the highest significance from that list and return it
-				value = getHighestSignificanceForCellTypeHeadeer(geneConstructParameterToSignificance2, header, gene);
+				value = getHighestSignificanceForCellTypeHeadeer(geneConstructParameterToSignificance2, header, gene, construct);
 
 				List<Integer> cellData = new ArrayList<>();
 				cellData.add(column);
@@ -164,17 +176,21 @@ public class DataLoader implements CommandLineRunner {
 		}
 		return localCellTypeData;
 	}
+	
+	
 
 	private Integer getHighestSignificanceForCellTypeHeadeer(
-			HashMap<String, Integer> geneConstructParameterToSignificance2, String header, String gene) {
+			HashMap<String, Integer> geneConstructParameterToSignificance2, String header, String gene, String construct) {
 		int highestSignficance = 0;
 		List<String> parameterNamesForHeader = this.getParametersForCellType(header, cellParameters);
 
 		for (String paramName : parameterNamesForHeader) {
-			if (geneConstructParameterToSignificance2.containsKey(gene + KEY_DELIMITER + paramName)) {
+			String key=gene + KEY_DELIMITER +construct+KEY_DELIMITER+ paramName;
+			if (geneConstructParameterToSignificance2.containsKey(key)) {
 
 				// add the cell with data here
-				int value = geneConstructParameterToSignificance2.get(gene + KEY_DELIMITER + paramName);
+				int value = geneConstructParameterToSignificance2.get(key);
+				//System.out.println("value is not null or 0="+value);
 				if (highestSignficance < value) {
 					highestSignficance = value;
 				}
@@ -198,11 +214,12 @@ public class DataLoader implements CommandLineRunner {
 
 	private void saveDataToMongo() {
 		dataRepository.deleteAll();
-		dataRowsRespository.deleteAll();
+		procedureRowsRespository.deleteAll();
 		repository.deleteAll();
 		
 		dataRepository.save(procedureData);
-		dataRowsRespository.saveAll(procedureRowData);
+		procedureRowsRespository.saveAll(procedureRowData);
+		cellRowsRespository.saveAll(cellHeatmapRows);
 		dataRepository.save(cellTypeData);
 		// cellParameters
 		saveParemeterToCells();
@@ -375,6 +392,43 @@ public class DataLoader implements CommandLineRunner {
 
 		//System.out.println("procedureData=" + procedureData.writeData());
 		return heatmapRows;
+	}
+	
+	
+	private List<CellHeatmapRow> getCellHeatmapRowsFromCsv(Set<String> uniqueCellTypesForHeaders2, List<CellParameter> cellParameters2,
+			HashMap<String, Integer> geneConstructParameterToSignificance2) {
+		List<CellHeatmapRow> cellHeatmapRows=new ArrayList<>();
+
+			for (String geneConstruct : geneConstructSymbols) {
+				String geneConstructArray[]=geneConstruct.split(KEY_DELIMITER);
+				String gene=geneConstructArray[0];
+				String construct=geneConstructArray[1];
+				CellHeatmapRow row=new CellHeatmapRow(gene, construct);
+				
+				for (String header : uniqueCellTypesForHeaders2) {
+					//localCellTypeData.addColumnHeader(header);
+					// cellData.addColumnHeader(header);
+				//localCellTypeData.addRowHeader(gene);
+				
+				Integer value = 0;// default is zero for each cell meaning no data.
+				
+				//System.out.println("looking for |"+gene + "_" + header+"|");
+				//need to look at header and get the parameter names for that cell type, then look get the highest significance from that list and return it
+				
+				value = getHighestSignificanceForCellTypeHeadeer(geneConstructParameterToSignificance2, header, gene, construct);
+				System.out.println("value="+value);
+				row.getProcedureSignificance().put(header,value);
+				
+				//cell
+				
+				}
+				System.out.println("adding cellRow="+row);
+				row.setFieldsFromMap();
+				cellHeatmapRows.add(row);
+			}
+			
+		
+		return cellHeatmapRows;
 	}
 
 

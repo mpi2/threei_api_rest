@@ -19,20 +19,115 @@ public class CellHeatmapRow {
 	
 	//hard coding these so we can use spring ordering easily - seems wierd but we already have the columns hard coded for order and display name anyway so not flexible already.
 
-	private Integer homozygousViabilityAtP14;
-	private Integer homozygousFertility;
-	private Integer haematology;
-	private Integer peripheralBloodLeukocytes;
-	private Integer spleen;
-	private Integer mesentericLymphNode;
-	private Integer boneMarrow;
-	private Integer earEpidermis;
-	private Integer antinuclearAntibodies;
-	private Integer cytotoxicTCellFunction;
-	private Integer dSSChallenge;
-	private Integer influenza;
-	private Integer trichurisChallenge;
-	private Integer salmonellaChallenge;
+	
+	private Integer alphaDeltaTCells=0;
+	private Integer nKCells=0;
+	private Integer nktCells=0;
+	public Integer getAlphaDeltaTCells() {
+		return alphaDeltaTCells;
+	}
+
+	public void setAlphaDeltaTCells(Integer alphaDeltaTCells) {
+		this.alphaDeltaTCells = alphaDeltaTCells;
+	}
+
+	public Integer getnKCells() {
+		return nKCells;
+	}
+
+	public void setnKCells(Integer nKCells) {
+		this.nKCells = nKCells;
+	}
+
+	public Integer getNktCells() {
+		return nktCells;
+	}
+
+	public void setNktCells(Integer nktCells) {
+		this.nktCells = nktCells;
+	}
+
+	public Integer getbCellPrecursors() {
+		return bCellPrecursors;
+	}
+
+	public void setbCellPrecursors(Integer bCellPrecursors) {
+		this.bCellPrecursors = bCellPrecursors;
+	}
+
+	public Integer getDendriticCells() {
+		return dendriticCells;
+	}
+
+	public void setDendriticCells(Integer dendriticCells) {
+		this.dendriticCells = dendriticCells;
+	}
+
+	public Integer getGranulocytes() {
+		return granulocytes;
+	}
+
+	public void setGranulocytes(Integer granulocytes) {
+		this.granulocytes = granulocytes;
+	}
+
+	public Integer getTregCells() {
+		return tregCells;
+	}
+
+	public void setTregCells(Integer tregCells) {
+		this.tregCells = tregCells;
+	}
+
+	public Integer getcD4TCells() {
+		return cD4TCells;
+	}
+
+	public void setcD4TCells(Integer cD4TCells) {
+		this.cD4TCells = cD4TCells;
+	}
+
+	public Integer getMonocytesMacrophages() {
+		return monocytesMacrophages;
+	}
+
+	public void setMonocytesMacrophages(Integer monocytesMacrophages) {
+		this.monocytesMacrophages = monocytesMacrophages;
+	}
+
+	public Integer getTotalAlphBetaTCells() {
+		return totalAlphBetaTCells;
+	}
+
+	public void setTotalAlphBetaTCells(Integer totalAlphBetaTCells) {
+		this.totalAlphBetaTCells = totalAlphBetaTCells;
+	}
+
+	public Integer getbCells() {
+		return bCells;
+	}
+
+	public void setbCells(Integer bCells) {
+		this.bCells = bCells;
+	}
+
+	public Integer getCd8TCells() {
+		return cd8TCells;
+	}
+
+	public void setCd8TCells(Integer cd8tCells) {
+		cd8TCells = cd8tCells;
+	}
+
+	private Integer bCellPrecursors=0;
+	private Integer dendriticCells=0;
+	private Integer granulocytes=0;
+	private Integer tregCells=0;
+	private Integer cD4TCells=0;
+	private Integer monocytesMacrophages=0;
+	private Integer totalAlphBetaTCells=0;
+	private Integer bCells=0;
+	private Integer cd8TCells=0;
 
 	public String getId() {
 		return id;
@@ -42,118 +137,7 @@ public class CellHeatmapRow {
 		this.id = id;
 	}
 
-	public Integer getHomozygousViabilityAtP14() {
-		return homozygousViabilityAtP14;
-	}
-
-	public void setHomozygousViabilityAtP14(Integer homozygousViabilityAtP14) {
-		this.homozygousViabilityAtP14 = homozygousViabilityAtP14;
-	}
-
-	public Integer getHomozygousFertility() {
-		return homozygousFertility;
-	}
-
-	public void setHomozygousFertility(Integer homozygousFertility) {
-		this.homozygousFertility = homozygousFertility;
-	}
-
-	public Integer getHaematology() {
-		return haematology;
-	}
-
-	public void setHaematology(Integer haematology) {
-		this.haematology = haematology;
-	}
-
-	public Integer getPeripheralBloodLeukocytes() {
-		return peripheralBloodLeukocytes;
-	}
-
-	public void setPeripheralBloodLeukocytes(Integer peripheralBloodLeukocytes) {
-		this.peripheralBloodLeukocytes = peripheralBloodLeukocytes;
-	}
-
-	public Integer getSpleen() {
-		return spleen;
-	}
-
-	public void setSpleen(Integer spleen) {
-		this.spleen = spleen;
-	}
-
-	public Integer getMesentericLymphNode() {
-		return mesentericLymphNode;
-	}
-
-	public void setMesentericLymphNode(Integer mesentericLymphNode) {
-		this.mesentericLymphNode = mesentericLymphNode;
-	}
-
-	public Integer getBoneMarrow() {
-		return boneMarrow;
-	}
-
-	public void setBoneMarrow(Integer boneMarrow) {
-		this.boneMarrow = boneMarrow;
-	}
-
-	public Integer getEarEpidermis() {
-		return earEpidermis;
-	}
-
-	public void setEarEpidermis(Integer earEpidermis) {
-		this.earEpidermis = earEpidermis;
-	}
-
-	public Integer getAntinuclearAntibodies() {
-		return antinuclearAntibodies;
-	}
-
-	public void setAntinuclearAntibodies(Integer antinuclearAntibodies) {
-		this.antinuclearAntibodies = antinuclearAntibodies;
-	}
-
-	public Integer getCytotoxicTCellFunction() {
-		return cytotoxicTCellFunction;
-	}
-
-	public void setCytotoxicTCellFunction(Integer cytotoxicTCellFunction) {
-		this.cytotoxicTCellFunction = cytotoxicTCellFunction;
-	}
-
-	public Integer getdSSChallenge() {
-		return dSSChallenge;
-	}
-
-	public void setdSSChallenge(Integer dSSChallenge) {
-		this.dSSChallenge = dSSChallenge;
-	}
-
-	public Integer getInfluenza() {
-		return influenza;
-	}
-
-	public void setInfluenza(Integer influenza) {
-		this.influenza = influenza;
-	}
-
-	public Integer getTrichurisChallenge() {
-		return trichurisChallenge;
-	}
-
-	public void setTrichurisChallenge(Integer trichurisChallenge) {
-		this.trichurisChallenge = trichurisChallenge;
-	}
-
-	public Integer getSalmonellaChallenge() {
-		return salmonellaChallenge;
-	}
-
-	public void setSalmonellaChallenge(Integer salmonellaChallenge) {
-		this.salmonellaChallenge = salmonellaChallenge;
-	}
-
+	
 	public static String[] getProceduredisplayheaderorder() {
 		return procedureDisplayHeaderOrder;
 	}
@@ -198,54 +182,74 @@ public class CellHeatmapRow {
 			this.setVarabileFromKey(procedureKey, procedureSignificance.get(procedureKey));
 		}
 	}
+	
+//	γδ T cells: 0,
+//	NK cells: 0,
+//	NKT cells: 0,
+//	B cell precursors: 0,
+//	Dendritic cells: 0,
+//	Granulocytes: 0,
+//	Treg cells: 0,
+//	CD4 T cells: 0,
+//	Monocytes / Macrophages: 0,
+//	Total αβ T cells: 0,
+//	B cells: 0,
+//	CD8 T cells: 0
 
 	private void setVarabileFromKey(String procedureKey, Integer integer) {
-		switch(procedureKey) {
-		case "Homozygous viability at P14":
-			this.homozygousViabilityAtP14=integer;
-			break;
-		case  "Homozygous Fertility":
-			this.homozygousFertility=integer;
-			break;
-		case "Haematology":
-			this.haematology=integer;
-		case "Peripheral Blood Leukocytes":
-			this.peripheralBloodLeukocytes=integer;
-			break;
-		case  "Spleen":
-			this.spleen=integer;
-			break;
-		case "Mesenteric Lymph Node":
-			this.mesentericLymphNode=integer;
-			break;
-		case "Bone Marrow":
-			this.boneMarrow=integer;
-			break;
-		case "Ear Epidermis":
-			this.earEpidermis=integer;
-			break;
-		case "Anti-nuclear Antibodies":
-			this.antinuclearAntibodies=integer;
-			break;
-		case "Cytotoxic T Cell Function":
-			this.cytotoxicTCellFunction=integer;
-			break;
-		case "DSS Challenge":
-			this.dSSChallenge=integer;
-			break;
-		case "Influenza":
-			this.influenza=integer;
-			break;
-		case "Trichuris Challenge":
-			this.trichurisChallenge=integer;
-			break;
-		case "Salmonella Challenge":
-			this.salmonellaChallenge=integer;
-			break;
 		
-		}
+			switch(procedureKey) {
+			case "γδ T cells":
+				this.alphaDeltaTCells=integer;
+				break;
+			case  "NK cells":
+				this.nKCells=integer;
+				break;
+			case "NKT cells":
+				this.nktCells=integer;
+				break;
+			case "B cell precursors":
+				this.bCellPrecursors=integer;
+				break;
+			case  "Dendritic cells":
+				this.dendriticCells=integer;
+				break;
+			case "Granulocytes":
+				this.granulocytes=integer;
+				break;
+			case "Treg cells":
+				this.tregCells=integer;
+				break;
+			case "CD4 T cells":
+				this.cD4TCells=integer;
+				break;
+			case "Monocytes / Macrophages":
+				this.monocytesMacrophages=integer;
+				break;
+			case "Total αβ T cells":
+				this.totalAlphBetaTCells=integer;
+				break;
+			case "B cells":
+				this.bCells=integer;
+				break;
+			case "CD8 T cells":
+				this.cd8TCells=integer;
+				break;
+			default:
+				System.err.println("no variable found for cell type header");
+				
+			}
+			
 		
 	}
+	
+//	private void setVarabileFromKey(String procedureKey, Integer integer) {
+//		
+//			Integer localVariable=this.getVariableFromString(procedureKey);
+//			localVariable=integer;
+//			
+//		
+//	}
 
 	
 	public static final String[] procedureDisplayHeaderOrder={ 

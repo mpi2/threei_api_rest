@@ -1,5 +1,5 @@
 
-package uk.ac.ebi.threei.rest;
+package uk.ac.ebi.threei.rest.repositories;
 
 import java.util.List;
 
@@ -9,8 +9,10 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.CrossOrigin;
 
-@RepositoryRestResource(collectionResourceRel = "CellHeatmapRow", path = "cellheatmaprows")
-public interface CellHeatmapRowsRepository extends MongoRepository<CellHeatmapRow, String> {
+import uk.ac.ebi.threei.rest.ProcedureHeatmapRow;
+
+@RepositoryRestResource(collectionResourceRel = "ProcedureHeatmapRow", path = "procedureheatmaprows")
+public interface ProcedureHeatmapRowsRepository extends MongoRepository<ProcedureHeatmapRow, String> {
 	
 	
 	public static final String[] procedureDisplayHeaderOrder={ 
@@ -40,7 +42,7 @@ public interface CellHeatmapRowsRepository extends MongoRepository<CellHeatmapRo
 	//List<HeatmapRow> findByHeatmapType(@Param("heatmapType") String heatmapType);
 	
 	
-	List<CellHeatmapRow> findAll();
+	List<ProcedureHeatmapRow> findAll();
 	
 
 }
