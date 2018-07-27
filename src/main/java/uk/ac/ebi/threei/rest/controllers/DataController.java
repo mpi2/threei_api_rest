@@ -139,7 +139,7 @@ public class DataController {
 			columnI++;
 			
 			rowI++;
-			//if(rowI>2) break;
+			//if(rowI>10) break;
 		}
 		
 		ArrayList<String> procedureHeaders = new ArrayList<>(Arrays.asList(ProcedureHeatmapRowsRepository.procedureDisplayHeaderOrder));
