@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import uk.ac.ebi.threei.rest.CellData;
 import uk.ac.ebi.threei.rest.CellHeatmapRow;
 import uk.ac.ebi.threei.rest.CellParameter;
 import uk.ac.ebi.threei.rest.Data;
@@ -53,6 +54,7 @@ public class DataController {
 	private SortedSet<String>uniqueSubCellTypes;
 	private SortedSet<String> uniqueAssays;
 	private SortedSet<String> uniqueCellTypes;
+	private Data celldata;
 	/**
 	 * Gets the data for the heatmap display - old method will eventually be deleted after testing new ones.
 	 * @param model
@@ -98,9 +100,11 @@ public class DataController {
 		List<ProcedureHeatmapRow> procedureRows = procedureHeatmapRowsRepository.findAll();//get an easily readable form of the rows for the heatmap
 		//loop through the rows and get the row headers for (gene symbols)
 		ArrayList<String> rowHeaders=new ArrayList<>();
+		ArrayList<String> constructs=new ArrayList<>();
 		int rowI=0;
 		for(ProcedureHeatmapRow row:procedureRows) {
 			rowHeaders.add(row.getGene());
+			constructs.add(row.getConstruct());
 			//note we are not getting the construct here as this should be added to the cells in the normal way as the first column
 			//we can get the data for the rows cells here as well and just access the variables for the headers in the order they are specified - hard coded I know- but we can use spring to do sorting and paging etc.
 			
@@ -135,11 +139,16 @@ public class DataController {
 			columnI++;
 			
 			rowI++;
+			if(rowI>2) break;
 		}
 		
 		ArrayList<String> procedureHeaders = new ArrayList<>(Arrays.asList(ProcedureHeatmapRowsRepository.procedureDisplayHeaderOrder));
+//		ArrayList<String> constructAndProcedureHeaders=new ArrayList<>();
+//		constructAndProcedureHeaders.add("construct");
+//		constructAndProcedureHeaders.addAll(procedureHeaders);
 		data.setColumnHeaders(procedureHeaders);
 		data.setRowHeaders(rowHeaders);
+		data.setConstructs(constructs);
 		return new ResponseEntity<Data>(data, HttpStatus.OK);
 	}
 
@@ -149,6 +158,11 @@ public class DataController {
 		cellData.add(rowI);
 		cellData.add(value);
 		data.getData().add(cellData);
+//		CellData cell=new CellData();
+//		cell.setColumnI(columnI);
+//		cell.setRowI(rowI);
+//		cell.setValue(value);
+//		celldata.getCellData().add(cell);
 		//System.out.println("adding cell data="+cellData);
 	}
 	

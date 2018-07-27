@@ -9,6 +9,15 @@ public class Data {
 	
 	//procedures for procedureHeatmap
 	List<String> columnHeaders=new ArrayList<>();
+	List<String> constructs=new ArrayList<>();//size should match the number of genes/row headers and be in same order
+	public List<String> getConstructs() {
+		return constructs;
+	}
+
+	public void setConstructs(List<String> constructs) {
+		this.constructs = constructs;
+	}
+
 	public List<String> getColumnHeaders() {
 		return columnHeaders;
 	}
