@@ -139,7 +139,7 @@ public class DataController {
 			columnI++;
 			
 			rowI++;
-			if(rowI>2) break;
+			//if(rowI>2) break;
 		}
 		
 		ArrayList<String> procedureHeaders = new ArrayList<>(Arrays.asList(ProcedureHeatmapRowsRepository.procedureDisplayHeaderOrder));
@@ -240,14 +240,14 @@ System.out.println("calling cell heatmap controller with " + keyword + " constru
 				columnI++;
 				addCellData(data, columnI, rowI, row.getCd8TCells());
 				columnI++;
-//				addCellData(data, columnI, rowI, row.getdSSChallenge());
-//				columnI++;
-//				addCellData(data, columnI, rowI, row.getInfluenza());
-//				columnI++;
-//				addCellData(data, columnI, rowI, row.getTrichurisChallenge());
-//				columnI++;
-//				addCellData(data, columnI, rowI, row.getSalmonellaChallenge());
-//				columnI++;
+				addCellData(data, columnI, rowI, row.getdSSChallenge());
+				columnI++;
+				addCellData(data, columnI, rowI, row.getInfluenza());
+				columnI++;
+				addCellData(data, columnI, rowI, row.getTrichurisChallenge());
+				columnI++;
+				addCellData(data, columnI, rowI, row.getSalmonellaChallenge());
+				columnI++;
 				
 				rowI++;
 			

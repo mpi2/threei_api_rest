@@ -117,6 +117,8 @@ public class DataLoader implements CommandLineRunner {
 				//any of the parameters associated to that header for that gene are significant using the prev loaded hit file
 				cellTypeData=createCellTypeHeatmap(uniqueCellTypesForHeaders, cellParameters, geneConstructParameterToSignificance );
 				cellHeatmapRows=getCellHeatmapRowsFromCsv(uniqueCellTypesForHeaders, cellParameters, geneConstructParameterToSignificance );
+				//we need to add some of the procedure data to the cell rows as requested by Lucie
+				cellHeatmapRows=addSomeProceduresToCellRows(cellHeatmapRows, procedureRowData);
 				//System.out.println("celltypeData="+cellTypeData);
 
 			} else {
@@ -138,6 +140,21 @@ public class DataLoader implements CommandLineRunner {
 		saveDataToMongo();
 
 		System.exit(0);
+	}
+
+	private List<CellHeatmapRow> addSomeProceduresToCellRows(List<CellHeatmapRow> cellHeatmapRows2,
+			List<ProcedureHeatmapRow> procedureRowData2) {
+		//to each row that should be in the same order we need to add the extra columns for DSS, influenza,Trichurus Challenge and Salmonella challenge
+		int rowIndex=0;
+		for(CellHeatmapRow cellRow: cellHeatmapRows2) {
+			cellRow.setdSSChallenge(procedureRowData2.get(rowIndex).getdSSChallenge());
+			cellRow.setInfluenza(procedureRowData2.get(rowIndex).getInfluenza());
+			cellRow.setTrichurisChallenge(procedureRowData2.get(rowIndex).getTrichurisChallenge());
+			cellRow.setSalmonellaChallenge(procedureRowData2.get(rowIndex).getSalmonellaChallenge());	
+			rowIndex++;
+		}
+		
+		return cellHeatmapRows2;
 	}
 
 	private Data createCellTypeHeatmap(Set<String> uniqueCellTypesForHeaders2, List<CellParameter> cellParameters2,

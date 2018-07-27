@@ -32,6 +32,45 @@ public class CellHeatmapRow {
 	private Integer totalAlphBetaTCells=0;
 	private Integer bCells=0;
 	private Integer cd8TCells=0;
+	
+	//these are procedures but 3i people want these shown on the cell view- we just copy them in the data loader from the procedures
+	private Integer dSSChallenge=0;
+	private Integer influenza=0;
+	private Integer trichurisChallenge=0;
+	private Integer salmonellaChallenge=0;
+	public Integer getdSSChallenge() {
+		return dSSChallenge;
+	}
+
+	public void setdSSChallenge(Integer dSSChallenge) {
+		this.dSSChallenge = dSSChallenge;
+	}
+
+	public Integer getInfluenza() {
+		return influenza;
+	}
+
+	public void setInfluenza(Integer influenza) {
+		this.influenza = influenza;
+	}
+
+	public Integer getTrichurisChallenge() {
+		return trichurisChallenge;
+	}
+
+	public void setTrichurisChallenge(Integer trichurisChallenge) {
+		this.trichurisChallenge = trichurisChallenge;
+	}
+
+	public Integer getSalmonellaChallenge() {
+		return salmonellaChallenge;
+	}
+
+	public void setSalmonellaChallenge(Integer salmonellaChallenge) {
+		this.salmonellaChallenge = salmonellaChallenge;
+	}
+
+	
 	public Integer getAlphaDeltaTCells() {
 		return alphaDeltaTCells;
 	}
@@ -229,6 +268,18 @@ public class CellHeatmapRow {
 				break;
 			case "CD8 T cells":
 				this.cd8TCells=integer;
+				break;
+			case "DSS Challenge":
+				this.dSSChallenge=integer;
+				break;
+			case "Influenza":
+				this.influenza=integer;
+				break;
+			case "Trichuris Challenge":
+				this.trichurisChallenge=integer;
+				break;
+			case "Salmonella Challenge":
+				this.salmonellaChallenge=integer;
 				break;
 			default:
 				System.err.println("no variable found for cell type header");
