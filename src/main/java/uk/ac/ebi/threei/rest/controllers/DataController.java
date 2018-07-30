@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import uk.ac.ebi.threei.rest.CellData;
 import uk.ac.ebi.threei.rest.CellHeatmapRow;
 import uk.ac.ebi.threei.rest.CellParameter;
 import uk.ac.ebi.threei.rest.Data;

@@ -22,16 +22,16 @@ import uk.ac.ebi.threei.rest.procedure.ParameterRow;
 import uk.ac.ebi.threei.rest.procedure.Result;
 import uk.ac.ebi.threei.rest.procedure.SexType;
 import uk.ac.ebi.threei.rest.procedure.ZygosityType;
-import uk.ac.ebi.threei.rest.services.DetailsService;
+import uk.ac.ebi.threei.rest.services.ProcedureDetailsService;
 /**
  * Controller to get the procedure information page that is linked to be the heatmap cells - gives back parameter objects for the procedure and gene combination 
  * @author jwarren
  *
  */
 @RestController
-public class ProcedureController {
+public class ProcedureDetailsController {
 
-	private DetailsService detailsService;
+	private ProcedureDetailsService detailsService;
 	private Object dataRepo;
 
 	@CrossOrigin(origins = "*", maxAge = 3600)

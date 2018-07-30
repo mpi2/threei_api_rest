@@ -25,7 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 @Service
-public class DetailsService {
+public class ProcedureDetailsService {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -34,7 +34,7 @@ public class DetailsService {
 
 	private GeneService geneService;
 
-    public DetailsService( GeneService geneService) {
+    public ProcedureDetailsService( GeneService geneService) {
         //Assert.notNull(dataSource, "Data source cannot be null");
         //this.dataSource = dataSource;
         this.geneService=geneService;
