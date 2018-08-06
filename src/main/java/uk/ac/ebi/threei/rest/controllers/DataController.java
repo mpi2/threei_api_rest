@@ -24,11 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import uk.ac.ebi.threei.rest.Assays;
 import uk.ac.ebi.threei.rest.CellHeatmapRow;
 import uk.ac.ebi.threei.rest.CellParameter;
+import uk.ac.ebi.threei.rest.CellTypes;
 import uk.ac.ebi.threei.rest.Data;
 import uk.ac.ebi.threei.rest.ProcedureHeatmapRow;
-import uk.ac.ebi.threei.rest.UniqueSubCellTypes;
+import uk.ac.ebi.threei.rest.SubCellTypes;
 import uk.ac.ebi.threei.rest.repositories.CellHeatmapRowsRepository;
 import uk.ac.ebi.threei.rest.repositories.CellParameterRepository;
 import uk.ac.ebi.threei.rest.repositories.DataRepository;
@@ -184,9 +186,11 @@ System.out.println("calling cell heatmap controller with " + keyword + " constru
 		System.out.println("cellrows size="+cellRows.size());
 		//loop through the rows and get the row headers for (gene symbols)
 		ArrayList<String> rowHeaders=new ArrayList<>();
+		ArrayList<String> constructs=new ArrayList<>();
 		int rowI=0;
 		for(CellHeatmapRow row:cellRows) {
 			rowHeaders.add(row.getGene());
+			constructs.add(row.getConstruct());
 			//System.out.println("gene="+row.getGene()+" constr="+row.getConstruct());
 			//note we are not getting the construct here as this should be added to the cells in the normal way as the first column
 			
@@ -254,6 +258,7 @@ System.out.println("calling cell heatmap controller with " + keyword + " constru
 		ArrayList<String> cellHeaders = new ArrayList<>(Arrays.asList(CellHeatmapRowsRepository.cellDisplayHeaderOrder));
 		data.setColumnHeaders(cellHeaders);
 		data.setRowHeaders(rowHeaders);
+		data.setConstructs(constructs);
 		return new ResponseEntity<Data>(data, HttpStatus.OK);
 	}
 	
@@ -262,8 +267,8 @@ System.out.println("calling cell heatmap controller with " + keyword + " constru
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/cellTypes")
 	@ResponseBody
-	public HttpEntity<Set<String>> cellTypes(Model model) {
-		System.out.println("calling get cell subtypes");
+	public ResponseEntity<CellTypes> cellTypes(Model model) {
+		
 		
 		if(uniqueCellTypes==null) {
 			uniqueCellTypes=new TreeSet<>();
@@ -274,7 +279,9 @@ System.out.println("calling cell heatmap controller with " + keyword + " constru
 			uniqueCellTypes.add(cellP.getCellType());
 		}
 		}
-		return new ResponseEntity<Set<String>>(uniqueCellTypes, HttpStatus.OK);
+		CellTypes types=new CellTypes();
+		types.getTypes().addAll(uniqueCellTypes);
+		return new ResponseEntity<CellTypes>(types, HttpStatus.OK);
 	}
 	
 	
@@ -282,8 +289,8 @@ System.out.println("calling cell heatmap controller with " + keyword + " constru
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/cellSubTypes")
 	@ResponseBody
-	public HttpEntity<UniqueSubCellTypes> cellSubTypes(Model model) {
-		System.out.println("calling get cell subtypes");
+	public HttpEntity<SubCellTypes> cellSubTypes(Model model) {
+		
 
 		if (uniqueSubCellTypes == null) {
 			uniqueSubCellTypes = new TreeSet<>();
@@ -294,16 +301,15 @@ System.out.println("calling cell heatmap controller with " + keyword + " constru
 				uniqueSubCellTypes.add(cellP.getCellSubtype());
 			}
 		}
-		UniqueSubCellTypes types=new UniqueSubCellTypes();
+		SubCellTypes types=new SubCellTypes();
 		types.getTypes().addAll(uniqueSubCellTypes);
-		return new ResponseEntity<UniqueSubCellTypes>(types, HttpStatus.OK);
+		return new ResponseEntity<SubCellTypes>(types, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/assays")
 	@ResponseBody
-	public HttpEntity<Set<String>> assays(Model model) {
-		System.out.println("calling get cell subtypes");
+	public ResponseEntity<Assays> assays(Model model) {
 		
 		if(uniqueAssays==null) {
 			uniqueAssays=new TreeSet<String>();
@@ -314,7 +320,9 @@ System.out.println("calling cell heatmap controller with " + keyword + " constru
 			uniqueAssays.add(cellP.getAssay());
 		}
 		}
-		return new ResponseEntity<Set<String>>(uniqueSubCellTypes, HttpStatus.OK);
+		Assays types=new Assays();
+		types.getAssays().addAll(uniqueAssays);
+		return new ResponseEntity<Assays>(types, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*", maxAge = 3600)

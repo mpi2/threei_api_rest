@@ -3,7 +3,7 @@ package uk.ac.ebi.threei.rest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UniqueSubCellTypes {
+public class CellTypes {
 	private List<String> types=new ArrayList<>();
 
 	public List<String> getTypes() {
