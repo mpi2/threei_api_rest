@@ -4,6 +4,7 @@ package uk.ac.ebi.threei.rest.repositories;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
@@ -45,6 +46,10 @@ public interface CellHeatmapRowsRepository extends MongoRepository<CellHeatmapRo
 	
 	
 	List<CellHeatmapRow> findAll();
+	
+	
+	List<CellHeatmapRow> findAll(Sort sort);
+	
 	
 
 }

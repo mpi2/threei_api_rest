@@ -13,6 +13,7 @@ import java.util.TreeSet;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +56,9 @@ public class DataController {
 	private SortedSet<String>uniqueSubCellTypes;
 	private SortedSet<String> uniqueAssays;
 	private SortedSet<String> uniqueCellTypes;
-	private Data celldata;
+	
+	
+	SortedSet<String> constructSet=new TreeSet<>();//for filter menu dropdown only short version before (
 	/**
 	 * Gets the data for the heatmap display - old method will eventually be deleted after testing new ones.
 	 * @param model
@@ -167,6 +170,7 @@ public class DataController {
 		//System.out.println("adding cell data="+cellData);
 	}
 	
+	
 	/**
 	 * 
 	 * @param model
@@ -178,19 +182,32 @@ public class DataController {
 	@RequestMapping("/cell_heatmap")
 	@ResponseBody
 	public HttpEntity<Data> cellHeatmap(Model model, @RequestParam(value = "keywords", required = false) String keyword,
-			@RequestParam(value = "construct", required = false) String construct) {
-System.out.println("calling cell heatmap controller with " + keyword + " construct=" + construct);
+			@RequestParam(value = "construct", required = false) String constructFilter) {
+System.out.println("calling cell heatmap controller with " + keyword + " constructFilter=" + constructFilter);
 	Data data = new Data();//obect that holds all the data for this chart display
 		//should extract these into methods in a data service for unit testing purposes
 		List<CellHeatmapRow> cellRows = cellHeatmapRowsRepository.findAll();//get an easily readable form of the rows for the heatmap
+		Sort sort=new Sort(Sort.Direction.ASC, "construct");
+		//List<CellHeatmapRow> cellRows = cellHeatmapRowsRepository.findAll(sort);
+		
 		System.out.println("cellrows size="+cellRows.size());
 		//loop through the rows and get the row headers for (gene symbols)
 		ArrayList<String> rowHeaders=new ArrayList<>();
 		ArrayList<String> constructs=new ArrayList<>();
 		int rowI=0;
 		for(CellHeatmapRow row:cellRows) {
+
 			rowHeaders.add(row.getGene());
-			constructs.add(row.getConstruct());
+			String constructString = row.getConstruct();
+			constructs.add(constructString);
+			if (constructString.contains("(")) {
+				constructString = constructString.substring(0, row.getConstruct().indexOf("("));
+			}
+			if (!constructString.equals("")) {
+				constructSet.add(constructString);
+			}
+			
+			
 			//System.out.println("gene="+row.getGene()+" constr="+row.getConstruct());
 			//note we are not getting the construct here as this should be added to the cells in the normal way as the first column
 			
@@ -331,15 +348,16 @@ System.out.println("calling cell heatmap controller with " + keyword + " constru
 	public HttpEntity<List<String>> constructController(Model model, @RequestParam(value = "heatmapType", required = false, defaultValue="procedure") String heatmapType) {
 		System.out.println("calling data controller with heatmapType"+ heatmapType);
 		List<String>uniqueConstructs=new ArrayList<>();
+		uniqueConstructs.addAll(constructSet);
 		//should extract these into methods in a data service for unit testing purposes
-		List<Data> dataList = dataRepo.findAll();
-		Data data = new Data();
-		if(heatmapType.equals("cell")){
-			data=dataList.get(1);
-			
-		}else if(heatmapType.equals("procedure")){
-			data=dataList.get(0);
-		}
+//		List<Data> dataList = dataRepo.findAll();
+//		Data data = new Data();
+//		if(heatmapType.equals("cell")){
+//			data=dataList.get(1);
+//			
+//		}else if(heatmapType.equals("procedure")){
+//			data=dataList.get(0);
+//		}
 		return new ResponseEntity<List<String>>(uniqueConstructs, HttpStatus.OK);
 	}
 	
