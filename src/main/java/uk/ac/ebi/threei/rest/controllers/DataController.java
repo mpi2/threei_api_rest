@@ -1,6 +1,7 @@
 package uk.ac.ebi.threei.rest.controllers;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -345,15 +346,34 @@ public class DataController {
 			if(filter.cellTypeFilter!=null && !filter.cellTypeFilter.equals("")) {
 				System.out.println("cellTypeFilter="+filter.cellTypeFilter);
 				//need to check if the variable in camel case has a number of 4 to indicate it's significant for this row
-				if(row.getVarabileFromKey(filter.cellTypeFilter)<3) {
-					addRow=false;
+				Integer value=null;
+				try {
+					value = (Integer) get("getbCellPrecursors",row);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+			    System.out.println(value);
+			    if(value<3)addRow=false;
+//				if(row.getVarabileFromKey(filter.cellTypeFilter)<3) {
+//					addRow=false;
+//				}
 			}
 			if(addRow) {
 				filteredRows.add(row);
 			}
 		}
 		return filteredRows;
+	}
+	
+	public Object get(String methodName, CellHeatmapRow a) throws Exception {
+	    Object ret = null;
+	    if(a != null){
+	        Class<CellHeatmapRow> cl = CellHeatmapRow.class;
+	        Method method = cl.getDeclaredMethod(methodName);
+	        ret = method.invoke(a);
+	    }
+	    return ret;
 	}
 
 	@CrossOrigin(origins = "*", maxAge = 3600)

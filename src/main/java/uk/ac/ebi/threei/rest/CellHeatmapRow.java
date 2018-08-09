@@ -1,5 +1,6 @@
 package uk.ac.ebi.threei.rest;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,28 +17,31 @@ public class CellHeatmapRow {
 	private String gene;
 	private String construct;
 	Map<String, Integer> procedureSignificance = new HashMap<>();// map of procedure name to significance string.
-	
-	//hard coding these so we can use spring ordering easily - seems wierd but we already have the columns hard coded for order and display name anyway so not flexible already.
 
-	
-	private Integer alphaDeltaTCells=0;
-	private Integer nKCells=0;
-	private Integer nktCells=0;
-	private Integer bCellPrecursors=0;
-	private Integer dendriticCells=0;
-	private Integer granulocytes=0;
-	private Integer tregCells=0;
-	private Integer cD4TCells=0;
-	private Integer monocytesMacrophages=0;
-	private Integer totalAlphBetaTCells=0;
-	private Integer bCells=0;
-	private Integer cd8TCells=0;
-	
-	//these are procedures but 3i people want these shown on the cell view- we just copy them in the data loader from the procedures
-	private Integer dSSChallenge=0;
-	private Integer influenza=0;
-	private Integer trichurisChallenge=0;
-	private Integer salmonellaChallenge=0;
+	// hard coding these so we can use spring ordering easily - seems wierd but we
+	// already have the columns hard coded for order and display name anyway so not
+	// flexible already.
+
+	private Integer alphaDeltaTCells = 0;
+	private Integer nKCells = 0;
+	private Integer nktCells = 0;
+	private Integer bCellPrecursors = 0;
+	private Integer dendriticCells = 0;
+	private Integer granulocytes = 0;
+	private Integer tregCells = 0;
+	private Integer cD4TCells = 0;
+	private Integer monocytesMacrophages = 0;
+	private Integer totalAlphBetaTCells = 0;
+	private Integer bCells = 0;
+	private Integer cd8TCells = 0;
+
+	// these are procedures but 3i people want these shown on the cell view- we just
+	// copy them in the data loader from the procedures
+	private Integer dSSChallenge = 0;
+	private Integer influenza = 0;
+	private Integer trichurisChallenge = 0;
+	private Integer salmonellaChallenge = 0;
+
 	public Integer getdSSChallenge() {
 		return dSSChallenge;
 	}
@@ -70,7 +74,6 @@ public class CellHeatmapRow {
 		this.salmonellaChallenge = salmonellaChallenge;
 	}
 
-	
 	public Integer getAlphaDeltaTCells() {
 		return alphaDeltaTCells;
 	}
@@ -167,7 +170,6 @@ public class CellHeatmapRow {
 		cd8TCells = cd8tCells;
 	}
 
-
 	public String getId() {
 		return id;
 	}
@@ -210,151 +212,151 @@ public class CellHeatmapRow {
 		return "HeatmapRow [gene=" + gene + ", construct=" + construct + ", procedureSignificance="
 				+ procedureSignificance + "]";
 	}
-	
+
 	public void setFieldsFromMap() {
-		for(String procedureKey:procedureSignificance.keySet()) {
+		for (String procedureKey : procedureSignificance.keySet()) {
 			this.setVarabileFromKey(procedureKey, procedureSignificance.get(procedureKey));
 		}
 	}
-	
-//	γδ T cells: 0,
-//	NK cells: 0,
-//	NKT cells: 0,
-//	B cell precursors: 0,
-//	Dendritic cells: 0,
-//	Granulocytes: 0,
-//	Treg cells: 0,
-//	CD4 T cells: 0,
-//	Monocytes / Macrophages: 0,
-//	Total αβ T cells: 0,
-//	B cells: 0,
-//	CD8 T cells: 0
+
+	// γδ T cells: 0,
+	// NK cells: 0,
+	// NKT cells: 0,
+	// B cell precursors: 0,
+	// Dendritic cells: 0,
+	// Granulocytes: 0,
+	// Treg cells: 0,
+	// CD4 T cells: 0,
+	// Monocytes / Macrophages: 0,
+	// Total αβ T cells: 0,
+	// B cells: 0,
+	// CD8 T cells: 0
 
 	private void setVarabileFromKey(String procedureKey, Integer integer) {
-		
-			switch(procedureKey) {
-			case "γδ T cells":
-				this.alphaDeltaTCells=integer;
-				break;
-			case  "NK cells":
-				this.nKCells=integer;
-				break;
-			case "NKT cells":
-				this.nktCells=integer;
-				break;
-			case "B cell precursors":
-				this.bCellPrecursors=integer;
-				break;
-			case  "Dendritic cells":
-				this.dendriticCells=integer;
-				break;
-			case "Granulocytes":
-				this.granulocytes=integer;
-				break;
-			case "Treg cells":
-				this.tregCells=integer;
-				break;
-			case "CD4 T cells":
-				this.cD4TCells=integer;
-				break;
-			case "Monocytes / Macrophages":
-				this.monocytesMacrophages=integer;
-				break;
-			case "Total αβ T cells":
-				this.totalAlphBetaTCells=integer;
-				break;
-			case "B cells":
-				this.bCells=integer;
-				break;
-			case "CD8 T cells":
-				this.cd8TCells=integer;
-				break;
-			case "DSS Challenge":
-				this.dSSChallenge=integer;
-				break;
-			case "Influenza":
-				this.influenza=integer;
-				break;
-			case "Trichuris Challenge":
-				this.trichurisChallenge=integer;
-				break;
-			case "Salmonella Challenge":
-				this.salmonellaChallenge=integer;
-				break;
-			default:
-				System.err.println("no variable found for cell type header");
-				
-			}
-			
-		
+
+		switch (procedureKey) {
+		case "γδ T cells":
+			this.alphaDeltaTCells = integer;
+			break;
+		case "NK cells":
+			this.nKCells = integer;
+			break;
+		case "NKT cells":
+			this.nktCells = integer;
+			break;
+		case "B cell precursors":
+			this.bCellPrecursors = integer;
+			break;
+		case "Dendritic cells":
+			this.dendriticCells = integer;
+			break;
+		case "Granulocytes":
+			this.granulocytes = integer;
+			break;
+		case "Treg cells":
+			this.tregCells = integer;
+			break;
+		case "CD4 T cells":
+			this.cD4TCells = integer;
+			break;
+		case "Monocytes / Macrophages":
+			this.monocytesMacrophages = integer;
+			break;
+		case "Total αβ T cells":
+			this.totalAlphBetaTCells = integer;
+			break;
+		case "B cells":
+			this.bCells = integer;
+			break;
+		case "CD8 T cells":
+			this.cd8TCells = integer;
+			break;
+		case "DSS Challenge":
+			this.dSSChallenge = integer;
+			break;
+		case "Influenza":
+			this.influenza = integer;
+			break;
+		case "Trichuris Challenge":
+			this.trichurisChallenge = integer;
+			break;
+		case "Salmonella Challenge":
+			this.salmonellaChallenge = integer;
+			break;
+		default:
+			System.err.println("no variable found for cell type header");
+
+		}
+
 	}
-	
+
 	/**
-	 * should look at replacing these things using reflection instead. https://stackoverflow.com/questions/4030618/java-string-to-class
+	 * should look at replacing these things using reflection instead.
+	 * https://stackoverflow.com/questions/4030618/java-string-to-class
+	 * 
 	 * @param procedureKey
 	 * @return
 	 */
 	public Integer getVarabileFromKey(String procedureKey) {
-		System.out.println("procedurekey="+procedureKey);
-		switch(procedureKey) {
+		System.out.println("procedurekey=" + procedureKey);
+		switch (procedureKey) {
 		case "γδ T cells":
 			return this.alphaDeltaTCells;
-			
-		case  "NK cells":
+
+		case "NK cells":
 			return this.nKCells;
-			
+
 		case "NKT cells":
 			return this.nktCells;
-			
+
 		case "B cell precursors":
 			return this.bCellPrecursors;
-			
-		case  "Dendritic cells":
+
+		case "Dendritic cells":
 			return this.dendriticCells;
-			
+
 		case "Granulocytes":
 			return this.granulocytes;
-			
+
 		case "Treg cells":
 			return this.tregCells;
-			
+
 		case "CD4 T cells":
 			return this.cD4TCells;
-			
+
 		case "Monocytes / Macrophages":
 			return this.monocytesMacrophages;
-			
+
 		case "Total αβ T cells":
 			return this.totalAlphBetaTCells;
-			
+
 		case "B cells":
 			return this.bCells;
-			
+
 		case "CD8 T cells":
 			return this.cd8TCells;
-			
+
 		case "DSS Challenge":
 			return this.dSSChallenge;
-			
+
 		case "Influenza":
 			return this.influenza;
-			
+
 		case "Trichuris Challenge":
 			return this.trichurisChallenge;
-			
+
 		case "Salmonella Challenge":
 			return this.salmonellaChallenge;
-			
+
 		default:
 			System.err.println("no variable found for cell type header");
 			return 0;
 		}
-		
-	
-}
-	
-		
+
 	}
+	
+
+}
 
 	
 
