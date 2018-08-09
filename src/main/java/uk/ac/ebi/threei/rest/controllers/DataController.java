@@ -3,6 +3,7 @@ package uk.ac.ebi.threei.rest.controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +27,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import uk.ac.ebi.threei.rest.Assays;
+
 import uk.ac.ebi.threei.rest.CellHeatmapRow;
 import uk.ac.ebi.threei.rest.CellParameter;
-import uk.ac.ebi.threei.rest.CellTypes;
+import uk.ac.ebi.threei.rest.Types;
 import uk.ac.ebi.threei.rest.Data;
 import uk.ac.ebi.threei.rest.ProcedureHeatmapRow;
-import uk.ac.ebi.threei.rest.SubCellTypes;
 import uk.ac.ebi.threei.rest.repositories.CellHeatmapRowsRepository;
 import uk.ac.ebi.threei.rest.repositories.CellParameterRepository;
 import uk.ac.ebi.threei.rest.repositories.DataRepository;
@@ -56,7 +57,29 @@ public class DataController {
 	private SortedSet<String>uniqueSubCellTypes;
 	private SortedSet<String> uniqueAssays;
 	private SortedSet<String> uniqueCellTypes;
+	List<CellHeatmapRow> cellRows;
 	
+	static final Map<String, String> cellHeaderToFieldMap;
+	static {
+		Map<String, String> aMap = new HashMap<>();
+		aMap.put("γδ T cells", "alphaDeltaTCells");
+		aMap.put("NK cells", "nKCells");
+		aMap.put("NKT cells", "nktCells");
+		aMap.put("B cell precursors", "bCellPrecursors");
+		aMap.put("Dendritic cells", "dendriticCells");
+		aMap.put("Granulocytes", "granulocytes");
+		aMap.put("Treg cells", "tregCells");
+		aMap.put("CD4 T cells", "cD4TCells");
+		aMap.put("Monocytes / Macrophages", "monocytesMacrophages");
+		aMap.put("Total αβ T cells", "totalAlphBetaTCells");
+		aMap.put("B cells", "bCells");
+		aMap.put("CD8 T cells", "cd8TCells");
+		aMap.put("DSS Challenge", "dSSChallenge");
+		aMap.put("Influenza", "influenza");
+		aMap.put("Trichuris Challenge", "trichurisChallenge");
+		aMap.put("Salmonella Challenge", "salmonellaChallenge");
+		cellHeaderToFieldMap = Collections.unmodifiableMap(aMap);
+	}
 	
 	SortedSet<String> constructSet=new TreeSet<>();//for filter menu dropdown only short version before (
 	/**
@@ -182,20 +205,42 @@ public class DataController {
 	@RequestMapping("/cell_heatmap")
 	@ResponseBody
 	public HttpEntity<Data> cellHeatmap(Model model, @RequestParam(value = "keywords", required = false) String keyword,
-			@RequestParam(value = "construct", required = false) String constructFilter) {
-System.out.println("calling cell heatmap controller with " + keyword + " constructFilter=" + constructFilter);
-	Data data = new Data();//obect that holds all the data for this chart display
-		//should extract these into methods in a data service for unit testing purposes
-		List<CellHeatmapRow> cellRows = cellHeatmapRowsRepository.findAll();//get an easily readable form of the rows for the heatmap
-		Sort sort=new Sort(Sort.Direction.ASC, "construct");
-		//List<CellHeatmapRow> cellRows = cellHeatmapRowsRepository.findAll(sort);
-		
-		System.out.println("cellrows size="+cellRows.size());
-		//loop through the rows and get the row headers for (gene symbols)
-		ArrayList<String> rowHeaders=new ArrayList<>();
-		ArrayList<String> constructs=new ArrayList<>();
-		int rowI=0;
-		for(CellHeatmapRow row:cellRows) {
+			@RequestParam(value = "construct", required = false) String constructFilter, @RequestParam(value = "cell", required = false) String cellTypeFilter, @RequestParam(value = "cellSubType", required = false) String cellSubTypeFilter, @RequestParam(value = "assay", required = false) String assayFilter, @RequestParam(value = "sort", required = false) String sortField) {
+		System.out.println("sortField="+sortField);
+		Filter filter=new Filter();
+		filter.keyword=keyword;
+		filter.constructFilter=constructFilter;
+		filter.cellTypeFilter=cellSubTypeFilter;
+		filter.cellSubTypeFilter=cellSubTypeFilter;
+		filter.assayFilter=assayFilter;
+		filter.sortField=sortField;
+		Data data = getCellHeatmapData(filter);
+		return new ResponseEntity<Data>(data, HttpStatus.OK);
+	}
+
+	private Data getCellHeatmapData(Filter filter) {
+		// System.out.println("filter="+filter);
+		Data data = new Data();// obect that holds all the data for this chart display
+
+		if (!StringUtils.isEmpty(filter.sortField)) {
+			String sortField = cellHeaderToFieldMap.get(filter.sortField);
+			System.out.println("sortVariable=" + sortField);
+			Sort sort = new Sort(Sort.Direction.ASC, sortField);
+			cellRows = cellHeatmapRowsRepository.findAll(sort);
+
+		} else {
+			// should extract these into methods in a data service for unit testing purposes
+			cellRows = cellHeatmapRowsRepository.findAll();// get an easily readable form of the rows for the heatmap
+		}
+
+		// List<CellHeatmapRow> cellRows = cellHeatmapRowsRepository.findAll(sort);
+
+		System.out.println("cellrows size=" + cellRows.size());
+		// loop through the rows and get the row headers for (gene symbols)
+		ArrayList<String> rowHeaders = new ArrayList<>();
+		ArrayList<String> constructs = new ArrayList<>();
+		int rowI = 0;
+		for (CellHeatmapRow row : cellRows) {
 
 			rowHeaders.add(row.getGene());
 			String constructString = row.getConstruct();
@@ -206,77 +251,79 @@ System.out.println("calling cell heatmap controller with " + keyword + " constru
 			if (!constructString.equals("")) {
 				constructSet.add(constructString);
 			}
-			
-			
-			//System.out.println("gene="+row.getGene()+" constr="+row.getConstruct());
-			//note we are not getting the construct here as this should be added to the cells in the normal way as the first column
-			
-			//we can get the data for the rows cells here as well and just access the variables for the headers in the order they are specified - hard coded I know- but we can use spring to do sorting and paging etc.
-			//row.get
-			
-			
-				//note we are not getting the construct here as this should be added to the cells in the normal way as the first column
-				//we can get the data for the rows cells here as well and just access the variables for the headers in the order they are specified - hard coded I know- but we can use spring to do sorting and paging etc.
-//			"γδ T cells",
-//			"NK cells",
-//			"NKT cells",
-//			"B cell precursors",
-//			"Dendritic cells",
-//			"Granulocytes",
-//			"Treg cells",
-//			"CD4 T cells",
-//			"Monocytes / Macrophages",
-//			"Total αβ T cells",
-//			"B cells",
-//			"CD8 T cells",
-//	        "DSS Challenge",
-//	         "Influenza",
-//	        "Trichuris Challenge",
-//	        "Salmonella Challenge"};
-			
-			//oh this is horrible as we need to make sure these are in the same order as the column headers otherwise madness ensues
-				int columnI=0;
-				addCellData(data, columnI, rowI, row.getAlphaDeltaTCells());
-				columnI++;
-				addCellData(data, columnI, rowI, row.getnKCells());
-				columnI++;
-				addCellData(data, columnI, rowI, row.getNktCells());
-				columnI++;
-				addCellData(data, columnI, rowI, row.getbCellPrecursors());
-				columnI++;
-				addCellData(data, columnI, rowI, row.getDendriticCells());
-				columnI++;
-				addCellData(data, columnI, rowI, row.getGranulocytes());
-				columnI++;
-				addCellData(data, columnI, rowI, row.getTregCells());
-				columnI++;
-				addCellData(data, columnI, rowI, row.getcD4TCells());
-				columnI++;
-				addCellData(data, columnI, rowI, row.getMonocytesMacrophages());
-				columnI++;
-				addCellData(data, columnI, rowI, row.getTotalAlphBetaTCells());
-				columnI++;
-				addCellData(data, columnI, rowI, row.getbCells());
-				columnI++;
-				addCellData(data, columnI, rowI, row.getCd8TCells());
-				columnI++;
-				addCellData(data, columnI, rowI, row.getdSSChallenge());
-				columnI++;
-				addCellData(data, columnI, rowI, row.getInfluenza());
-				columnI++;
-				addCellData(data, columnI, rowI, row.getTrichurisChallenge());
-				columnI++;
-				addCellData(data, columnI, rowI, row.getSalmonellaChallenge());
-				columnI++;
-				
-				rowI++;
-			
+
+			// we can get the data for the rows cells here as well and just access the
+			// variables for the headers in the order they are specified - hard coded I
+			// know- but we can use spring to do sorting and paging etc.
+			// row.get
+
+			// note we are not getting the construct here as this should be added to the
+			// cells in the normal way as the first column
+			// we can get the data for the rows cells here as well and just access the
+			// variables for the headers in the order they are specified - hard coded I
+			// know- but we can use spring to do sorting and paging etc.
+			// "γδ T cells",
+			// "NK cells",
+			// "NKT cells",
+			// "B cell precursors",
+			// "Dendritic cells",
+			// "Granulocytes",
+			// "Treg cells",
+			// "CD4 T cells",
+			// "Monocytes / Macrophages",
+			// "Total αβ T cells",
+			// "B cells",
+			// "CD8 T cells",
+			// "DSS Challenge",
+			// "Influenza",
+			// "Trichuris Challenge",
+			// "Salmonella Challenge"};
+
+			// oh this is horrible as we need to make sure these are in the same order as
+			// the column headers otherwise madness ensues
+			int columnI = 0;
+			addCellData(data, columnI, rowI, row.getAlphaDeltaTCells());
+			columnI++;
+			addCellData(data, columnI, rowI, row.getnKCells());
+			columnI++;
+			addCellData(data, columnI, rowI, row.getNktCells());
+			columnI++;
+			addCellData(data, columnI, rowI, row.getbCellPrecursors());
+			columnI++;
+			addCellData(data, columnI, rowI, row.getDendriticCells());
+			columnI++;
+			addCellData(data, columnI, rowI, row.getGranulocytes());
+			columnI++;
+			addCellData(data, columnI, rowI, row.getTregCells());
+			columnI++;
+			addCellData(data, columnI, rowI, row.getcD4TCells());
+			columnI++;
+			addCellData(data, columnI, rowI, row.getMonocytesMacrophages());
+			columnI++;
+			addCellData(data, columnI, rowI, row.getTotalAlphBetaTCells());
+			columnI++;
+			addCellData(data, columnI, rowI, row.getbCells());
+			columnI++;
+			addCellData(data, columnI, rowI, row.getCd8TCells());
+			columnI++;
+			addCellData(data, columnI, rowI, row.getdSSChallenge());
+			columnI++;
+			addCellData(data, columnI, rowI, row.getInfluenza());
+			columnI++;
+			addCellData(data, columnI, rowI, row.getTrichurisChallenge());
+			columnI++;
+			addCellData(data, columnI, rowI, row.getSalmonellaChallenge());
+			columnI++;
+
+			rowI++;
+
 		}
-		ArrayList<String> cellHeaders = new ArrayList<>(Arrays.asList(CellHeatmapRowsRepository.cellDisplayHeaderOrder));
+		ArrayList<String> cellHeaders = new ArrayList<>(
+				Arrays.asList(CellHeatmapRowsRepository.cellDisplayHeaderOrder));
 		data.setColumnHeaders(cellHeaders);
 		data.setRowHeaders(rowHeaders);
 		data.setConstructs(constructs);
-		return new ResponseEntity<Data>(data, HttpStatus.OK);
+		return data;
 	}
 	
 
@@ -284,7 +331,7 @@ System.out.println("calling cell heatmap controller with " + keyword + " constru
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/cellTypes")
 	@ResponseBody
-	public ResponseEntity<CellTypes> cellTypes(Model model) {
+	public ResponseEntity<Types> cellTypes(Model model) {
 		
 		
 		if(uniqueCellTypes==null) {
@@ -296,9 +343,9 @@ System.out.println("calling cell heatmap controller with " + keyword + " constru
 			uniqueCellTypes.add(cellP.getCellType());
 		}
 		}
-		CellTypes types=new CellTypes();
+		Types types=new Types();
 		types.getTypes().addAll(uniqueCellTypes);
-		return new ResponseEntity<CellTypes>(types, HttpStatus.OK);
+		return new ResponseEntity<Types>(types, HttpStatus.OK);
 	}
 	
 	
@@ -306,7 +353,7 @@ System.out.println("calling cell heatmap controller with " + keyword + " constru
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/cellSubTypes")
 	@ResponseBody
-	public HttpEntity<SubCellTypes> cellSubTypes(Model model) {
+	public HttpEntity<Types> cellSubTypes(Model model) {
 		
 
 		if (uniqueSubCellTypes == null) {
@@ -318,15 +365,15 @@ System.out.println("calling cell heatmap controller with " + keyword + " constru
 				uniqueSubCellTypes.add(cellP.getCellSubtype());
 			}
 		}
-		SubCellTypes types=new SubCellTypes();
+		Types types=new Types();
 		types.getTypes().addAll(uniqueSubCellTypes);
-		return new ResponseEntity<SubCellTypes>(types, HttpStatus.OK);
+		return new ResponseEntity<Types>(types, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/assays")
 	@ResponseBody
-	public ResponseEntity<Assays> assays(Model model) {
+	public ResponseEntity<Types> assays(Model model) {
 		
 		if(uniqueAssays==null) {
 			uniqueAssays=new TreeSet<String>();
@@ -337,28 +384,24 @@ System.out.println("calling cell heatmap controller with " + keyword + " constru
 			uniqueAssays.add(cellP.getAssay());
 		}
 		}
-		Assays types=new Assays();
-		types.getAssays().addAll(uniqueAssays);
-		return new ResponseEntity<Assays>(types, HttpStatus.OK);
+		Types types=new Types();
+		types.getTypes().addAll(uniqueAssays);
+		return new ResponseEntity<Types>(types, HttpStatus.OK);
 	}
 	
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/constructs")
 	@ResponseBody
-	public HttpEntity<List<String>> constructController(Model model, @RequestParam(value = "heatmapType", required = false, defaultValue="procedure") String heatmapType) {
+	public HttpEntity<Types> constructController(Model model, @RequestParam(value = "heatmapType", required = false, defaultValue="procedure") String heatmapType) {
 		System.out.println("calling data controller with heatmapType"+ heatmapType);
+		if(constructSet.isEmpty()) {
+			this.getCellHeatmapData(new Filter());
+		}
 		List<String>uniqueConstructs=new ArrayList<>();
 		uniqueConstructs.addAll(constructSet);
-		//should extract these into methods in a data service for unit testing purposes
-//		List<Data> dataList = dataRepo.findAll();
-//		Data data = new Data();
-//		if(heatmapType.equals("cell")){
-//			data=dataList.get(1);
-//			
-//		}else if(heatmapType.equals("procedure")){
-//			data=dataList.get(0);
-//		}
-		return new ResponseEntity<List<String>>(uniqueConstructs, HttpStatus.OK);
+		Types types=new Types();
+		types.getTypes().addAll(uniqueConstructs);
+		return new ResponseEntity<Types>(types, HttpStatus.OK);
 	}
 	
 	
