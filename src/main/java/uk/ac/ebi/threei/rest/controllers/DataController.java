@@ -205,12 +205,12 @@ public class DataController {
 	@RequestMapping("/cell_heatmap")
 	@ResponseBody
 	public HttpEntity<Data> cellHeatmap(Model model, @RequestParam(value = "keywords", required = false) String keyword,
-			@RequestParam(value = "construct", required = false) String constructFilter, @RequestParam(value = "cell", required = false) String cellTypeFilter, @RequestParam(value = "cellSubType", required = false) String cellSubTypeFilter, @RequestParam(value = "assay", required = false) String assayFilter, @RequestParam(value = "sort", required = false) String sortField) {
+			@RequestParam(value = "construct", required = false) String constructFilter, @RequestParam(value = "cellType", required = false) String cellTypeFilter, @RequestParam(value = "cellSubType", required = false) String cellSubTypeFilter, @RequestParam(value = "assay", required = false) String assayFilter, @RequestParam(value = "sort", required = false) String sortField) {
 		System.out.println("sortField="+sortField);
 		Filter filter=new Filter();
 		filter.keyword=keyword;
 		filter.constructFilter=constructFilter;
-		filter.cellTypeFilter=cellSubTypeFilter;
+		filter.cellTypeFilter=cellTypeFilter;
 		filter.cellSubTypeFilter=cellSubTypeFilter;
 		filter.assayFilter=assayFilter;
 		filter.sortField=sortField;
@@ -236,6 +236,11 @@ public class DataController {
 		// List<CellHeatmapRow> cellRows = cellHeatmapRowsRepository.findAll(sort);
 
 		System.out.println("cellrows size=" + cellRows.size());
+		
+		//put filter method in here to only return the rows we need
+		cellRows=this.filterCellRows(filter, cellRows);
+		
+		
 		// loop through the rows and get the row headers for (gene symbols)
 		ArrayList<String> rowHeaders = new ArrayList<>();
 		ArrayList<String> constructs = new ArrayList<>();
@@ -328,6 +333,29 @@ public class DataController {
 	
 
 	
+	private List<CellHeatmapRow> filterCellRows(Filter filter, List<CellHeatmapRow> cellRows) {
+		List<CellHeatmapRow> filteredRows=new ArrayList<>();
+		for(CellHeatmapRow row: cellRows) {
+			boolean addRow=true;
+			if(filter.constructFilter!=null && !filter.constructFilter.equals("")) {
+				if(!row.getConstruct().startsWith(filter.constructFilter)) {
+					addRow=false;
+				}
+			}
+			if(filter.cellTypeFilter!=null && !filter.cellTypeFilter.equals("")) {
+				System.out.println("cellTypeFilter="+filter.cellTypeFilter);
+				//need to check if the variable in camel case has a number of 4 to indicate it's significant for this row
+				if(row.getVarabileFromKey(filter.cellTypeFilter)<3) {
+					addRow=false;
+				}
+			}
+			if(addRow) {
+				filteredRows.add(row);
+			}
+		}
+		return filteredRows;
+	}
+
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/cellTypes")
 	@ResponseBody
