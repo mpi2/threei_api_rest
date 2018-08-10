@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -187,7 +188,7 @@ public class CellHeatmapService {
 	}
 
 	private List<CellHeatmapRow> filterCellRows(Filter filter, List<CellHeatmapRow> cellRows) {
-		return this.queryByExampleTest();
+		return this.queryForMultipleRows();
 		
 //		List<CellHeatmapRow> filteredRows=new ArrayList<>();
 //		for(CellHeatmapRow row: cellRows) {
@@ -221,14 +222,17 @@ public class CellHeatmapService {
 	}
 	
 	
-	public List<CellHeatmapRow> queryByExampleTest(){
+	public List<CellHeatmapRow> queryForMultipleRows(){
 		ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny().withIgnoreCase()
-	            .withMatcher("gene", GenericPropertyMatcher::contains);
+	            .withMatcher("gene", GenericPropertyMatcher::ignoreCase);
 //	            .withIgnoreNullValues()
 //	            .withIgnoreCase();  
-		
-		 Example<CellHeatmapRow> example = Example.of(new CellHeatmapRow(), exampleMatcher);
+		CellHeatmapRow exampleRow = new CellHeatmapRow();
+		exampleRow.setGene("Zranb1");
+		 Example<CellHeatmapRow> example = Example.of(exampleRow, exampleMatcher);
 		 System.out.println("example="+example);
+		
+		
 		 return cellHeatmapRowsRepository.findAll(example);
 
 
@@ -242,6 +246,35 @@ public class CellHeatmapService {
 		 
 		 
 	 }
+	
+	public List<CellHeatmapRow> queryForSingleRow(){
+		ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny().withIgnoreCase()
+	            .withMatcher("gene", GenericPropertyMatcher::ignoreCase);
+//	            .withIgnoreNullValues()
+//	            .withIgnoreCase();  
+		CellHeatmapRow exampleRow = new CellHeatmapRow();
+		exampleRow.setGene("Zranb1");
+		 Example<CellHeatmapRow> example = Example.of(exampleRow, exampleMatcher);
+		 System.out.println("example="+example);
+		 Optional<CellHeatmapRow> singleRow = cellHeatmapRowsRepository.findOne(example);
+		System.out.println("singleRow="+singleRow);
+		List<CellHeatmapRow> rows=new ArrayList<>();
+		rows.add(singleRow.get());
+		return rows;
+		 //return cellHeatmapRowsRepository.findAll(example);
+
+
+//		 Example<Animal> example = Example.of(form.getAnimal(), exampleMatcher);
+//	        
+//		    Page<Animal> animals = animalrepository.findAll(example, 
+//		                new PageRequest((first / pageSize), pageSize, sortOrder == SortOrder.ASCENDING ? Direction.ASC : Direction.DESC, sortField));
+//		    
+//		    this.dataSet = animals.getContent();
+//		    setRowCount((int) animals.getTotalElements());
+		 
+		 
+	 }
+	
 	
 	public Types cellTypes() {
 		if (uniqueCellTypes == null) {
