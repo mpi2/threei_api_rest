@@ -22,25 +22,25 @@ public class CellHeatmapRow {
 	// already have the columns hard coded for order and display name anyway so not
 	// flexible already.
 
-	private Integer alphaDeltaTCells = 0;
-	private Integer nKCells = 0;
-	private Integer nktCells = 0;
-	private Integer bCellPrecursors = 0;
-	private Integer dendriticCells = 0;
-	private Integer granulocytes = 0;
-	private Integer tregCells = 0;
-	private Integer cD4TCells = 0;
-	private Integer monocytesMacrophages = 0;
-	private Integer totalAlphBetaTCells = 0;
-	private Integer bCells = 0;
-	private Integer cd8TCells = 0;
+	private Integer alphaDeltaTCells;// = 0;
+	private Integer nKCells;// = 0;
+	private Integer nktCells;// = 0;
+	private Integer bCellPrecursors;// = 0;
+	private Integer dendriticCells;// = 0;
+	private Integer granulocytes;// = 0;
+	private Integer tregCells;// = 0;
+	private Integer cD4TCells ;//= 0;
+	private Integer monocytesMacrophages;// = 0;
+	private Integer totalAlphBetaTCells;// = 0;
+	private Integer bCells ;//=0;
+	private Integer cd8TCells;// = 0;
 
 	// these are procedures but 3i people want these shown on the cell view- we just
 	// copy them in the data loader from the procedures
-	private Integer dSSChallenge = 0;
-	private Integer influenza = 0;
-	private Integer trichurisChallenge = 0;
-	private Integer salmonellaChallenge = 0;
+	private Integer dSSChallenge;// = 0;
+	private Integer influenza;// = 0;
+	private Integer trichurisChallenge;// = 0;
+	private Integer salmonellaChallenge;// = 0;
 
 	public Integer getdSSChallenge() {
 		return dSSChallenge;
