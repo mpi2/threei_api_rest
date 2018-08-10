@@ -3,14 +3,16 @@ package uk.ac.ebi.threei.rest.repositories;
 
 import java.util.List;
 
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import uk.ac.ebi.threei.rest.CellHeatmapRow;
 
 @RepositoryRestResource(collectionResourceRel = "CellHeatmapRow", path = "cellheatmaprows")
-public interface CellHeatmapRowsRepository extends MongoRepository<CellHeatmapRow, String> {
+public interface CellHeatmapRowsRepository extends  MongoRepository<CellHeatmapRow, String>{
 	
 	
 	public static final String[] cellDisplayHeaderOrder={ 
@@ -46,5 +48,5 @@ public interface CellHeatmapRowsRepository extends MongoRepository<CellHeatmapRo
 	List<CellHeatmapRow> findAll(Sort sort);
 	
 	
-
+	 
 }

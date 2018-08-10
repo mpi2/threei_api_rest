@@ -207,10 +207,22 @@ public class CellHeatmapRow {
 		this.construct = construct;
 	}
 
+	
+
+	public CellHeatmapRow() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public String toString() {
-		return "HeatmapRow [gene=" + gene + ", construct=" + construct + ", procedureSignificance="
-				+ procedureSignificance + "]";
+		return "CellHeatmapRow [id=" + id + ", gene=" + gene + ", construct=" + construct + ", procedureSignificance="
+				+ procedureSignificance + ", alphaDeltaTCells=" + alphaDeltaTCells + ", nKCells=" + nKCells
+				+ ", nktCells=" + nktCells + ", bCellPrecursors=" + bCellPrecursors + ", dendriticCells="
+				+ dendriticCells + ", granulocytes=" + granulocytes + ", tregCells=" + tregCells + ", cD4TCells="
+				+ cD4TCells + ", monocytesMacrophages=" + monocytesMacrophages + ", totalAlphBetaTCells="
+				+ totalAlphBetaTCells + ", bCells=" + bCells + ", cd8TCells=" + cd8TCells + ", dSSChallenge="
+				+ dSSChallenge + ", influenza=" + influenza + ", trichurisChallenge=" + trichurisChallenge
+				+ ", salmonellaChallenge=" + salmonellaChallenge + "]";
 	}
 
 	public void setFieldsFromMap() {
