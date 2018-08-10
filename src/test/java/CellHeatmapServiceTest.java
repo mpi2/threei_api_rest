@@ -29,6 +29,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import uk.ac.ebi.threei.rest.Application;
 import uk.ac.ebi.threei.rest.CellHeatmapRow;
+import uk.ac.ebi.threei.rest.controllers.Filter;
 import uk.ac.ebi.threei.rest.services.CellHeatmapService;
 
 @RunWith(SpringRunner.class)
@@ -45,7 +46,9 @@ public class CellHeatmapServiceTest {
 	@Test
 	public void filterByMultipleProperties() throws Exception {
 
-		List<CellHeatmapRow> rows = cellHeatmapService.queryForMultipleRows();
+		Filter filter=new Filter();
+		filter.constructFilter="tm1a";
+		List<CellHeatmapRow> rows = cellHeatmapService.queryForMultipleRows(filter);
 		System.out.println("filtered rows in test="+rows);
 		assertTrue(rows.size()<10);
 	}

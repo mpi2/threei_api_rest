@@ -227,7 +227,7 @@ public class CellHeatmapRow {
 
 	public void setFieldsFromMap() {
 		for (String procedureKey : procedureSignificance.keySet()) {
-			this.setVarabileFromKey(procedureKey, procedureSignificance.get(procedureKey));
+			this.setVariableFromKey(procedureKey, procedureSignificance.get(procedureKey));
 		}
 	}
 
@@ -244,7 +244,7 @@ public class CellHeatmapRow {
 	// B cells: 0,
 	// CD8 T cells: 0
 
-	private void setVarabileFromKey(String procedureKey, Integer integer) {
+	public void setVariableFromKey(String procedureKey, Integer integer) {
 
 		switch (procedureKey) {
 		case "γδ T cells":

@@ -82,12 +82,12 @@ public class CellHeatmapService {
 		System.out.println("cellrows size=" + cellRows.size());
 		
 		//put filter method in here to only return the rows we need
-		List<CellHeatmapRow> cellRowsFiltered = this.filterCellRows(filter, cellRows);
-		for(CellHeatmapRow tmpRow:cellRows) {
-			if(!cellRowsFiltered.contains(tmpRow)) {
-				System.out.println("row not in filtered="+tmpRow);
-			}
-		}
+		cellRows = this.filterCellRows(filter, cellRows);
+//		for(CellHeatmapRow tmpRow:cellRows) {
+//			if(!cellRowsFiltered.contains(tmpRow)) {
+//				System.out.println("row not in filtered="+tmpRow);
+//			}
+//		}
 		
 		//System.out.println("cellRows after filter size="+cellRows.size());
 		
@@ -188,7 +188,7 @@ public class CellHeatmapService {
 	}
 
 	private List<CellHeatmapRow> filterCellRows(Filter filter, List<CellHeatmapRow> cellRows) {
-		return this.queryForMultipleRows();
+		return this.queryForMultipleRows(filter);
 		
 //		List<CellHeatmapRow> filteredRows=new ArrayList<>();
 //		for(CellHeatmapRow row: cellRows) {
@@ -222,18 +222,32 @@ public class CellHeatmapService {
 	}
 	
 	
-	public List<CellHeatmapRow> queryForMultipleRows(){
-		ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny().withIgnoreCase()
-	            .withMatcher("gene", GenericPropertyMatcher::ignoreCase);
+	public List<CellHeatmapRow> queryForMultipleRows(Filter filter){
+		System.out.println("filter in filter function="+filter);
+		CellHeatmapRow exampleRow = new CellHeatmapRow();
+		ExampleMatcher exampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
+				if(filter.keyword!=null) {
+					exampleMatcher.withMatcher("gene", GenericPropertyMatcher::ignoreCase);
+					exampleRow.setGene(filter.keyword);
+				}
+				if(filter.constructFilter!=null) {
+					exampleMatcher.withMatcher("construct", GenericPropertyMatcher::startsWith);
+					exampleRow.setConstruct(filter.constructFilter);
+				}
+	            if(filter.cellTypeFilter!=null) {
+	            	exampleMatcher.withMatcher(filter.cellTypeFilter, GenericPropertyMatcher::ignoreCase);
+	            	exampleRow.setVariableFromKey(filter.cellTypeFilter, 3);//has to be significant
+	            }
+	            Example<CellHeatmapRow> example = Example.of(exampleRow, exampleMatcher);
+	   		 System.out.println("example="+example);
+	   		 return cellHeatmapRowsRepository.findAll(example);
 //	            .withIgnoreNullValues()
 //	            .withIgnoreCase();  
-		CellHeatmapRow exampleRow = new CellHeatmapRow();
-		exampleRow.setGene("Zranb1");
-		 Example<CellHeatmapRow> example = Example.of(exampleRow, exampleMatcher);
-		 System.out.println("example="+example);
+
 		
 		
-		 return cellHeatmapRowsRepository.findAll(example);
+		
+		
 
 
 //		 Example<Animal> example = Example.of(form.getAnimal(), exampleMatcher);
