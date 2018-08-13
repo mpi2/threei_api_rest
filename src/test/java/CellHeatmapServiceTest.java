@@ -47,8 +47,8 @@ public class CellHeatmapServiceTest {
 	public void filterByMultipleProperties() throws Exception {
 
 		Filter filter=new Filter();
-		filter.constructFilter="tm1a";
-		List<CellHeatmapRow> rows = cellHeatmapService.queryForMultipleRows(filter);
+		filter.setConstructFilter("tm1a");
+		List<CellHeatmapRow> rows = cellHeatmapService.filterCellRows(filter, null);
 		System.out.println("filtered rows in test="+rows);
 		assertTrue(rows.size()<10);
 	}

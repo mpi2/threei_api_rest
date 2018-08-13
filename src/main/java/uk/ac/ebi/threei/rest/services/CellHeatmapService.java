@@ -81,7 +81,7 @@ public class CellHeatmapService {
 		
 		
 		//put filter method in here to only return the rows we need
-		cellRows = this.filterCellRows(filter, sort, cellRows);
+		cellRows = this.filterCellRows(filter, sort);
 		System.out.println("cellrows size=" + cellRows.size());
 //		for(CellHeatmapRow tmpRow:cellRows) {
 //			if(!cellRowsFiltered.contains(tmpRow)) {
@@ -187,7 +187,7 @@ public class CellHeatmapService {
 		
 	}
 
-	private List<CellHeatmapRow> filterCellRows(Filter filter, Sort sort, List<CellHeatmapRow> cellRows) {
+	public List<CellHeatmapRow> filterCellRows(Filter filter, Sort sort) {
 
 		System.out.println("filter in filter function="+filter);
 		CellHeatmapRow exampleRow = new CellHeatmapRow();
@@ -322,7 +322,7 @@ public class CellHeatmapService {
 			}
 		}
 		Types types = new Types();
-		types.getTypes().addAll(uniqueCellTypes);
+		types.getTypes().addAll(uniqueCellSubTypes);
 		return types;
 	}
 	
