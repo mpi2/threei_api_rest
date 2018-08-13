@@ -65,24 +65,24 @@ public class CellHeatmapService {
 	public Data getCellHeatmapData(Filter filter) {
 		// System.out.println("filter="+filter);
 		Data data = new Data();// obect that holds all the data for this chart display
-
-		if (!StringUtils.isEmpty(filter.sortField)) {
-			String sortField = cellHeaderToFieldMap.get(filter.sortField);
+		Sort sort = null;
+		if (!StringUtils.isEmpty(filter.getSortField())) {
+			String sortField = cellHeaderToFieldMap.get(filter.getSortField());
 			System.out.println("sortVariable=" + sortField);
-			Sort sort = new Sort(Sort.Direction.ASC, sortField);
-			cellRows = cellHeatmapRowsRepository.findAll(sort);
-
-		} else {
-			// should extract these into methods in a data service for unit testing purposes
-			cellRows = cellHeatmapRowsRepository.findAll();// get an easily readable form of the rows for the heatmap
+			sort = new Sort(Sort.Direction.ASC, sortField);
 		}
+//		 else {
+//			// should extract these into methods in a data service for unit testing purposes
+//			cellRows = cellHeatmapRowsRepository.findAll();// get an easily readable form of the rows for the heatmap
+//		}
 
 		// List<CellHeatmapRow> cellRows = cellHeatmapRowsRepository.findAll(sort);
 
-		System.out.println("cellrows size=" + cellRows.size());
+		
 		
 		//put filter method in here to only return the rows we need
-		cellRows = this.filterCellRows(filter, cellRows);
+		cellRows = this.filterCellRows(filter, sort, cellRows);
+		System.out.println("cellrows size=" + cellRows.size());
 //		for(CellHeatmapRow tmpRow:cellRows) {
 //			if(!cellRowsFiltered.contains(tmpRow)) {
 //				System.out.println("row not in filtered="+tmpRow);
@@ -187,8 +187,51 @@ public class CellHeatmapService {
 		
 	}
 
-	private List<CellHeatmapRow> filterCellRows(Filter filter, List<CellHeatmapRow> cellRows) {
-		return this.queryForMultipleRows(filter);
+	private List<CellHeatmapRow> filterCellRows(Filter filter, Sort sort, List<CellHeatmapRow> cellRows) {
+
+		System.out.println("filter in filter function="+filter);
+		CellHeatmapRow exampleRow = new CellHeatmapRow();
+		ExampleMatcher exampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
+				if(filter.getKeyword()!=null) {
+					exampleMatcher.withMatcher("gene", GenericPropertyMatcher::ignoreCase);
+					exampleRow.setGene(filter.getKeyword());
+				}
+				if(filter.getConstructFilter()!=null) {
+					exampleMatcher.withMatcher("construct", GenericPropertyMatcher::startsWith);
+					exampleRow.setConstruct(filter.getConstructFilter());
+				}
+	            if(filter.getCellTypeFilter()!=null) {
+	            	exampleMatcher.withMatcher(filter.getCellTypeFilter(), GenericPropertyMatcher::ignoreCase);
+	            	exampleRow.setVariableFromKey(filter.getCellTypeFilter(), 3);//has to be significant so filter on significant
+	            }
+	            Example<CellHeatmapRow> example = Example.of(exampleRow, exampleMatcher);
+	   		 System.out.println("example="+example);
+	   		 if(sort!=null) {
+	   			 System.out.println("calling with sort="+sort);
+	   		 return cellHeatmapRowsRepository.findAll(example, sort);
+	   		 }
+	   		 else {
+	   			 return cellHeatmapRowsRepository.findAll(example);
+	   		 }
+//	            .withIgnoreNullValues()
+//	            .withIgnoreCase();  
+
+		
+		
+		
+		
+
+
+//		 Example<Animal> example = Example.of(form.getAnimal(), exampleMatcher);
+//	        
+//		    Page<Animal> animals = animalrepository.findAll(example, 
+//		                new PageRequest((first / pageSize), pageSize, sortOrder == SortOrder.ASCENDING ? Direction.ASC : Direction.DESC, sortField));
+//		    
+//		    this.dataSet = animals.getContent();
+//		    setRowCount((int) animals.getTotalElements());
+		 
+		 
+	 
 		
 //		List<CellHeatmapRow> filteredRows=new ArrayList<>();
 //		for(CellHeatmapRow row: cellRows) {
@@ -222,44 +265,7 @@ public class CellHeatmapService {
 	}
 	
 	
-	public List<CellHeatmapRow> queryForMultipleRows(Filter filter){
-		System.out.println("filter in filter function="+filter);
-		CellHeatmapRow exampleRow = new CellHeatmapRow();
-		ExampleMatcher exampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
-				if(filter.keyword!=null) {
-					exampleMatcher.withMatcher("gene", GenericPropertyMatcher::ignoreCase);
-					exampleRow.setGene(filter.keyword);
-				}
-				if(filter.constructFilter!=null) {
-					exampleMatcher.withMatcher("construct", GenericPropertyMatcher::startsWith);
-					exampleRow.setConstruct(filter.constructFilter);
-				}
-	            if(filter.cellTypeFilter!=null) {
-	            	exampleMatcher.withMatcher(filter.cellTypeFilter, GenericPropertyMatcher::ignoreCase);
-	            	exampleRow.setVariableFromKey(filter.cellTypeFilter, 3);//has to be significant
-	            }
-	            Example<CellHeatmapRow> example = Example.of(exampleRow, exampleMatcher);
-	   		 System.out.println("example="+example);
-	   		 return cellHeatmapRowsRepository.findAll(example);
-//	            .withIgnoreNullValues()
-//	            .withIgnoreCase();  
 
-		
-		
-		
-		
-
-
-//		 Example<Animal> example = Example.of(form.getAnimal(), exampleMatcher);
-//	        
-//		    Page<Animal> animals = animalrepository.findAll(example, 
-//		                new PageRequest((first / pageSize), pageSize, sortOrder == SortOrder.ASCENDING ? Direction.ASC : Direction.DESC, sortField));
-//		    
-//		    this.dataSet = animals.getContent();
-//		    setRowCount((int) animals.getTotalElements());
-		 
-		 
-	 }
 	
 	public List<CellHeatmapRow> queryForSingleRow(){
 		ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny().withIgnoreCase()

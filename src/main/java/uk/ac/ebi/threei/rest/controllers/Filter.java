@@ -2,7 +2,7 @@ package uk.ac.ebi.threei.rest.controllers;
 
 public class Filter {
 	
-	public String keyword; public String constructFilter;public String cellTypeFilter; public String cellSubTypeFilter;public String assayFilter;public  String sortField;
+	private String keyword; private String constructFilter;private String cellTypeFilter; private String cellSubTypeFilter;private String assayFilter;private  String sortField;
 
 
 	@Override
@@ -10,6 +10,66 @@ public class Filter {
 		return "Filter [keyword=" + keyword + ", constructFilter=" + constructFilter + ", cellTypeFilter="
 				+ cellTypeFilter + ", cellSubTypeFilter=" + cellSubTypeFilter + ", assayFilter=" + assayFilter
 				+ ", sortField=" + sortField + "]";
+	}
+
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+
+	public String getConstructFilter() {
+		return constructFilter;
+	}
+
+
+	public void setConstructFilter(String constructFilter) {
+		this.constructFilter = constructFilter;
+	}
+
+
+	public String getCellTypeFilter() {
+		return cellTypeFilter;
+	}
+
+
+	public void setCellTypeFilter(String cellTypeFilter) {
+		this.cellTypeFilter = cellTypeFilter;
+	}
+
+
+	public String getCellSubTypeFilter() {
+		return cellSubTypeFilter;
+	}
+
+
+	public void setCellSubTypeFilter(String cellSubTypeFilter) {
+		this.cellSubTypeFilter = cellSubTypeFilter;
+	}
+
+
+	public String getAssayFilter() {
+		return assayFilter;
+	}
+
+
+	public void setAssayFilter(String assayFilter) {
+		this.assayFilter = assayFilter;
+	}
+
+
+	public String getSortField() {
+		return sortField;
+	}
+
+
+	public void setSortField(String sortField) {
+		this.sortField = sortField;
 	}
 	
 

@@ -125,16 +125,16 @@ public class DataController {
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/cell_heatmap")
 	@ResponseBody
-	public HttpEntity<Data> cellHeatmap(Model model, @RequestParam(value = "keywords", required = false) String keyword,
+	public HttpEntity<Data> cellHeatmap(Model model, @RequestParam(value = "keyword", required = false) String keyword,
 			@RequestParam(value = "construct", required = false) String constructFilter, @RequestParam(value = "cellType", required = false) String cellTypeFilter, @RequestParam(value = "cellSubType", required = false) String cellSubTypeFilter, @RequestParam(value = "assay", required = false) String assayFilter, @RequestParam(value = "sort", required = false) String sortField) {
 		System.out.println("sortField="+sortField);
 		Filter filter=new Filter();
-		filter.keyword=keyword;
-		filter.constructFilter=constructFilter;
-		filter.cellTypeFilter=cellTypeFilter;
-		filter.cellSubTypeFilter=cellSubTypeFilter;
-		filter.assayFilter=assayFilter;
-		filter.sortField=sortField;
+		filter.setKeyword(keyword);
+		filter.setConstructFilter(constructFilter);
+		filter.setCellTypeFilter(cellTypeFilter);
+		filter.setCellSubTypeFilter(cellSubTypeFilter);
+		filter.setAssayFilter(assayFilter);
+		filter.setSortField(sortField);
 		Data data = cellHeatmapService.getCellHeatmapData(filter);
 		return new ResponseEntity<Data>(data, HttpStatus.OK);
 	}
