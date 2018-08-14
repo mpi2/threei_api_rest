@@ -4,11 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+
+import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +42,8 @@ public class CellHeatmapService {
 	private List<CellHeatmapRow> cellRows;
 	SortedSet<String> constructSet=new TreeSet<>();//for filter menu dropdown only short version before (
 	SortedSet<String> uniqueCellSubTypes;
+	Map<String, Set<String>> cellSubTypesToCellTypes=new HashMap<>();
+	Map<String, Set<String>> assayToCellTypes=new HashMap<>();
 	
 	
 	static final Map<String, String> cellHeaderToFieldMap;
@@ -60,6 +66,20 @@ public class CellHeatmapService {
 		aMap.put("Trichuris Challenge", "trichurisChallenge");
 		aMap.put("Salmonella Challenge", "salmonellaChallenge");
 		cellHeaderToFieldMap = Collections.unmodifiableMap(aMap);
+	}
+	
+	
+	@PostConstruct
+	public void init() {
+		//inititialise the data with all data and create structures for menus etc
+		this.getCellHeatmapData(new Filter());
+		this.getConstructs();
+		this.getAssays();
+		this.cellTypes();
+		this.cellSubTypes();
+		this.initialiseCellSubTypesAndAssayToTypes();
+
+		
 	}
 	
 	public Data getCellHeatmapData(Filter filter) {
@@ -204,6 +224,25 @@ public class CellHeatmapService {
 	            	exampleMatcher.withMatcher(filter.getCellTypeFilter(), GenericPropertyMatcher::ignoreCase);
 	            	exampleRow.setVariableFromKey(filter.getCellTypeFilter(), 3);//has to be significant so filter on significant
 	            }
+	            if(filter.getCellSubTypeFilter()!=null) {
+	            	//get the list of cell types that have this cell subtype
+	            	Set<String> cellTypes=this.cellSubTypesToCellTypes.get(filter.getCellSubTypeFilter());
+	            	//then set up a variable in the filter example for each one and say it has to be significant
+	            	for(String cellType: cellTypes) {
+	            		exampleMatcher.withMatcher(cellType, GenericPropertyMatcher::ignoreCase);
+		            	exampleRow.setVariableFromKey(cellType, 3);//has to be significant so filter on significant
+	            	}
+	            }
+	            
+	            if(filter.getAssayFilter()!=null) {
+	            	//get the list of cell types that have this cell subtype
+	            	Set<String> cellTypes=this.assayToCellTypes.get(filter.getAssayFilter());
+	            	//then set up a variable in the filter example for each one and say it has to be significant
+	            	for(String cellType: cellTypes) {
+	            		exampleMatcher.withMatcher(cellType, GenericPropertyMatcher::ignoreCase);
+		            	exampleRow.setVariableFromKey(cellType, 3);//has to be significant so filter on significant
+	            	}
+	            }
 	            Example<CellHeatmapRow> example = Example.of(exampleRow, exampleMatcher);
 	   		 System.out.println("example="+example);
 	   		 if(sort!=null) {
@@ -213,26 +252,7 @@ public class CellHeatmapService {
 	   		 else {
 	   			 return cellHeatmapRowsRepository.findAll(example);
 	   		 }
-//	            .withIgnoreNullValues()
-//	            .withIgnoreCase();  
 
-		
-		
-		
-		
-
-
-//		 Example<Animal> example = Example.of(form.getAnimal(), exampleMatcher);
-//	        
-//		    Page<Animal> animals = animalrepository.findAll(example, 
-//		                new PageRequest((first / pageSize), pageSize, sortOrder == SortOrder.ASCENDING ? Direction.ASC : Direction.DESC, sortField));
-//		    
-//		    this.dataSet = animals.getContent();
-//		    setRowCount((int) animals.getTotalElements());
-		 
-		 
-	 
-		
 //		List<CellHeatmapRow> filteredRows=new ArrayList<>();
 //		for(CellHeatmapRow row: cellRows) {
 //			boolean addRow=true;
@@ -266,7 +286,8 @@ public class CellHeatmapService {
 	
 	
 
-	
+
+
 	public List<CellHeatmapRow> queryForSingleRow(){
 		ExampleMatcher exampleMatcher = ExampleMatcher.matchingAny().withIgnoreCase()
 	            .withMatcher("gene", GenericPropertyMatcher::ignoreCase);
@@ -312,7 +333,7 @@ public class CellHeatmapService {
 	}
 	
 	public Types cellSubTypes() {
-		if (uniqueCellSubTypes == null) {
+		if (uniqueCellSubTypes == null || cellSubTypesToCellTypes==null) {
 			uniqueCellSubTypes = new TreeSet<>();
 			// should extract these into methods in a data service for unit testing purposes
 			List<CellParameter> dataList = cellRepo.findAll();
@@ -342,13 +363,37 @@ public class CellHeatmapService {
 	}
 	
 	public  Types getConstructs() {
-		if(constructSet.isEmpty()) {
-			this.getCellHeatmapData(new Filter());
-		}
 		List<String>uniqueConstructs=new ArrayList<>();
 		uniqueConstructs.addAll(constructSet);
 		Types types=new Types();
 		types.getTypes().addAll(uniqueConstructs);
 		return types;
+	}
+	
+	private void initialiseCellSubTypesAndAssayToTypes() {
+	
+		
+		// should extract these into methods in a data service for unit testing purposes
+		List<CellParameter> dataList = cellRepo.findAll();
+
+		for (CellParameter cellP : dataList) {
+			String cellSubType=cellP.getCellSubtype();
+			if(!cellSubTypesToCellTypes.containsKey(cellSubType)) {
+				cellSubTypesToCellTypes.put(cellSubType, new HashSet<String>());
+			}else {
+				cellSubTypesToCellTypes.get(cellSubType).add(cellP.getCellType());
+			}
+			//same for assays
+			String assay=cellP.getAssay();
+			if(!assayToCellTypes.containsKey(assay)) {
+				assayToCellTypes.put(assay, new HashSet<String>());
+			}else {
+				System.out.println("assay adding is "+assay+ " with cellType="+cellP.getCellType());
+				assayToCellTypes.get(assay).add(cellP.getCellType());
+			}
+			
+		}
+	
+	
 	}
 }
