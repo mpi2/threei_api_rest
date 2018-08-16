@@ -311,15 +311,6 @@ public class DataLoader implements CommandLineRunner {
 
 				}
 				hRow.getProcedureSignificance().put(header, value);//will add the value wether sig or zero so we don't have non existent cells and rows are same length
-//				List<Integer> cellData = new ArrayList<>();
-//				cellData.add(column);
-//				cellData.add(row);
-
-				//System.out.println("value=" + value);
-
-				//cellData.add(value);
-				//System.out.println("adding celldata=" + cellData);
-				//procedureData.getData().add(cellData);
 				}
 				System.out.println("adding hRow ="+hRow);
 				hRow.setFieldsFromMap();//set the variables from the map so we can use repo sorting on fields
