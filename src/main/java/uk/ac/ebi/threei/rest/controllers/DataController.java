@@ -69,33 +69,6 @@ public class DataController {
 	
 	
 	
-	
-	/**
-	 * Gets the data for the heatmap display - old method will eventually be deleted after testing new ones.
-	 * @param model
-	 * @param heatmapType
-	 * @param keyword
-	 * @param construct
-	 * @return
-	 */
-	@CrossOrigin(origins = "*", maxAge = 3600)
-	@RequestMapping("/data")
-	@ResponseBody
-	public HttpEntity<Data> dataController(Model model, @RequestParam(value = "heatmapType", required = false, defaultValue="procedure") String heatmapType, @RequestParam(value = "keywords", required = false) String keyword,
-			@RequestParam(value = "construct", required = false) String construct) {
-		System.out.println("calling old cell data method with "+ heatmapType+" keywords=" + keyword + " construct=" + construct);
-		
-		//should extract these into methods in a data service for unit testing purposes
-		List<Data> dataList = dataRepo.findAll();
-		Data data = new Data();
-		if(heatmapType.equals("cell")){
-			data=dataList.get(1);
-		}else if(heatmapType.equals("procedure")){
-			data=dataList.get(0);
-		}
-		return new ResponseEntity<Data>(data, HttpStatus.OK);
-	}
-	
 	/**
 	 * 
 	 * @param model
