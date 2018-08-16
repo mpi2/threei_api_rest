@@ -39,7 +39,7 @@ import uk.ac.ebi.threei.rest.Data;
 import uk.ac.ebi.threei.rest.ProcedureHeatmapRow;
 import uk.ac.ebi.threei.rest.repositories.CellHeatmapRowsRepository;
 import uk.ac.ebi.threei.rest.repositories.CellParameterRepository;
-import uk.ac.ebi.threei.rest.repositories.DataRepository;
+import uk.ac.ebi.threei.rest.repositories.ParameterDetailsRepository;
 import uk.ac.ebi.threei.rest.repositories.ProcedureHeatmapRowsRepository;
 import uk.ac.ebi.threei.rest.services.CellHeatmapService;
 import uk.ac.ebi.threei.rest.services.GeneDTO;
@@ -51,7 +51,7 @@ public class DataController {
 	@Autowired
 	GeneService geneService;
 	@Autowired
-	DataRepository dataRepo;
+	ParameterDetailsRepository dataRepo;
 //	@Autowired
 //	CellParameterRepository cellRepo;
 	

@@ -34,13 +34,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Component;
 
+import uk.ac.ebi.threei.rest.procedure.ParameterDetails;
 import uk.ac.ebi.threei.rest.repositories.CellHeatmapRowsRepository;
 import uk.ac.ebi.threei.rest.repositories.CellParameterRepository;
-import uk.ac.ebi.threei.rest.repositories.DataRepository;
+import uk.ac.ebi.threei.rest.repositories.ParameterDetailsRepository;
 import uk.ac.ebi.threei.rest.repositories.ProcedureHeatmapRowsRepository;
 
 //need this annotation if using the loader - comment out if not...?
-//@SpringBootApplication
+@SpringBootApplication
 public class DataLoader implements CommandLineRunner {
 	
 	//wont run without this but doesn't use it - annoying!!!
@@ -63,12 +64,15 @@ public class DataLoader implements CommandLineRunner {
 	private ProcedureHeatmapRowsRepository procedureRowsRespository;
 	@Autowired
 	private CellHeatmapRowsRepository cellRowsRespository;
+	@Autowired
+	ParameterDetailsRepository parameterDetailsRepository;
 
 
 	private List<CellParameter> cellParameters;
 	private Set<String> uniqueCellTypesForHeaders;
 	private List<ProcedureHeatmapRow> procedureRowData;
 	private List<CellHeatmapRow> cellHeatmapRows;
+	private List<ParameterDetails> parameterDetails;
 	
 
 	public static void main(String[] args) {
@@ -86,6 +90,7 @@ public class DataLoader implements CommandLineRunner {
 			if (hitsDataFile.exists()) {
 				System.out.println("hits file exists");
 				//procedureData = this.getProcedureDataFromCsv(hitsDataFile);
+				parameterDetails = getDetailsFromCsv(hitsDataFile);
 				procedureRowData=this.getProcedureHeatmapRowsFromCsv(hitsDataFile);
 				geneConstructParameterToSignificance = getGeneToParameterHitsFromFile(hitsDataFile);
 				int i=0;
@@ -137,6 +142,126 @@ public class DataLoader implements CommandLineRunner {
 		saveDataToMongo();
 
 		System.exit(0);
+	}
+	
+	/**
+	 * Load the data required for a details view of the data to display when clicked through from heatmap.
+	 * @param hitsDataFile
+	 * @return
+	 */
+	private List<ParameterDetails> getDetailsFromCsv(File hitsDataFile) {
+		// read in file line by line and add to CellParameter objects for loading into
+		// mongodb
+		
+		List<ParameterDetails> parameterDetails=new ArrayList<>();
+		HashMap<String, Integer> geneConstructProcedureParameterNameSexGenotypeToValueMap = new HashMap<>();//these are the unique result and we just want
+		//the most significant of these combinations?
+
+		try {
+
+			InputStream inputFS = new FileInputStream(hitsDataFile);
+			BufferedReader br = new BufferedReader(new InputStreamReader(inputFS));
+			// skip the header of the csv
+			String line;
+			int linesRead = 0;
+			while ((line = br.readLine()) != null) {
+
+				// System.out.println(line);
+				String procedureName = "";
+		
+				String[] columns = line.split(COMMA);
+				if (!columns[0].equals("Id")) {// if id is headers so want to ignore
+					String geneSymbol = columns[1];
+					String construct=columns[3];
+					if(columns.length<=4) {
+						System.err.println("not enough columns in row="+line+" skipping!!!!!!!!!!!");
+						continue;
+					}
+					String parameterName=columns[7];
+					String sex=columns[9];
+					String genotype="";
+					if(columns.length>=17) {
+					genotype=columns[16];
+					}
+					geneConstructSymbols.add(geneSymbol+KEY_DELIMITER+construct);
+					if (columns.length >= 6) {
+						procedureName = columns[5];
+						
+					} else {
+						System.out.println("columns size is not 6 so can't get procedureName for line=" + line);
+					}
+					String displayProcedureName = DisplayProcedureMapper.getDisplayNameForProcedure(procedureName);
+					String significance = columns[11];
+					int significanceScore = SignificanceType.getRankFromSignificanceName(significance).intValue();
+					String key = geneSymbol + KEY_DELIMITER + construct+KEY_DELIMITER+displayProcedureName+KEY_DELIMITER+parameterName+KEY_DELIMITER+sex+KEY_DELIMITER+genotype;
+					if (geneConstructProcedureParameterNameSexGenotypeToValueMap.containsKey(key)) {
+						int oldScore = geneConstructProcedureParameterNameSexGenotypeToValueMap.get(key);
+						if (oldScore < significanceScore) {
+							geneConstructProcedureParameterNameSexGenotypeToValueMap.put(key, significanceScore);
+							// System.out.println("geneSymbol="+geneSymbol+" procedureName="+procedureName+"
+							// displayName="+DisplayProcedureMapper.getDisplayNameForProcedure(procedureName)+"
+							// significance="+significance +" new
+							// significance="+SignificanceType.getRankFromSignificanceName(columns[11]));
+
+							// System.out.println("old score is"+oldScore+" which should be different to
+							// "+geneProcedureDisplayNameToValueMap.get(key));
+						} // otherwise do nothing
+					} else {
+						geneConstructProcedureParameterNameSexGenotypeToValueMap.put(key, significanceScore);
+					}
+					linesRead++;
+					// System.out.println(linesRead);
+				}
+			}
+			System.out.println("generated map");
+			System.out.println("number of genes/rows=" + geneConstructSymbols.size());
+			System.out.println("number of procedures/columns=" + DisplayProcedureMapper.getDisplayHeaderOrder().length);
+
+			// dataArray = br.lines().skip(1).map(mapToItem).collect(Collectors.toList());
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		//this code should now be moved to the RestController that will give back the heatmap formatted data
+		// should only have highest score for each cell now (gene and proceureName
+		// combo)
+		// but we need to loop over all the cells possible not just the ones we will get
+		// so we can fill in the blanks!!???
+
+		int column = 0;
+		//SortedSet<String> geneConstructSymbols = new TreeSet<>(Collections.reverseOrder());//set it up in reverse order so genes are at the top as highcharts row 0 is at the bottom - not what we want!
+
+			// cellData.addColumnHeader(header);
+			boolean isColumn = false;
+			int row = 0;
+			for (String key : geneConstructProcedureParameterNameSexGenotypeToValueMap.keySet()) {
+				String keyArray[]=key.split(KEY_DELIMITER);
+				String gene=keyArray[0];
+				String construct=keyArray[1];
+				String procedure=keyArray[3];
+				String parameter=keyArray[4];
+//				String sex=keyArray[5];
+//				String genotype=keyArray[6];
+				
+				Integer value = 0;// default is zero for each cell meaning no data.
+					value = geneConstructProcedureParameterNameSexGenotypeToValueMap.get(key);
+				ParameterDetails pDetails=new ParameterDetails(gene, construct);
+				pDetails.setProcedureName(procedure);
+				pDetails.setName(parameter);
+				//pDetails.setResultsBySex(resultsBySex);
+				//pDetails.set
+				
+					
+					
+				System.out.println("adding parameterDetails ="+pDetails);
+				//pDetails.setFieldsFromMap();//set the variables from the map so we can use repo sorting on fields
+				//we could empty the map after this to save space and loading time from rest service- but can keep for debugging?
+				parameterDetails.add(pDetails);
+			}
+
+		//System.out.println("procedureData=" + procedureData.writeData());
+		return parameterDetails;
 	}
 
 	private List<CellHeatmapRow> addSomeProceduresToCellRows(List<CellHeatmapRow> cellHeatmapRows2,
@@ -193,8 +318,9 @@ public class DataLoader implements CommandLineRunner {
 		//dataRepository.deleteAll();
 		procedureRowsRespository.deleteAll();
 		repository.deleteAll();
-		
+		parameterDetailsRepository.deleteAll(parameterDetails);
 		//dataRepository.save(procedureData);
+		parameterDetailsRepository.saveAll(parameterDetails);
 		procedureRowsRespository.saveAll(procedureRowData);
 		cellRowsRespository.saveAll(cellHeatmapRows);
 		//dataRepository.save(cellTypeData);
@@ -312,7 +438,7 @@ public class DataLoader implements CommandLineRunner {
 				}
 				hRow.getProcedureSignificance().put(header, value);//will add the value wether sig or zero so we don't have non existent cells and rows are same length
 				}
-				System.out.println("adding hRow ="+hRow);
+				//System.out.println("adding hRow ="+hRow);
 				hRow.setFieldsFromMap();//set the variables from the map so we can use repo sorting on fields
 				//we could empty the map after this to save space and loading time from rest service- but can keep for debugging?
 				heatmapRows.add(hRow);
