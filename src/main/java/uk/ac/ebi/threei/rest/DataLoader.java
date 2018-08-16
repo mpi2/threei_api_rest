@@ -60,14 +60,11 @@ public class DataLoader implements CommandLineRunner {
 	private CellParameterRepository repository;
 
 	@Autowired
-	private DataRepository dataRepository;
-	@Autowired
 	private ProcedureHeatmapRowsRepository procedureRowsRespository;
 	@Autowired
 	private CellHeatmapRowsRepository cellRowsRespository;
 
-	private Data procedureData;
-	private Data cellTypeData;
+
 	private List<CellParameter> cellParameters;
 	private Set<String> uniqueCellTypesForHeaders;
 	private List<ProcedureHeatmapRow> procedureRowData;
@@ -88,7 +85,7 @@ public class DataLoader implements CommandLineRunner {
 			File hitsDataFile = new File(hitsDataFileLocation);
 			if (hitsDataFile.exists()) {
 				System.out.println("hits file exists");
-				procedureData = this.getProcedureDataFromCsv(hitsDataFile);
+				//procedureData = this.getProcedureDataFromCsv(hitsDataFile);
 				procedureRowData=this.getProcedureHeatmapRowsFromCsv(hitsDataFile);
 				geneConstructParameterToSignificance = getGeneToParameterHitsFromFile(hitsDataFile);
 				int i=0;
@@ -115,7 +112,7 @@ public class DataLoader implements CommandLineRunner {
 				
 				//now we need to construct the cell type map by looping though the headers for celltype and then allocating if
 				//any of the parameters associated to that header for that gene are significant using the prev loaded hit file
-				cellTypeData=createCellTypeHeatmap(uniqueCellTypesForHeaders, cellParameters, geneConstructParameterToSignificance );
+				//cellTypeData=createCellTypeHeatmap(uniqueCellTypesForHeaders, cellParameters, geneConstructParameterToSignificance );
 				cellHeatmapRows=getCellHeatmapRowsFromCsv(uniqueCellTypesForHeaders, cellParameters, geneConstructParameterToSignificance );
 				//we need to add some of the procedure data to the cell rows as requested by Lucie
 				cellHeatmapRows=addSomeProceduresToCellRows(cellHeatmapRows, procedureRowData);
@@ -157,46 +154,6 @@ public class DataLoader implements CommandLineRunner {
 		return cellHeatmapRows2;
 	}
 
-	private Data createCellTypeHeatmap(Set<String> uniqueCellTypesForHeaders2, List<CellParameter> cellParameters2,
-			HashMap<String, Integer> geneConstructParameterToSignificance2) {
-		Data localCellTypeData=new Data();
-		localCellTypeData.setHeatmapType("cellType");
-		int column = 0;
-
-		for (String header : uniqueCellTypesForHeaders2) {
-			localCellTypeData.addColumnHeader(header);
-			// cellData.addColumnHeader(header);
-			
-			int row=0;
-			
-			for (String geneConstruct : geneConstructSymbols) {
-				String geneConstructArray[]=geneConstruct.split(KEY_DELIMITER);
-				String gene=geneConstructArray[0];
-				String construct=geneConstructArray[1];
-				localCellTypeData.addRowHeader(gene+" "+construct);
-				
-				Integer value = 0;// default is zero for each cell meaning no data.
-				
-				//System.out.println("looking for |"+gene + "_" + header+"|");
-				//need to look at header and get the parameter names for that cell type, then look get the highest significance from that list and return it
-				value = getHighestSignificanceForCellTypeHeadeer(geneConstructParameterToSignificance2, header, gene, construct);
-
-				List<Integer> cellData = new ArrayList<>();
-				cellData.add(column);
-				cellData.add(row);
-
-				//System.out.println("value=" + value);
-
-				cellData.add(value);
-				//System.out.println("adding celldata=" + cellData);
-				localCellTypeData.getData().add(cellData);
-				row++;
-			}
-			column++;
-		}
-		return localCellTypeData;
-	}
-	
 	
 
 	private Integer getHighestSignificanceForCellTypeHeadeer(
@@ -233,14 +190,14 @@ public class DataLoader implements CommandLineRunner {
 	}
 
 	private void saveDataToMongo() {
-		dataRepository.deleteAll();
+		//dataRepository.deleteAll();
 		procedureRowsRespository.deleteAll();
 		repository.deleteAll();
 		
-		dataRepository.save(procedureData);
+		//dataRepository.save(procedureData);
 		procedureRowsRespository.saveAll(procedureRowData);
 		cellRowsRespository.saveAll(cellHeatmapRows);
-		dataRepository.save(cellTypeData);
+		//dataRepository.save(cellTypeData);
 		// cellParameters
 		saveParemeterToCells();
 	}
@@ -369,46 +326,6 @@ public class DataLoader implements CommandLineRunner {
 				//we could empty the map after this to save space and loading time from rest service- but can keep for debugging?
 				heatmapRows.add(hRow);
 			}
-			
-		
-
-		
-		
-		// loop over column/headers then loop over genes/rows - then see if we have data
-		// for that cell if not create the cell and set value to 0.
-//		int column = 0;
-//
-//		for (String header : DisplayProcedureMapper.getDisplayHeaderOrder()) {
-//			procedureData.addColumnHeader(header);
-//			// cellData.addColumnHeader(header);
-//			boolean isColumn = false;
-//			int row = 0;
-//			for (String gene : geneSymbols) {
-//				procedureData.addRowHeader(gene);
-//				boolean isRow = false;
-//				Integer value = 0;// default is zero for each cell meaning no data.
-//
-//				if (geneProcedureDisplayNameToValueMap.containsKey(gene + KEY_DELIMITER + header)) {
-//
-//					// add the cell with data here
-//					value = geneProcedureDisplayNameToValueMap.get(gene + KEY_DELIMITER + header);
-//					// System.out.println("value from data="+value);
-//
-//				}
-//
-//				List<Integer> cellData = new ArrayList<>();
-//				cellData.add(column);
-//				cellData.add(row);
-//
-//				//System.out.println("value=" + value);
-//
-//				cellData.add(value);
-//				//System.out.println("adding celldata=" + cellData);
-//				procedureData.getData().add(cellData);
-//				row++;
-//			}
-//			column++;
-//		}
 
 		//System.out.println("procedureData=" + procedureData.writeData());
 		return heatmapRows;
@@ -433,9 +350,6 @@ public class DataLoader implements CommandLineRunner {
 				row=cellHeatmapRowsMap.get(geneConstruct);//should always be one as if not already created and added above
 				
 				for (String header : uniqueCellTypesForHeaders2) {
-					//localCellTypeData.addColumnHeader(header);
-					// cellData.addColumnHeader(header);
-				//localCellTypeData.addRowHeader(gene);
 				
 				Integer value = 0;// default is zero for each cell meaning no data.
 				
@@ -460,46 +374,7 @@ public class DataLoader implements CommandLineRunner {
 			row.procedureSignificance=Collections.emptyMap();
 			cellHeatmapRows.add(row);
 			}
-			
-			
-			
-			
-//			Data localCellTypeData=new Data();
-//			localCellTypeData.setHeatmapType("cellType");
-//			int column = 0;
-//
-//			for (String header : uniqueCellTypesForHeaders2) {
-//				localCellTypeData.addColumnHeader(header);
-//				// cellData.addColumnHeader(header);
-//				
-//				int row=0;
-//				
-//				for (String geneConstruct : geneConstructSymbols) {
-//					String geneConstructArray[]=geneConstruct.split(KEY_DELIMITER);
-//					String gene=geneConstructArray[0];
-//					String construct=geneConstructArray[1];
-//					localCellTypeData.addRowHeader(gene+" "+construct);
-//					
-//					Integer value = 0;// default is zero for each cell meaning no data.
-//					
-//					//System.out.println("looking for |"+gene + "_" + header+"|");
-//					//need to look at header and get the parameter names for that cell type, then look get the highest significance from that list and return it
-//					value = getHighestSignificanceForCellTypeHeadeer(geneConstructParameterToSignificance2, header, gene, construct);
-//
-//					List<Integer> cellData = new ArrayList<>();
-//					cellData.add(column);
-//					cellData.add(row);
-//
-//					//System.out.println("value=" + value);
-//
-//					cellData.add(value);
-//					//System.out.println("adding celldata=" + cellData);
-//					localCellTypeData.getData().add(cellData);
-//					row++;
-//				}
-//				column++;
-//			}
-			
+					
 		System.out.println("cellHeatmapRows size="+cellHeatmapRows.size());
 		return cellHeatmapRows;
 	}
@@ -541,13 +416,7 @@ public class DataLoader implements CommandLineRunner {
 						int oldScore = geneProcedureDisplayNameToValueMap.get(key);
 						if (oldScore < significanceScore) {
 							geneProcedureDisplayNameToValueMap.put(key, significanceScore);
-							// System.out.println("geneSymbol="+geneSymbol+" procedureName="+procedureName+"
-							// displayName="+DisplayProcedureMapper.getDisplayNameForProcedure(procedureName)+"
-							// significance="+significance +" new
-							// significance="+SignificanceType.getRankFromSignificanceName(columns[11]));
-
-							// System.out.println("old score is"+oldScore+" which should be different to
-							// "+geneProcedureDisplayNameToValueMap.get(key));
+							
 						} // otherwise do nothing
 					} else {
 						geneProcedureDisplayNameToValueMap.put(key, significanceScore);
@@ -674,56 +543,13 @@ public class DataLoader implements CommandLineRunner {
 			e.printStackTrace();
 		}
 		
-//		int column = 0;
-//
-//		for (String header : DisplayProcedureMapper.getDisplayHeaderOrder()) {
-//			procedureData.addColumnHeader(header);
-//			// cellData.addColumnHeader(header);
-//			boolean isColumn = false;
-//			int row = 0;
-//			for (String gene : geneSymbols) {
-//				procedureData.addRowHeader(gene);
-//				boolean isRow = false;
-//				Integer value = 0;// default is zero for each cell meaning no data.
-//
-//				if (geneProcedureDisplayNameToValueMap.containsKey(gene + "_" + header)) {
-//
-//					// add the cell with data here
-//					value = geneProcedureDisplayNameToValueMap.get(gene + "_" + header);
-//					// System.out.println("value from data="+value);
-//
-//				}
-//
-//				List<Integer> cellData = new ArrayList<>();
-//				cellData.add(column);
-//				cellData.add(row);
-//
-//				System.out.println("value=" + value);
-//
-//				cellData.add(value);
-//				System.out.println("adding celldata=" + cellData);
-//				procedureData.getData().add(cellData);
-//				row++;
-//			}
-//			column++;
-//		}
-
 		//System.out.println("procedureData=" + procedureData.writeData());
 		return geneParameterToSigValueMap;
 	
 	}
 	
 	
-	private Integer getGeneIndex(String geneString) {
-		int i = 0;
-		for (String gene : geneConstructSymbols) {
-			if (gene.equalsIgnoreCase(geneString)) {
-				return i;
-			}
-			i++;
-		}
-		return i;
-	}
+	
 
 	/**
 	 * The csv file we have has extra newlines in it which we need to take the next
