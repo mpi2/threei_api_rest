@@ -212,6 +212,7 @@ public class DataLoader implements CommandLineRunner {
 					linesRead++;
 					// System.out.println(linesRead);
 				}
+				//if(linesRead>10)break;
 			}
 			System.out.println("generated map");
 			System.out.println("number of genes/rows=" + geneConstructSymbols.size());
@@ -219,6 +220,7 @@ public class DataLoader implements CommandLineRunner {
 
 			// dataArray = br.lines().skip(1).map(mapToItem).collect(Collectors.toList());
 			br.close();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -248,7 +250,7 @@ public class DataLoader implements CommandLineRunner {
 					value = geneConstructProcedureParameterNameSexGenotypeToValueMap.get(key);
 				ParameterDetails pDetails=new ParameterDetails(gene, construct);
 				pDetails.setProcedureName(procedure);
-				pDetails.setName(parameter);
+				pDetails.setParameterName(parameter);
 				//pDetails.setResultsBySex(resultsBySex);
 				//pDetails.set
 				
@@ -316,10 +318,12 @@ public class DataLoader implements CommandLineRunner {
 
 	private void saveDataToMongo() {
 		//dataRepository.deleteAll();
+		System.out.println("deleting data from mongodb!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		procedureRowsRespository.deleteAll();
 		repository.deleteAll();
-		parameterDetailsRepository.deleteAll(parameterDetails);
+		parameterDetailsRepository.deleteAll();
 		//dataRepository.save(procedureData);
+		System.out.println("saving data to mongodb!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		parameterDetailsRepository.saveAll(parameterDetails);
 		procedureRowsRespository.saveAll(procedureRowData);
 		cellRowsRespository.saveAll(cellHeatmapRows);
@@ -489,6 +493,7 @@ public class DataLoader implements CommandLineRunner {
 			CellHeatmapRow row=entry.getValue();
 			row.setFieldsFromMap();
 			row.procedureSignificance=Collections.emptyMap();
+			System.out.println("adding row to cellHeatmapRows="+row);
 			cellHeatmapRows.add(row);
 			}
 					
