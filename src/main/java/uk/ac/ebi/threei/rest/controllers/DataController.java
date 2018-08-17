@@ -35,8 +35,10 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.ac.ebi.threei.rest.CellHeatmapRow;
 import uk.ac.ebi.threei.rest.CellParameter;
 import uk.ac.ebi.threei.rest.Types;
+import uk.ac.ebi.threei.rest.procedure.ParameterDetails;
 import uk.ac.ebi.threei.rest.Data;
 import uk.ac.ebi.threei.rest.ProcedureHeatmapRow;
+import uk.ac.ebi.threei.rest.ProcedurePage;
 import uk.ac.ebi.threei.rest.repositories.CellHeatmapRowsRepository;
 import uk.ac.ebi.threei.rest.repositories.CellParameterRepository;
 import uk.ac.ebi.threei.rest.repositories.ParameterDetailsRepository;
@@ -44,6 +46,7 @@ import uk.ac.ebi.threei.rest.repositories.ProcedureHeatmapRowsRepository;
 import uk.ac.ebi.threei.rest.services.CellHeatmapService;
 import uk.ac.ebi.threei.rest.services.GeneDTO;
 import uk.ac.ebi.threei.rest.services.GeneService;
+import uk.ac.ebi.threei.rest.services.ParameterDetailsService;
 import uk.ac.ebi.threei.rest.services.ProcedureHeatmapService;
 @RestController
 public class DataController {
@@ -66,7 +69,20 @@ public class DataController {
 	
 	
 	List<CellHeatmapRow> cellRows;
+	@Autowired
+	private ParameterDetailsService parameterDetailsServce;
 	
+	@CrossOrigin(origins = "*", maxAge = 3600)
+	@RequestMapping("/procedure_page")
+	@ResponseBody
+	public HttpEntity<ProcedurePage> getParameterDetails(Model model, @RequestParam(value = "gene", required = false) String gene,
+			@RequestParam(value = "construct", required = false) String construct, @RequestParam(value = "procedure", required = false) String procedure) {
+		ProcedurePage page=new ProcedurePage();
+		List<ParameterDetails> parameterDetails = parameterDetailsServce.getParameterDetails("Adal", "tm1a","Homozygous Fertility" );
+		page.setParameterDetails(parameterDetails);
+		return new ResponseEntity<ProcedurePage>(page, HttpStatus.OK);
+	
+	}
 	
 	
 	/**
@@ -113,22 +129,6 @@ public class DataController {
 	}
 
 	
-	
-
-	
-	
-	
-	
-	
-	public Object get(String methodName, CellHeatmapRow a) throws Exception {
-	    Object ret = null;
-	    if(a != null){
-	        Class<CellHeatmapRow> cl = CellHeatmapRow.class;
-	        Method method = cl.getDeclaredMethod(methodName);
-	        ret = method.invoke(a);
-	    }
-	    return ret;
-	}
 
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/cellTypes")

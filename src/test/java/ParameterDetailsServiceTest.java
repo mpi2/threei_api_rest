@@ -32,7 +32,7 @@ import uk.ac.ebi.threei.rest.CellHeatmapRow;
 import uk.ac.ebi.threei.rest.controllers.Filter;
 import uk.ac.ebi.threei.rest.procedure.ParameterDetails;
 import uk.ac.ebi.threei.rest.services.CellHeatmapService;
-import uk.ac.ebi.threei.rest.services.ParameterDetailsServce;
+import uk.ac.ebi.threei.rest.services.ParameterDetailsService;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes=Application.class)
@@ -40,7 +40,7 @@ import uk.ac.ebi.threei.rest.services.ParameterDetailsServce;
 public class ParameterDetailsServiceTest {
 
 	@Autowired
-	private ParameterDetailsServce parameterDetailsServce;
+	private ParameterDetailsService parameterDetailsServce;
 
 	
 	

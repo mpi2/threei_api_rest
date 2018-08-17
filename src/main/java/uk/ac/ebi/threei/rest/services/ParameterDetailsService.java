@@ -10,7 +10,7 @@ import uk.ac.ebi.threei.rest.procedure.ParameterDetails;
 import uk.ac.ebi.threei.rest.repositories.ParameterDetailsRepository;
 
 @Service
-public class ParameterDetailsServce {
+public class ParameterDetailsService {
 
 	@Autowired
 	ParameterDetailsRepository parameterDetailsRepository;
