@@ -9,6 +9,35 @@ public class ParameterDetails {
 	private String id;
 	private String parameterId;
 	private String parameterName;
+	private String sex;
+	int significanceValue;
+	
+	public int getSignificanceValue() {
+		return significanceValue;
+	}
+
+	public void setSignificanceValue(int significanceValue) {
+		this.significanceValue = significanceValue;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getGenotype() {
+		return genotype;
+	}
+
+	public void setGenotype(String genotype) {
+		this.genotype = genotype;
+	}
+
+	private String genotype;
+
 	public String getParameterName() {
 		return parameterName;
 	}
@@ -83,14 +112,15 @@ public class ParameterDetails {
 
 
 
-	public ParameterDetails(String gene2, String construct2) {
-		this.gene=gene2;
-		this.construct=construct2;
+	public ParameterDetails(String gene, String construct) {
+		this.gene=gene;
+		this.construct=construct;
 	}
 
 	@Override
 	public String toString() {
 		return "ParameterDetails [id=" + id + ", parameterId=" + parameterId + ", parameterName=" + parameterName
+				+ ", sex=" + sex + ", significanceValue=" + significanceValue + ", genotype=" + genotype
 				+ ", procedureName=" + procedureName + ", displayProcedureName=" + displayProcedureName + ", gene="
 				+ gene + ", cellType=" + cellType + ", construct=" + construct + "]";
 	}

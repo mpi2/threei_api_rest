@@ -18,4 +18,6 @@ public interface ParameterDetailsRepository extends MongoRepository<ParameterDet
 
 	List<ParameterDetails> findAll();
 
+	List<ParameterDetails> findByGeneAndConstructLikeAndDisplayProcedureName(String gene, String construct, String procedure);
+
 }

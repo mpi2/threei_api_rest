@@ -41,7 +41,7 @@ import uk.ac.ebi.threei.rest.repositories.ParameterDetailsRepository;
 import uk.ac.ebi.threei.rest.repositories.ProcedureHeatmapRowsRepository;
 
 //need this annotation if using the loader - comment out if not...?
-@SpringBootApplication
+//@SpringBootApplication
 public class DataLoader implements CommandLineRunner {
 	
 	//wont run without this but doesn't use it - annoying!!!
@@ -90,9 +90,10 @@ public class DataLoader implements CommandLineRunner {
 			if (hitsDataFile.exists()) {
 				System.out.println("hits file exists");
 				//procedureData = this.getProcedureDataFromCsv(hitsDataFile);
-				parameterDetails = getDetailsFromCsv(hitsDataFile);
+				
 				procedureRowData=this.getProcedureHeatmapRowsFromCsv(hitsDataFile);
 				geneConstructParameterToSignificance = getGeneToParameterHitsFromFile(hitsDataFile);
+				parameterDetails = getDetailsFromCsv(hitsDataFile);
 				int i=0;
 				for(String key: geneConstructParameterToSignificance.keySet()) {
 					System.out.println("geneConstructParameterToSignificance key="+key);
@@ -154,7 +155,7 @@ public class DataLoader implements CommandLineRunner {
 		// mongodb
 		
 		List<ParameterDetails> parameterDetails=new ArrayList<>();
-		HashMap<String, Integer> geneConstructProcedureParameterNameSexGenotypeToValueMap = new HashMap<>();//these are the unique result and we just want
+		HashMap<String, ParameterDetails> geneConstructProcedureParameterNameSexGenotypeToValueMap = new HashMap<>();//these are the unique result and we just want
 		//the most significant of these combinations?
 
 		try {
@@ -177,8 +178,10 @@ public class DataLoader implements CommandLineRunner {
 						System.err.println("not enough columns in row="+line+" skipping!!!!!!!!!!!");
 						continue;
 					}
+					String parameterId=columns[6];
 					String parameterName=columns[7];
 					String sex=columns[9];
+					int significanceScore=Integer.parseInt(columns[10]);
 					String genotype="";
 					if(columns.length>=17) {
 					genotype=columns[16];
@@ -191,23 +194,31 @@ public class DataLoader implements CommandLineRunner {
 						System.out.println("columns size is not 6 so can't get procedureName for line=" + line);
 					}
 					String displayProcedureName = DisplayProcedureMapper.getDisplayNameForProcedure(procedureName);
-					String significance = columns[11];
-					int significanceScore = SignificanceType.getRankFromSignificanceName(significance).intValue();
+					ParameterDetails pDetails=new ParameterDetails(geneSymbol, construct);
+					pDetails.setProcedureName(procedureName);
+					pDetails.setDisplayProcedureName(displayProcedureName);
+					pDetails.setParameterId(parameterId);
+					pDetails.setParameterName(parameterName);
+					pDetails.setSex(sex);
+					pDetails.setGenotype(genotype);
+					pDetails.setSignificanceValue(significanceScore);
+					
+						
+						
+					System.out.println("adding parameterDetails ="+pDetails);
+					//pDetails.setFieldsFromMap();//set the variables from the map so we can use repo sorting on fields
+					//we could empty the map after this to save space and loading time from rest service- but can keep for debugging?
+					//parameterDetails.add(pDetails);
+					//int significanceScore = SignificanceType.getRankFromSignificanceName(significanceScore).intValue();
 					String key = geneSymbol + KEY_DELIMITER + construct+KEY_DELIMITER+displayProcedureName+KEY_DELIMITER+parameterName+KEY_DELIMITER+sex+KEY_DELIMITER+genotype;
 					if (geneConstructProcedureParameterNameSexGenotypeToValueMap.containsKey(key)) {
-						int oldScore = geneConstructProcedureParameterNameSexGenotypeToValueMap.get(key);
+						 ParameterDetails tmpPDetails = geneConstructProcedureParameterNameSexGenotypeToValueMap.get(key);
+						 int oldScore=tmpPDetails.getSignificanceValue();
 						if (oldScore < significanceScore) {
-							geneConstructProcedureParameterNameSexGenotypeToValueMap.put(key, significanceScore);
-							// System.out.println("geneSymbol="+geneSymbol+" procedureName="+procedureName+"
-							// displayName="+DisplayProcedureMapper.getDisplayNameForProcedure(procedureName)+"
-							// significance="+significance +" new
-							// significance="+SignificanceType.getRankFromSignificanceName(columns[11]));
-
-							// System.out.println("old score is"+oldScore+" which should be different to
-							// "+geneProcedureDisplayNameToValueMap.get(key));
-						} // otherwise do nothing
+							geneConstructProcedureParameterNameSexGenotypeToValueMap.put(key, pDetails);
+						} 
 					} else {
-						geneConstructProcedureParameterNameSexGenotypeToValueMap.put(key, significanceScore);
+						geneConstructProcedureParameterNameSexGenotypeToValueMap.put(key, pDetails);
 					}
 					linesRead++;
 					// System.out.println(linesRead);
@@ -231,38 +242,10 @@ public class DataLoader implements CommandLineRunner {
 		// but we need to loop over all the cells possible not just the ones we will get
 		// so we can fill in the blanks!!???
 
-		int column = 0;
-		//SortedSet<String> geneConstructSymbols = new TreeSet<>(Collections.reverseOrder());//set it up in reverse order so genes are at the top as highcharts row 0 is at the bottom - not what we want!
-
-			// cellData.addColumnHeader(header);
-			boolean isColumn = false;
-			int row = 0;
-			for (String key : geneConstructProcedureParameterNameSexGenotypeToValueMap.keySet()) {
-				String keyArray[]=key.split(KEY_DELIMITER);
-				String gene=keyArray[0];
-				String construct=keyArray[1];
-				String procedure=keyArray[3];
-				String parameter=keyArray[4];
-//				String sex=keyArray[5];
-//				String genotype=keyArray[6];
-				
-				Integer value = 0;// default is zero for each cell meaning no data.
-					value = geneConstructProcedureParameterNameSexGenotypeToValueMap.get(key);
-				ParameterDetails pDetails=new ParameterDetails(gene, construct);
-				pDetails.setProcedureName(procedure);
-				pDetails.setParameterName(parameter);
-				//pDetails.setResultsBySex(resultsBySex);
-				//pDetails.set
-				
-					
-					
-				System.out.println("adding parameterDetails ="+pDetails);
-				//pDetails.setFieldsFromMap();//set the variables from the map so we can use repo sorting on fields
-				//we could empty the map after this to save space and loading time from rest service- but can keep for debugging?
-				parameterDetails.add(pDetails);
-			}
+		
 
 		//System.out.println("procedureData=" + procedureData.writeData());
+		parameterDetails.addAll(geneConstructProcedureParameterNameSexGenotypeToValueMap.values());
 		return parameterDetails;
 	}
 
@@ -493,7 +476,7 @@ public class DataLoader implements CommandLineRunner {
 			CellHeatmapRow row=entry.getValue();
 			row.setFieldsFromMap();
 			row.procedureSignificance=Collections.emptyMap();
-			System.out.println("adding row to cellHeatmapRows="+row);
+			//System.out.println("adding row to cellHeatmapRows="+row);
 			cellHeatmapRows.add(row);
 			}
 					
@@ -502,104 +485,104 @@ public class DataLoader implements CommandLineRunner {
 	}
 
 
-	private Data getProcedureDataFromCsv(File hitsDataFile) {
-		// read in file line by line and add to CellParameter objects for loading into
-		// mongodb
-		Data procedureData = new Data();
-		procedureData.setHeatmapType("procedure");
-		HashMap<String, Integer> geneProcedureDisplayNameToValueMap = new HashMap<>();
-
-		try {
-
-			InputStream inputFS = new FileInputStream(hitsDataFile);
-			BufferedReader br = new BufferedReader(new InputStreamReader(inputFS));
-			// skip the header of the csv
-			String line;
-			int linesRead = 0;
-			while ((line = br.readLine()) != null) {
-
-				// System.out.println(line);
-				String procedureName = "";
-				String[] columns = line.split(COMMA);
-				if (!columns[0].equals("Id")) {// if id is headers so want to ignore
-					String geneSymbol = columns[1];
-					String construct=columns[3];
-					geneConstructSymbols.add(geneSymbol+KEY_DELIMITER+construct);
-					if (columns.length >= 6) {
-						procedureName = columns[5];
-					} else {
-						System.out.println("columns size is not 6 so can't get procedureName for line=" + line);
-					}
-					String displayProcedureName = DisplayProcedureMapper.getDisplayNameForProcedure(procedureName);
-					String significance = columns[11];
-					int significanceScore = SignificanceType.getRankFromSignificanceName(columns[11]).intValue();
-					String key = geneSymbol + KEY_DELIMITER + construct+KEY_DELIMITER+displayProcedureName;
-					if (geneProcedureDisplayNameToValueMap.containsKey(key)) {
-						int oldScore = geneProcedureDisplayNameToValueMap.get(key);
-						if (oldScore < significanceScore) {
-							geneProcedureDisplayNameToValueMap.put(key, significanceScore);
-							
-						} // otherwise do nothing
-					} else {
-						geneProcedureDisplayNameToValueMap.put(key, significanceScore);
-					}
-					linesRead++;
-					// System.out.println(linesRead);
-				}
-			}
-			System.out.println("generated map");
-			System.out.println("number of genes/rows=" + geneConstructSymbols.size());
-			System.out.println("number of procedures/columns=" + DisplayProcedureMapper.getDisplayHeaderOrder().length);
-
-			// dataArray = br.lines().skip(1).map(mapToItem).collect(Collectors.toList());
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		// should only have highest score for each cell now (gene and proceureName
-		// combo)
-		// but we need to loop over all the cells possible not just the ones we will get
-		// so we can fill in the blanks!!???
-
-		// loop over column/headers then loop over genes/rows - then see if we have data
-		// for that cell if not create the cell and set value to 0.
-		int column = 0;
-
-		for (String header : DisplayProcedureMapper.getDisplayHeaderOrder()) {
-			procedureData.addColumnHeader(header);
-			// cellData.addColumnHeader(header);
-			boolean isColumn = false;
-			int row = 0;
-			for (String gene : geneConstructSymbols) {
-				procedureData.addRowHeader(gene);
-				boolean isRow = false;
-				Integer value = 0;// default is zero for each cell meaning no data.
-
-				if (geneProcedureDisplayNameToValueMap.containsKey(gene + KEY_DELIMITER + header)) {
-
-					// add the cell with data here
-					value = geneProcedureDisplayNameToValueMap.get(gene + KEY_DELIMITER + header);
-					// System.out.println("value from data="+value);
-
-				}
-
-				List<Integer> cellData = new ArrayList<>();
-				cellData.add(column);
-				cellData.add(row);
-
-				//System.out.println("value=" + value);
-
-				cellData.add(value);
-				//System.out.println("adding celldata=" + cellData);
-				procedureData.getData().add(cellData);
-				row++;
-			}
-			column++;
-		}
-
-		//System.out.println("procedureData=" + procedureData.writeData());
-		return procedureData;
-	}
+//	private Data getProcedureDataFromCsv(File hitsDataFile) {
+//		// read in file line by line and add to CellParameter objects for loading into
+//		// mongodb
+//		Data procedureData = new Data();
+//		procedureData.setHeatmapType("procedure");
+//		HashMap<String, Integer> geneProcedureDisplayNameToValueMap = new HashMap<>();
+//
+//		try {
+//
+//			InputStream inputFS = new FileInputStream(hitsDataFile);
+//			BufferedReader br = new BufferedReader(new InputStreamReader(inputFS));
+//			// skip the header of the csv
+//			String line;
+//			int linesRead = 0;
+//			while ((line = br.readLine()) != null) {
+//
+//				// System.out.println(line);
+//				String procedureName = "";
+//				String[] columns = line.split(COMMA);
+//				if (!columns[0].equals("Id")) {// if id is headers so want to ignore
+//					String geneSymbol = columns[1];
+//					String construct=columns[3];
+//					geneConstructSymbols.add(geneSymbol+KEY_DELIMITER+construct);
+//					if (columns.length >= 6) {
+//						procedureName = columns[5];
+//					} else {
+//						System.out.println("columns size is not 6 so can't get procedureName for line=" + line);
+//					}
+//					String displayProcedureName = DisplayProcedureMapper.getDisplayNameForProcedure(procedureName);
+//					String significance = columns[11];
+//					int significanceScore = SignificanceType.getRankFromSignificanceName(columns[11]).intValue();
+//					String key = geneSymbol + KEY_DELIMITER + construct+KEY_DELIMITER+displayProcedureName;
+//					if (geneProcedureDisplayNameToValueMap.containsKey(key)) {
+//						int oldScore = geneProcedureDisplayNameToValueMap.get(key);
+//						if (oldScore < significanceScore) {
+//							geneProcedureDisplayNameToValueMap.put(key, significanceScore);
+//							
+//						} // otherwise do nothing
+//					} else {
+//						geneProcedureDisplayNameToValueMap.put(key, significanceScore);
+//					}
+//					linesRead++;
+//					// System.out.println(linesRead);
+//				}
+//			}
+//			System.out.println("generated map");
+//			System.out.println("number of genes/rows=" + geneConstructSymbols.size());
+//			System.out.println("number of procedures/columns=" + DisplayProcedureMapper.getDisplayHeaderOrder().length);
+//
+//			// dataArray = br.lines().skip(1).map(mapToItem).collect(Collectors.toList());
+//			br.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		// should only have highest score for each cell now (gene and proceureName
+//		// combo)
+//		// but we need to loop over all the cells possible not just the ones we will get
+//		// so we can fill in the blanks!!???
+//
+//		// loop over column/headers then loop over genes/rows - then see if we have data
+//		// for that cell if not create the cell and set value to 0.
+//		int column = 0;
+//
+//		for (String header : DisplayProcedureMapper.getDisplayHeaderOrder()) {
+//			procedureData.addColumnHeader(header);
+//			// cellData.addColumnHeader(header);
+//			boolean isColumn = false;
+//			int row = 0;
+//			for (String gene : geneConstructSymbols) {
+//				procedureData.addRowHeader(gene);
+//				boolean isRow = false;
+//				Integer value = 0;// default is zero for each cell meaning no data.
+//
+//				if (geneProcedureDisplayNameToValueMap.containsKey(gene + KEY_DELIMITER + header)) {
+//
+//					// add the cell with data here
+//					value = geneProcedureDisplayNameToValueMap.get(gene + KEY_DELIMITER + header);
+//					// System.out.println("value from data="+value);
+//
+//				}
+//
+//				List<Integer> cellData = new ArrayList<>();
+//				cellData.add(column);
+//				cellData.add(row);
+//
+//				//System.out.println("value=" + value);
+//
+//				cellData.add(value);
+//				//System.out.println("adding celldata=" + cellData);
+//				procedureData.getData().add(cellData);
+//				row++;
+//			}
+//			column++;
+//		}
+//
+//		//System.out.println("procedureData=" + procedureData.writeData());
+//		return procedureData;
+//	}
 
 	
 	
