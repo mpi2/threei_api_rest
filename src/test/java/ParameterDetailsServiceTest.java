@@ -44,6 +44,19 @@ public class ParameterDetailsServiceTest {
 
 	
 	
+	@Test
+	public void filterByGene() throws Exception {
+
+		String construct="tm1a";
+		List<ParameterDetails> rows = parameterDetailsServce.getParameterDetailsByGene("Adal" );
+		System.out.println("ParemeterDetails in test="+rows);
+		assertTrue(rows.get(0).getConstruct().startsWith("tm1"));
+		assertTrue(rows.get(0).getGene().startsWith("Ada"));
+		assertTrue(rows.get(0).getParameterId()!=null);
+		System.out.println("parameter id="+rows.get(0).getParameterId());
+		assertTrue(rows.size()>0);
+	}
+	
 
 	@Test
 	public void filterByMultipleProperties() throws Exception {
@@ -51,6 +64,10 @@ public class ParameterDetailsServiceTest {
 		String construct="tm1a";
 		List<ParameterDetails> rows = parameterDetailsServce.getParameterDetails("Adal", construct,"Homozygous Fertility" );
 		System.out.println("ParemeterDetails in test="+rows);
+		assertTrue(rows.get(0).getConstruct().startsWith("tm1"));
+		assertTrue(rows.get(0).getGene().startsWith("Ada"));
+		assertTrue(rows.get(0).getParameterId()!=null);
+		System.out.println("parameter id="+rows.get(0).getParameterId());
 		assertTrue(rows.size()>0);
 	}
 	

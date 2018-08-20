@@ -197,6 +197,7 @@ public class DataLoader implements CommandLineRunner {
 					ParameterDetails pDetails=new ParameterDetails(geneSymbol, construct);
 					pDetails.setProcedureName(procedureName);
 					pDetails.setDisplayProcedureName(displayProcedureName);
+					if(parameterId==null|| parameterId.equals(""))continue;//we don't want to do anything if we don't have any  param info with this line...
 					pDetails.setParameterId(parameterId);
 					pDetails.setParameterName(parameterName);
 					pDetails.setSex(sex);
@@ -204,8 +205,9 @@ public class DataLoader implements CommandLineRunner {
 					pDetails.setSignificanceValue(significanceScore);
 					
 						
-						
+					if(pDetails.getGene().equals("Adal")) {	
 					System.out.println("adding parameterDetails ="+pDetails);
+					}
 					//pDetails.setFieldsFromMap();//set the variables from the map so we can use repo sorting on fields
 					//we could empty the map after this to save space and loading time from rest service- but can keep for debugging?
 					//parameterDetails.add(pDetails);

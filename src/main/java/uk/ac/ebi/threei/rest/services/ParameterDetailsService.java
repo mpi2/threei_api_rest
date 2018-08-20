@@ -15,9 +15,25 @@ public class ParameterDetailsService {
 	@Autowired
 	ParameterDetailsRepository parameterDetailsRepository;
 	
-	public List<ParameterDetails> getParameterDetails(String gene, String construct, String procedure) {
+	public List<ParameterDetails> getParameterDetailsByGeneAndProcedureAndConstruct(String gene, String procedure, String construct) {
 		List<ParameterDetails> parameterDetails=new ArrayList<>();
-		parameterDetails=parameterDetailsRepository.findByGeneAndConstructLikeAndDisplayProcedureName(gene, construct, procedure);
+		List<ParameterDetails> filteredDetails=new ArrayList<>();
+		parameterDetails=parameterDetailsRepository.findByGeneAndDisplayProcedureName(gene, procedure);
+		if(construct!=null) {
+		for(ParameterDetails p: parameterDetails) {
+			if(p.getConstruct().replaceAll("\"", "").startsWith(construct)){
+				filteredDetails.add(p);
+			}
+		}
+		}else {
+			filteredDetails=parameterDetails;
+		}
+		return filteredDetails;
+	}
+	
+	public List<ParameterDetails> getParameterDetailsByGene(String gene) {
+		List<ParameterDetails> parameterDetails=new ArrayList<>();
+		parameterDetails=parameterDetailsRepository.findByGene(gene);
 		return parameterDetails;
 	}
 }

@@ -14,6 +14,7 @@ import java.util.TreeSet;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.common.util.Hash;
 import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -75,13 +76,38 @@ public class DataController {
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/procedure_page")
 	@ResponseBody
-	public HttpEntity<ProcedurePage> getParameterDetails(Model model, @RequestParam(value = "gene", required = false) String gene,
+	public HttpEntity<ProcedurePage> getProcedurePage(Model model, @RequestParam(value = "gene", required = false) String gene,
 			@RequestParam(value = "construct", required = false) String construct, @RequestParam(value = "procedure", required = false) String procedure) {
+		System.out.println("calling get procedure page in controller");
+		// this works http://localhost:8080/procedure_page?gene=Adal&procedure=Homozygous%20viability%20at%20P14&construct=tm1a
+		//but why don't we have a result with Homozygous%20Fertility in our results now????
 		ProcedurePage page=new ProcedurePage();
-		List<ParameterDetails> parameterDetails = parameterDetailsServce.getParameterDetails("Adal", "tm1a","Homozygous Fertility" );
+		//spring data didn't like spaces in procedure names so doing it old school once filtered on gene
+		List<ParameterDetails> parameterDetails = parameterDetailsServce.getParameterDetailsByGeneAndProcedureAndConstruct(gene, procedure , construct);
 		page.setParameterDetails(parameterDetails);
+		SortedSet<String> headerKeys=getHeaderKeys(parameterDetails);//get unique column headers sorted alphabetically
+		page.setColumnHeaders(new ArrayList<String>(headerKeys));
+		
+		//generate a row for each parameter with blanks where no result for that header
+		for(ParameterDetails p: parameterDetails) {
+			System.out.println("pDetails in controller="+p);
+		}
 		return new ResponseEntity<ProcedurePage>(page, HttpStatus.OK);
 	
+	}
+
+
+	private SortedSet<String> getHeaderKeys(List<ParameterDetails> parameterDetails) {
+		SortedSet<String> headerKeys=new TreeSet<>();//get unique set of headers
+		for(ParameterDetails p: parameterDetails) {
+			String sex=p.getSex();
+			if(sex.equalsIgnoreCase("both")) {
+				sex="Male/Female";
+			}
+			String header=sex+" "+p.getGenotype();
+			headerKeys.add(header);	
+		}
+		return headerKeys;
 	}
 	
 	
