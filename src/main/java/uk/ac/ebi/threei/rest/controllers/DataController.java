@@ -85,7 +85,7 @@ public class DataController {
 		ProcedurePage page=new ProcedurePage();
 		//spring data didn't like spaces in procedure names so doing it old school once filtered on gene
 		List<ParameterDetails> parameterDetails = parameterDetailsServce.getParameterDetailsByGeneAndProcedureAndConstruct(gene, procedure , construct);
-		page.setParameterDetails(parameterDetails);//maybe we don't need these in the rest response but useful for debug at the moment
+		//page.setParameterDetails(parameterDetails);//maybe we don't need these in the rest response but useful for debug at the moment
 		SortedSet<String> headerKeys=getHeaderKeys(parameterDetails);//get unique column headers sorted alphabetically
 		page.setColumnHeaders(new ArrayList<String>(headerKeys));
 		

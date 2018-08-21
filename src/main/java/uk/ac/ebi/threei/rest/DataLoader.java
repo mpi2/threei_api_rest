@@ -58,7 +58,7 @@ public class DataLoader implements CommandLineRunner {
 	private HashMap<String, Integer> geneConstructParameterToSignificance;
 	
 	@Autowired
-	private CellParameterRepository repository;
+	private CellParameterRepository cellParameterRepository;
 
 	@Autowired
 	private ProcedureHeatmapRowsRepository procedureRowsRespository;
@@ -304,8 +304,9 @@ public class DataLoader implements CommandLineRunner {
 	private void saveDataToMongo() {
 		//dataRepository.deleteAll();
 		System.out.println("deleting data from mongodb!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		cellRowsRespository.deleteAll();
 		procedureRowsRespository.deleteAll();
-		repository.deleteAll();
+		cellParameterRepository.deleteAll();
 		parameterDetailsRepository.deleteAll();
 		//dataRepository.save(procedureData);
 		System.out.println("saving data to mongodb!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -729,7 +730,7 @@ public class DataLoader implements CommandLineRunner {
 	private void saveParemeterToCells() {
 		for (CellParameter cellParam : cellParameters) {
 			//System.out.println("cellParam=" + cellParam.toString());
-			repository.save(cellParam);
+			cellParameterRepository.save(cellParam);
 		}
 
 	}
