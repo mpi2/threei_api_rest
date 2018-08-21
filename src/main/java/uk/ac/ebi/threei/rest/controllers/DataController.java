@@ -38,6 +38,7 @@ import uk.ac.ebi.threei.rest.CellParameter;
 import uk.ac.ebi.threei.rest.Types;
 import uk.ac.ebi.threei.rest.procedure.ParameterDetails;
 import uk.ac.ebi.threei.rest.Data;
+import uk.ac.ebi.threei.rest.DetailsRow;
 import uk.ac.ebi.threei.rest.ProcedureHeatmapRow;
 import uk.ac.ebi.threei.rest.ProcedurePage;
 import uk.ac.ebi.threei.rest.repositories.CellHeatmapRowsRepository;
@@ -84,14 +85,30 @@ public class DataController {
 		ProcedurePage page=new ProcedurePage();
 		//spring data didn't like spaces in procedure names so doing it old school once filtered on gene
 		List<ParameterDetails> parameterDetails = parameterDetailsServce.getParameterDetailsByGeneAndProcedureAndConstruct(gene, procedure , construct);
-		page.setParameterDetails(parameterDetails);
+		page.setParameterDetails(parameterDetails);//maybe we don't need these in the rest response but useful for debug at the moment
 		SortedSet<String> headerKeys=getHeaderKeys(parameterDetails);//get unique column headers sorted alphabetically
 		page.setColumnHeaders(new ArrayList<String>(headerKeys));
 		
+		List<DetailsRow> detailRows=new ArrayList<>();
 		//generate a row for each parameter with blanks where no result for that header
 		for(ParameterDetails p: parameterDetails) {
 			System.out.println("pDetails in controller="+p);
+			//new row for each parameter with 0-3 added for each state like in heatmap
+			DetailsRow row=new DetailsRow();
+			row.setRowHeader(p.getParameterName());
+			//loop over the header strings and get the significance score from each
+			for(String header:headerKeys) {
+				System.out.println("header is "+header);
+				int sig=0;//no data bye default
+				if(this.getHeaderString(p).equals(header)){
+					sig = p.getSignificanceValue();
+					
+				}
+				row.addSignificance(sig);
+			}
+			detailRows.add(row);
 		}
+		page.setRows(detailRows);
 		return new ResponseEntity<ProcedurePage>(page, HttpStatus.OK);
 	
 	}
@@ -100,14 +117,20 @@ public class DataController {
 	private SortedSet<String> getHeaderKeys(List<ParameterDetails> parameterDetails) {
 		SortedSet<String> headerKeys=new TreeSet<>();//get unique set of headers
 		for(ParameterDetails p: parameterDetails) {
-			String sex=p.getSex();
-			if(sex.equalsIgnoreCase("both")) {
-				sex="Male/Female";
-			}
-			String header=sex+" "+p.getGenotype();
+			String header = getHeaderString(p);
 			headerKeys.add(header);	
 		}
 		return headerKeys;
+	}
+
+
+	private String getHeaderString(ParameterDetails p) {
+		String sex=p.getSex();
+		if(sex.equalsIgnoreCase("both")) {
+			sex="Male/Female";
+		}
+		String header=sex+" "+p.getGenotype();
+		return header;
 	}
 	
 	

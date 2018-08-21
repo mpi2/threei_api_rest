@@ -62,7 +62,7 @@ public class ParameterDetailsServiceTest {
 	public void filterByMultipleProperties() throws Exception {
 
 		String construct="tm1a";
-		List<ParameterDetails> rows = parameterDetailsServce.getParameterDetails("Adal", construct,"Homozygous Fertility" );
+		List<ParameterDetails> rows = parameterDetailsServce.getParameterDetailsByGeneAndProcedureAndConstruct("Adal", "Homozygous Fertility", construct );
 		System.out.println("ParemeterDetails in test="+rows);
 		assertTrue(rows.get(0).getConstruct().startsWith("tm1"));
 		assertTrue(rows.get(0).getGene().startsWith("Ada"));
