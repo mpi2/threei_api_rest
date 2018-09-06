@@ -18,16 +18,20 @@ public class ParameterDetailsService {
 	public List<ParameterDetails> getParameterDetailsByGeneAndProcedureAndConstruct(String gene, String procedure, String construct) {
 		List<ParameterDetails> parameterDetails=new ArrayList<>();
 		List<ParameterDetails> filteredDetails=new ArrayList<>();
+		if(procedure!=null) {
 		parameterDetails=parameterDetailsRepository.findByGeneAndDisplayProcedureName(gene, procedure);
+		}else {
+			parameterDetails=parameterDetailsRepository.findByGene(gene);
+		}
 		if(construct!=null) {
 		for(ParameterDetails p: parameterDetails) {
 			if(p.getConstruct().replaceAll("\"", "").startsWith(construct)){
 				filteredDetails.add(p);
 			}
 		}
-		}else {
-			filteredDetails=parameterDetails;
 		}
+			filteredDetails=parameterDetails;
+		
 		return filteredDetails;
 	}
 	
