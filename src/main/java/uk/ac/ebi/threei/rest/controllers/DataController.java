@@ -64,6 +64,8 @@ public class DataController {
 	CellHeatmapService cellHeatmapService;
 	@Autowired
 	ProcedureHeatmapService procedureHeatmapservice;
+	@Autowired
+	CellParameterRepository cellParameterRepository;
 	
 	
 	
@@ -85,6 +87,28 @@ public class DataController {
 		ProcedurePage page=new ProcedurePage();
 		//spring data didn't like spaces in procedure names so doing it old school once filtered on gene
 		List<ParameterDetails> parameterDetails = parameterDetailsServce.getParameterDetailsByGeneAndProcedureAndConstruct(gene, procedure , construct);
+		//if nothing then we try the cell type to parameter approach as could come from cell heatmap link
+		if(parameterDetails.size()==0) {
+			//new method here to convert cell type to parameters using the mapping we already have
+			//http://localhost:8080/cell query by cell to get the parameters for this cell type
+			//CellParameterRepository add method there.
+			List<CellParameter> cellParams = cellParameterRepository.findByCellType(procedure);
+			//search these for the list of parameters
+			List<String> cellParameters=new ArrayList<>();
+			for(CellParameter cellP:cellParams) {
+				cellParameters.add(cellP.getParameterName());
+			}
+			//then search for hits for these gene and filter on the parameters will be the quickest way rather than a request per parameter?
+			List<ParameterDetails> parameterDetailsForGene = parameterDetailsServce.getParameterDetailsByGene(gene);
+			//filter
+			for(ParameterDetails detail:parameterDetailsForGene) {
+				if(cellParameters.contains(detail.getParameterName())){
+					System.out.println("add detail");
+					parameterDetails.add(detail);
+				}
+			}
+		}
+		
 		//page.setParameterDetails(parameterDetails);//maybe we don't need these in the rest response but useful for debug at the moment
 		SortedSet<String> headerKeys=getHeaderKeys(parameterDetails);//get unique column headers sorted alphabetically
 		page.setColumnHeaders(new ArrayList<String>(headerKeys));
@@ -92,13 +116,13 @@ public class DataController {
 		List<DetailsRow> detailRows=new ArrayList<>();
 		//generate a row for each parameter with blanks where no result for that header
 		for(ParameterDetails p: parameterDetails) {
-			System.out.println("pDetails in controller="+p);
+			//System.out.println("pDetails in controller="+p);
 			//new row for each parameter with 0-3 added for each state like in heatmap
 			DetailsRow row=new DetailsRow();
 			row.setRowHeader(p.getParameterName());
 			//loop over the header strings and get the significance score from each
 			for(String header:headerKeys) {
-				System.out.println("header is "+header);
+				//System.out.println("header is "+header);
 				int sig=0;//no data bye default
 				if(this.getHeaderString(p).equals(header)){
 					sig = p.getSignificanceValue();

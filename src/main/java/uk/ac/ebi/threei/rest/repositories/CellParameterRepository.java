@@ -13,5 +13,7 @@ import uk.ac.ebi.threei.rest.CellParameter;
 public interface CellParameterRepository extends MongoRepository<CellParameter, String> {
 
 	List<CellParameter> findByParameterId(@Param("parameterId") String parameterId);
+	
+	List<CellParameter> findByCellType(@Param("cellType") String cellType);
 
 }
