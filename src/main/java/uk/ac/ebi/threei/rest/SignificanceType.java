@@ -58,9 +58,9 @@ public enum SignificanceType {
             case "pending":
                 rank = 1;
                 break;
-//            case "not performed or applicable":
-//                significance = 4;
-//                break;
+            case "not performed or applicable":
+                rank = 1;
+                break;
             case "significant":
                 rank = 3;
                 break;
