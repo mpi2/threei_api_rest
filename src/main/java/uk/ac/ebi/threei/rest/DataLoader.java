@@ -181,7 +181,8 @@ public class DataLoader implements CommandLineRunner {
 					String parameterId=columns[6];
 					String parameterName=columns[7];
 					String sex=columns[9];
-					int significanceScore=Integer.parseInt(columns[10]);
+					String significanceString=columns[11];//integers don't really make sense so convert string to logical interers ascending in significance
+					int significanceScore=SignificanceType.getRankFromSignificanceName(significanceString);
 					String genotype="";
 					if(columns.length>=17) {
 					genotype=columns[16];
