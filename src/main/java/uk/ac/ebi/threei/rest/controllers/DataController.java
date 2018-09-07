@@ -103,7 +103,7 @@ public class DataController {
 			//filter
 			for(ParameterDetails detail:parameterDetailsForGene) {
 				if(cellParameters.contains(detail.getParameterName())){
-					System.out.println("add detail");
+					//System.out.println("add detail");
 					parameterDetails.add(detail);
 				}
 			}
