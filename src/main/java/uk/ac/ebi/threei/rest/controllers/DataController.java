@@ -1,50 +1,33 @@
 package uk.ac.ebi.threei.rest.controllers;
 
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.solr.client.solrj.SolrServerException;
-import org.apache.solr.common.util.Hash;
-import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatcher;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import uk.ac.ebi.threei.rest.CellHeatmapRow;
 import uk.ac.ebi.threei.rest.CellParameter;
-import uk.ac.ebi.threei.rest.Types;
-import uk.ac.ebi.threei.rest.procedure.ParameterDetails;
 import uk.ac.ebi.threei.rest.Data;
 import uk.ac.ebi.threei.rest.DetailsRow;
-import uk.ac.ebi.threei.rest.ProcedureHeatmapRow;
 import uk.ac.ebi.threei.rest.ProcedurePage;
-import uk.ac.ebi.threei.rest.repositories.CellHeatmapRowsRepository;
+import uk.ac.ebi.threei.rest.Types;
+import uk.ac.ebi.threei.rest.procedure.ParameterDetails;
 import uk.ac.ebi.threei.rest.repositories.CellParameterRepository;
 import uk.ac.ebi.threei.rest.repositories.ParameterDetailsRepository;
-import uk.ac.ebi.threei.rest.repositories.ProcedureHeatmapRowsRepository;
 import uk.ac.ebi.threei.rest.services.CellHeatmapService;
 import uk.ac.ebi.threei.rest.services.GeneDTO;
 import uk.ac.ebi.threei.rest.services.GeneService;
