@@ -1,0 +1,13 @@
+footer {
+    display:block;
+    width: 100%;
+    height: 150px;
+    color: white;
+    background-color: #666;
+    clear: left;
+    padding:50px;
+    word-spacing:20px;
+    font-family: "source sans pro" ,"Euphemia UCAS","Kannada Sangam MN";
+    position:absolute;
+
+}

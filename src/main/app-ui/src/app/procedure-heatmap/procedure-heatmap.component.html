@@ -1,0 +1,8 @@
+
+        <mat-spinner *ngIf="!resourceLoaded"></mat-spinner>
+        <div >
+            <highcharts-chart style="height: 1700px; margin: 0 auto"
+              [Highcharts]="Highcharts"
+              [options]="procedureChartOptions"
+              [(update)]="updateDemo2"  
+            ></highcharts-chart>
