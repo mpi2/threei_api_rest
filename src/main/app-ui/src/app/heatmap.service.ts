@@ -21,7 +21,7 @@ export class HeatmapService {
       Observable<HttpResponse<Response>> {
       console.log('calling heatmap service method');
       let filterString=this.getFilterString(filter);
-      let urlstring=this.restBaseUrl +'cell_heatmap'+filterString;
+      let urlstring=this.restBaseUrl +'/cell_heatmap'+filterString;
       console.log('urlSTring='+urlstring);
         return this.http.get<Response>(
           urlstring, { observe: 'response' });
@@ -71,7 +71,7 @@ export class HeatmapService {
       console.log('calling procedure heatmap service method');
       
       return this.http.get<Response>(
-        this.restBaseUrl +'procedure_heatmap', { observe: 'response' });
+        this.restBaseUrl +'/procedure_heatmap', { observe: 'response' });
     }
 
     getCellTypeResponse():

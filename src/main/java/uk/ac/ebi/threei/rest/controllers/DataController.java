@@ -1,6 +1,8 @@
 package uk.ac.ebi.threei.rest.controllers;
 
 import java.io.IOException;
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ import java.util.TreeSet;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +36,8 @@ import uk.ac.ebi.threei.rest.services.GeneDTO;
 import uk.ac.ebi.threei.rest.services.GeneService;
 import uk.ac.ebi.threei.rest.services.ParameterDetailsService;
 import uk.ac.ebi.threei.rest.services.ProcedureHeatmapService;
+
+@RequestMapping(value = "/api")
 @RestController
 public class DataController {
 	
