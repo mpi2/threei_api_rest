@@ -33,7 +33,7 @@ export class HeatmapService {
       let filterString='gene='+gene;
       if(procedure)filterString+='&procedure='+procedure;
       if(construct)filterString+='&construct='+construct;
-      let urlstring=this.restBaseUrl +'procedure_page?'+filterString;
+      let urlstring=this.restBaseUrl +'/procedure_page?'+filterString;
       console.log('urlSTring='+urlstring);
         return this.http.get<Response>(
           urlstring, { observe: 'response' });
