@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   // restBaseUrl: 'http://localhost:8080/api'
-  restBaseUrl: '//ves-ebi-d1:8080/api'
+  //restBaseUrl: '//ves-ebi-d1:8080/api'
+  restBaseUrl: 'api'
 };
 
 /*
