@@ -88,6 +88,7 @@ public class ProcedureHeatmapService {
 
 	}
 	
+	
 	public HttpEntity<Data> getProcedureHeatmapData(Filter filter) {
 		System.out.println("calling data controller with heatmapType" + filter.getKeyword() + " construct=" + filter.getConstructFilter()+"  sort field="+filter.getSortField());
 		Data data = new Data();//obect that holds all the data for this chart display
