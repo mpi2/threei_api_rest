@@ -150,9 +150,7 @@ div#block-block-1 .head, #block-views-phenotype-of-the-month-block-1 .head {
     font-size:1em;
 }
 
-table{
-    margin:1em 0;
-}
+
 .accordion-group + h1,.accordion-group + h2,.accordion-group + h3,.accordion-group + h4,.section + h1,.section + h2,.section + h3,.section + h4,.section + h5,.section + h6,.section + p{
     padding-top:1.5em;
 }
@@ -163,9 +161,7 @@ table{
     margin-bottom:3em;
     margin-top:2em;
 }
-p + .block-views,p + .view,ul + .section,p + .section,p + table,ul + table,table + h1,table + h2,table + h3,table + h4,table + h5,table + h6,.columns + h1,.columns + h2,.columns + h3,.columns + h4,.columns + h5,.columns + p,.spalten + h1,.spalten + h2,.spalten + h3,.spalten + h4,.spalten + h5,#content p + img,#content img + h2,#content img + h3,p + h2,p + h3,p + h4,ul + h2,ul + h3,ul + h4,ul + h5{
-    margin-top:2em;
-}
+
 p + .accordion-group,.view + p,.view + .view,ul + p,p + ul,h1 + ul,h2 + ul,h3 + ul,h4 + ul,p + h5,p + h6,.block + h1,.block + h2,.block + h3,.block + h4,.block + h5,.block + h6,.view + h1,.view + h2,.view + h3,.view + h4,.view + h5,.view + h6,div.with-label + p,p + div.with-label,p + p{margin-top:1em;}
 h1 + h2,h1 + h3,h1 + h4,h1 + h5,h2 + h3,h2 + h4,h2 + h5,h3 + h4,h3 + h5,h4 + h5{
     margin-top:-0.6em;
@@ -734,79 +730,19 @@ img.fullimg{
     position:absolute;
     margin-left:-1.2em;
 }
-table{
-    width:100%;
-}
-td,th{
-    padding:0.5em 0.7em 0.5em 0.2em;
-    word-wrap:break-word;
-}
-th{
-    font-weight:300;
-    padding-left:0.2em;
-    font-size:1.2em;
-    color:#333;
-    border-bottom:#777 1px solid;
-    font-family:"source sans pro" ,"Euphemia UCAS","Kannada Sangam MN";
-}
-@media only screen and (min-width:1450px){
-    th{
-        font-size:1.4em;
-        font-family:"source sans pro" ,"Euphemia UCAS","Kannada Sangam MN";
-    }
-}
-th a{
-    text-decoration:none;
-    color:#333;
-}
+
+
+
+
 p.nowrap,th.nowrap,.nowrap th{
     white-space:nowrap;
 }
-th i{
-    color:#ccc;
-}
+
 .reduceheader th{
     font-size:1.3em;
     font-family:"source sans pro" ,"Euphemia UCAS","Kannada Sangam MN";
 }
-td{
-    border-bottom:#efefef 1px solid;
-    vertical-align:top;
-}
-tr:last-child td{
-    border-bottom:none;
-}
-tr.clickable:hover,tr.clickable.open{
-    background:#f4f4f4;
-}
-tr.clickable:hover .fa-minus,tr.clickable:hover .fa-plus{
-    color:#0978A1;
-}
-td .title{
-    font-size:1.4em;
-    margin-bottom:0.5em;
-    font-weight:600;
-    font-family: "source sans pro" ,"Euphemia UCAS","Kannada Sangam MN";
-}
-td .title a{
-    text-decoration:none;
-}
-td .title a:hover{
-    text-decoration:underline;
-}
-.registerforinterest{
-    white-space:nowrap;
-}
-tr .subinfo{
-    visibility:hidden;
-    font-size:0.9em;
-    line-height:1em;
-    color:#aaa;
-    font-family: "source sans pro" ,"Euphemia UCAS","Kannada Sangam MN";
-}
-tr:hover .subinfo{
-    visibility:visible;
-}
+
 .label{
     font-weight:600;
     font-family:"source sans pro" ,"Euphemia UCAS","Kannada Sangam MN";
@@ -874,11 +810,7 @@ div.no-margin + p,p.no-margin + p{
 #block-block-5 .content,#facet .content{
     background:none;
 }
-#facet table{
-    padding:0;
-    margin:0.5em 0 2em 0;
-    clear:left;
-}
+
 #facet td{
     cursor:pointer;
     word-wrap:break-word;
@@ -1436,18 +1368,7 @@ div.node > img{
 .title-blue{
     color:#0978a1;
 }
-.map-table{
-    font-size:0.7em;
-    font-family: "source sans pro" ,"Euphemia UCAS","Kannada Sangam MN";
-}
-.map-table tr{
 
-}
-.map-table td{
-    padding:0;
-    padding-right:10px;
-    border-bottom:none;
-}
 #node-5 h3{
     font-family:"source sans pro" ,"Euphemia UCAS","Kannada Sangam MN";
     line-height:1.1em;
@@ -1695,46 +1616,7 @@ div#block-heatmap-stats-phenotypes .content {
 
 div#block-block-22 .head {background-color: #eee;}
 
-table#heatmap-table {
-    background-color: #fff;
-    width: 816px;
-}
 
-thead#heatmap-table-header {
-    background: #fff;
-    width: 816px;
-}
-
-thead#heatmap-table-header  td.gene {
-    width: 158px;
-    padding: 0px;
-    vertical-align: bottom;
-}
-
-thead#heatmap-table-header  td.construct {
-    width: 80px;
-    vertical-align: bottom;
-}
-
-thead#heatmap-table-header  td.rotated-cell {
-    width: 32px;
-    padding: 0px;
-}
-
-table#heatmap-table  td.gene-row {
-    width: 150px;
-    padding: 0px;
-}
-
-table#heatmap-table  td.construct-row {width: 75px;}
-
-div#heatmap-filters {
-    border: 1px solid #ccc;
-    padding: 10px;
-    height: 75px;
-    border-radius: 4px;
-    width: 712px;
-}
 
 div#heatmap-filters  > div.filter-gene {
     float: left;
