@@ -302,70 +302,7 @@ public class CellHeatmapRow {
 
 	}
 
-	/**
-	 * should look at replacing these things using reflection instead.
-	 * https://stackoverflow.com/questions/4030618/java-string-to-class
-	 * 
-	 * @param procedureKey
-	 * @return
-	 */
-	public Integer getVarabileFromKey(String procedureKey) {
-		System.out.println("procedurekey=" + procedureKey);
-		switch (procedureKey) {
-		case "γδ T cells":
-			return this.alphaDeltaTCells;
-
-		case "NK cells":
-			return this.nKCells;
-
-		case "NKT cells":
-			return this.nktCells;
-
-		case "B cell precursors":
-			return this.bCellPrecursors;
-
-		case "Dendritic cells":
-			return this.dendriticCells;
-
-		case "Granulocytes":
-			return this.granulocytes;
-
-		case "Treg cells":
-			return this.tregCells;
-
-		case "CD4 T cells":
-			return this.cD4TCells;
-
-		case "Monocytes / Macrophages":
-			return this.monocytesMacrophages;
-
-		case "Total αβ T cells":
-			return this.totalAlphBetaTCells;
-
-		case "B cells":
-			return this.bCells;
-
-		case "CD8 T cells":
-			return this.cd8TCells;
-
-		case "DSS Challenge":
-			return this.dSSChallenge;
-
-		case "Influenza":
-			return this.influenza;
-
-		case "Trichuris Challenge":
-			return this.trichurisChallenge;
-
-		case "Salmonella Challenge":
-			return this.salmonellaChallenge;
-
-		default:
-			System.err.println("no variable found for cell type header");
-			return 0;
-		}
-
-	}
+	
 	
 
 }

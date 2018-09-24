@@ -66,12 +66,33 @@ export class HeatmapService {
     return filterQuery;
     }
 
+    getProcedureFilterString(filter: ProcedureFilter) {
+      let filterQuery = '';
+      if (filter) {
+        console.log('query button clicked with search=' + filter.keyword + ' constructSeleted ' + filter.construct + 'sortField=' + filter.sort);
+        filterQuery += '?';
+        if (filter.sort) {
+          filterQuery += '&sort=' + filter.sort;
+        }
+        if(filter.keyword){
+          filterQuery+='&keyword='+filter.keyword;
+        }
+        if(filter.construct){
+          filterQuery+='&construct='+filter.construct;
+        }
+       
+      }
+      return filterQuery;
+      }
+
     getProcedureHeatmapResponse(filter: ProcedureFilter):
       Observable<HttpResponse<Response>> {
       console.log('calling procedure heatmap service method');
-      
+      let filterString=this.getProcedureFilterString(filter);
+      let urlstring=this.restBaseUrl +'/procedure_heatmap'+filterString;
+      console.log('urlSTring='+urlstring);
       return this.http.get<Response>(
-        this.restBaseUrl +'/procedure_heatmap', { observe: 'response' });
+        urlstring, { observe: 'response' });
     }
 
     getCellTypeResponse():

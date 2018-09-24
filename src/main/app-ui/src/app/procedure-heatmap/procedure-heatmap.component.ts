@@ -33,12 +33,17 @@ Highcharts.setOptions({
 export class ProcedureHeatmapComponent implements OnInit {
     Highcharts = Highcharts;
     @ViewChild('searchBox') searchBox;
-    constructs: string[];
-    cellSubTypeDropdowns: string[];
-    cellSubType: any;
-    readonly PROCEDURE_TYPE = 'procedure';
-  readonly CELL_TYPE = 'cell';
-  cellTypesForDropdown: string[];
+    sortFieldSelected: string;
+    keyword: '';
+    constructs: string[];//all constructs available including the brackets
+    constructTypes: string[];//for menu dropdown just conatains unique set with brackets part removed
+    constructSelected: string;
+
+//     cellSubTypeDropdowns: string[];
+//     cellSubType: any;
+//     readonly PROCEDURE_TYPE = 'procedure';
+//   readonly CELL_TYPE = 'cell';
+//   cellTypesForDropdown: string[];
 
 
         data: any[][]=[[]];
@@ -171,12 +176,50 @@ export class ProcedureHeatmapComponent implements OnInit {
   }
 
   ngOnInit() {
-      
-    
+    this.getConstructsDropdown();
+    this.getHeatmapData( this.searchBox);
   }
 
   ngAfterViewInit() {
-     this.getHeatmapData( this.searchBox);
+    
+  }
+
+  clearFilter(){
+    //console.log('query button clicked with constructSeleted '+this.constructSelected+' cell selected='+this.cellSelected+' cellSubtypeSelected='+this.cellSubtypeSelected);
+    
+      let filter = undefined;
+      this.keyword=null, this.constructSelected=null, this.sortFieldSelected=null;
+    
+    
+    this.getHeatmapData(filter);
+  }
+  
+
+  getConstructsDropdown(){
+    //console.log('calling assay dropdown');
+    this.resourceLoaded=false;
+    //if(this.data.length<=1){
+    this.heatmapService.getConstructsResponse().subscribe(resp => {
+      // display its headers
+      var lResponse = { ... resp.body};
+      //console.log('response='+JSON.stringify(resp));
+      //this.data = this.response['response']['docs']
+      //console.log('response from json file here: '+JSON.stringify(this.response['_embedded'].Data[0]['data']));
+      
+      this.constructTypes=lResponse['types'];
+      //console.log("assays being returned="+this.assays);
+      //let headerData=this.response['_embedded'].Data[0]['columnHeaders'];      
+  });
+  }
+
+  
+
+  filterMethod(){
+    //console.log('query button clicked with constructSeleted '+this.constructSelected+' cell selected='+this.cellSelected+' cellSubtypeSelected='+this.cellSubtypeSelected);
+    
+      let filter = new ProcedureFilter(this.keyword, this.constructSelected,  this.sortFieldSelected);
+    
+    this.getHeatmapData(filter);
   }
 
   getHeatmapData(filter: ProcedureFilter){
@@ -246,8 +289,14 @@ titleChange = function(event) {
 
   displayProcedureChart(){
 console.log('calling display procedure chart method');
+let spaceForHeaders=350;
+    let chartHeight=spaceForHeaders+this.rowHeaders.length * 20;
 this.procedureChart= {
 
+
+    chart: {
+        height: chartHeight,  
+    },
 
     xAxis: { 
       opposite: true,

@@ -4,7 +4,7 @@
 
   <table style="width: 600px">
     <th>Parameter Name</th><th *ngFor="let columnHeader of columnHeaders">{{columnHeader}}</th>
-    <ng-container *ngFor="let row of rows"><tr><td>{{row.rowHeader}}</td><td *ngFor="let cell of row.cellData"
-      [style.background-color]="getStyle(cell)"></td></tr></ng-container>
+    <ng-container *ngFor="let row of rows"><tr><td>{{row.rowHeader}}</td><a href="https://www.mousephenotype.org/data/charts?phenotyping_center=WTSI&bare=true&accession=MGI:1920594&parameter_stable_id=DSS_DSS_014_001&chart_only=true"><td *ngFor="let cell of row.cellData"
+      [style.background-color]="getStyle(cell)"></td></a></tr></ng-container>
   </table>
 

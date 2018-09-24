@@ -341,9 +341,18 @@ titleChange = function(event) {
   displayCellChart(){
   
     console.log('calling display cell chart method');
+    let spaceForHeaders=350;
+    let chartHeight=spaceForHeaders+this.rowHeaders.length * 20;
     this.cellChart= {
     
-        
+      chart: {
+        // type: 'heatmap',
+        // marginTop: 200,
+        // marginBottom: 80,
+        // plotBorderWidth: 1,
+        height: chartHeight,
+         //width:1000
+    },
     
         xAxis: { 
           opposite: true,

@@ -156,9 +156,14 @@ public class DataController {
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/procedure_heatmap")
 	@ResponseBody
-	public HttpEntity<Data> procedureHeatmap(Model model, @RequestParam(value = "keywords", required = false) String keyword,
-			@RequestParam(value = "construct", required = false) String construct) {
-		return procedureHeatmapservice.getProcedureHeatmapData(keyword, construct);
+	public HttpEntity<Data> procedureHeatmap(Model model, @RequestParam(value = "keyword", required = false) String keyword,
+			@RequestParam(value = "construct", required = false) String constructFilter, @RequestParam(value = "sort", required = false) String sortField) {
+		
+		Filter filter=new Filter();
+		filter.setKeyword(keyword);
+		filter.setConstructFilter(constructFilter);
+		filter.setSortField(sortField);
+		return procedureHeatmapservice.getProcedureHeatmapData(filter);
 	}
 
 	

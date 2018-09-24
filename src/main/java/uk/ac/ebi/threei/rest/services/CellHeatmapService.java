@@ -47,6 +47,7 @@ public class CellHeatmapService {
 	
 	
 	static final Map<String, String> cellHeaderToFieldMap;
+	
 	static {
 		Map<String, String> aMap = new HashMap<>();
 		aMap.put("γδ T cells", "alphaDeltaTCells");
@@ -252,36 +253,6 @@ public class CellHeatmapService {
 	   		 else {
 	   			 return cellHeatmapRowsRepository.findAll(example);
 	   		 }
-
-//		List<CellHeatmapRow> filteredRows=new ArrayList<>();
-//		for(CellHeatmapRow row: cellRows) {
-//			boolean addRow=true;
-//			if(filter.constructFilter!=null && !filter.constructFilter.equals("")) {
-//				if(!row.getConstruct().startsWith(filter.constructFilter)) {
-//					addRow=false;
-//				}
-//			}
-//			if(filter.cellTypeFilter!=null && !filter.cellTypeFilter.equals("")) {
-//				System.out.println("cellTypeFilter="+filter.cellTypeFilter);
-//				//need to check if the variable in camel case has a number of 4 to indicate it's significant for this row
-//				Integer value=null;
-//				try {
-//					value = (Integer) get("getbCellPrecursors",row);
-//				} catch (Exception e) {
-//					// TODO Auto-generated catch block
-//					e.printStackTrace();
-//				}
-//			    System.out.println(value);
-//			    if(value<3)addRow=false;
-////				if(row.getVarabileFromKey(filter.cellTypeFilter)<3) {
-////					addRow=false;
-////				}
-//			}
-//			if(addRow) {
-//				filteredRows.add(row);
-//			}
-//		}
-//		return filteredRows;
 	}
 	
 	
