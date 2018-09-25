@@ -12,6 +12,7 @@ export class DetailsPageComponent implements OnInit {
   columnHeaders: any;
   response: Response;
   gene: string;
+  geneAccession: string;
   procedure: string;
   construct: string;
   resourceLoaded ; boolean;
@@ -40,6 +41,7 @@ export class DetailsPageComponent implements OnInit {
       //console.log('response from json file here: '+JSON.stringify(this.response['_embedded'].Data[0]['data']));
       this.rows=this.response['rows'];
       this.columnHeaders=this.response['columnHeaders'];
+      this.geneAccession=this.response['geneAccession'];
     //   this.columnHeaders=[
     //     '<[routerLink]="" (click)="onGoToPage2()">Homozygous viability at P14</a>',
     //     "Homozygous Fertility",
