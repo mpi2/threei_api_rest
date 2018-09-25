@@ -1,0 +1,88 @@
+<!-- <div id="welcome" >
+    <h1>DATA</h1>
+</div> -->
+
+
+ <div id="main" class="content">
+      
+       <!-- <div style="width: 100%;"> -->
+
+      <!-- <form (ngSubmit)="query();" #loginForm="ngForm">
+            <p>
+            <mat-radio-group name="chartTypeSelector" id="chartSelector">
+              <mat-radio-button [checked] (click)="getHeatmapData('procedure')">Procedure Chart</mat-radio-button>
+              <mat-radio-button value="cell" (click)="getHeatmapData('cell')">Cell Chart</mat-radio-button>
+              <mat-radio-button value="cell" (click)="getHeatmapData('oldcell')">Old Cell Chart</mat-radio-button> 
+            </mat-radio-group>
+            </p>
+            <p>
+            <mat-form-field appearance="standard">
+                <mat-label>Search Gene or MP Term</mat-label>
+              <input matInput type="search" #searchBox placeholder="Search for gene symbol or name" (click)="getHeatmapData('searchBox')">
+            </mat-form-field>
+          </p> 
+          
+          <mat-card>
+              <mat-card-content>
+                <button mat-fab>
+                  Query
+                </button> -->
+                <!-- <impc-save-images (saveImagesEvent)="saveImagesEvent($event)"></impc-save-images> -->
+              <!-- </mat-card-content>
+            </mat-card> -->
+          
+          <!-- </form> -->
+          
+        
+            <!-- <mat-form-field>
+              <mat-select   placeholder="Cell type" [(value)]="selected">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let cellHeader of columnHeaders2" [value]="cellHeader" (click)="procedureSelected(procedure)">{{cellHeader}}</mat-option>
+              </mat-select>
+            </mat-form-field> -->
+          
+            <!-- <mat-form-field>
+              <mat-select   placeholder="Cell subtype" [(value)]="selected">
+                <mat-option>None</mat-option>
+                <mat-option *ngFor="let cellSubTypeDrop of cellSubTypeDropdowns" ([value)]="cellSubTypeDrop">{{cellSubTypeDrop}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          
+            <mat-form-field>
+              <mat-select   placeholder="Assay" [(value)]="selected">
+                <mat-option>None</mat-option>
+                <mat-option value="Spleen">Spleen</mat-option>
+                <mat-option value="Blood">Blood</mat-option>
+                <mat-option value="Mesenteric lymph node">Mesenteric lymph node</mat-option>
+              </mat-select>
+            </mat-form-field> -->
+          <!-- </p>
+            <p>You selected: {{selected}}</p> -->
+            <!-- </div> -->
+          
+            
+            <mat-tab-group >
+              
+                    
+                    <mat-tab label="Procedure View">
+                          <ng-template matTabContent>
+                                  <threei-procedure-heatmap></threei-procedure-heatmap>
+                         </ng-template>
+                    </mat-tab> 
+                    <mat-tab label="Cell View">
+                      <ng-template matTabContent>
+                              <!-- <threei-procedure-heatmap></threei-procedure-heatmap> -->
+                               <threei-cell-heatmap></threei-cell-heatmap>
+                      </ng-template>
+                    </mat-tab>
+                <!-- <threei-procedure-heatmap></threei-procedure-heatmap> -->
+                
+              </mat-tab-group>
+            
+            
+          
+          <br/>
+          
+          
+</div>
+<!-- <link href="/assets/css/data.css" rel="stylesheet" type="text/css"  /> -->

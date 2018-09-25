@@ -15,29 +15,6 @@ import uk.ac.ebi.threei.rest.ProcedureHeatmapRow;
 public interface ProcedureHeatmapRowsRepository extends MongoRepository<ProcedureHeatmapRow, String> {
 	
 	
-	public static final String[] procedureDisplayHeaderOrder={ 
-			"Homozygous viability at P14",
-	         "Homozygous Fertility",
-	        "Haematology",
-	         "Peripheral Blood Leukocytes",
-	       "Spleen",
-	         "Mesenteric Lymph Node",
-	       "Bone Marrow",
-	        "Ear Epidermis",
-	        "Anti-nuclear Antibodies",
-	        "Cytotoxic T Cell Function",
-	        "DSS Challenge",
-	         "Influenza",
-	        "Trichuris Challenge",
-	        "Salmonella Challenge"};
-	/**
-	 * either procedure or cell type data array for the heeatmap
-	 * @param heatmapType
-	 * @return
-	 */
-	
-	
-	
 	
 	//List<HeatmapRow> findByHeatmapType(@Param("heatmapType") String heatmapType);
 	

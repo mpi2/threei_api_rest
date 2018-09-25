@@ -14,6 +14,13 @@ public class ProcedurePage {
 	
 	private List<ParameterDetails> parameterDetails;
 	private List<String> columnHeaders;//parameter and then string combination of sex and genotype
+	private String geneAccession;
+	public String getGeneAccession() {
+		return geneAccession;
+	}
+	public void setGeneAccession(String geneAccession) {
+		this.geneAccession = geneAccession;
+	}
 	private List<DetailsRow> rows=new ArrayList<>();//hold data in an easy to display format so we can just loop over the rows and display in the same order as headers
 	public List<DetailsRow> getRows() {
 		return rows;

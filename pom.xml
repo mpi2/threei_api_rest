@@ -6,16 +6,18 @@
     <groupId>org.springframework</groupId>
     <artifactId>uk.ac.ebi.threei.rest</artifactId>
     <version>0.1.0</version>
+    <packaging>jar</packaging>
+
+    <properties>
+    <java.version>1.8</java.version>
+        <npm.executable>npm</npm.executable>
+    </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.0.2.RELEASE</version>
     </parent>
-
-    <properties>
-        <java.version>1.8</java.version>
-    </properties>
 
     <dependencies>
         <dependency>
@@ -43,13 +45,105 @@
        
     </dependencies>
 
-    <build>
+   <build>
+
         <plugins>
+
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+
+                <groupId>org.codehaus.mojo</groupId>
+
+                <artifactId>exec-maven-plugin</artifactId>
+
+                <version>1.6.0</version>
+
+                <executions>
+
+                    <execution>
+
+                        <id>install-dependencies</id>
+
+                        <phase>validate</phase>
+
+                        <goals>
+
+                            <goal>exec</goal>
+
+                        </goals>
+
+                        <configuration>
+
+                            <executable>${npm.executable}</executable>
+
+                            <workingDirectory>src/main/app-ui</workingDirectory>
+
+                            <arguments>
+
+                                <argument>install</argument>
+
+                            </arguments>
+
+                        </configuration>
+
+                    </execution>
+
+                    <execution>
+
+                        <id>build-angular-app</id>
+
+                        <phase>validate</phase>
+
+                        <goals>
+
+                            <goal>exec</goal>
+
+                        </goals>
+
+                        <configuration>
+
+                            <executable>ng</executable>
+
+                            <workingDirectory>src/main/app-ui</workingDirectory>
+
+                            <arguments>
+
+                                <argument>build</argument>
+                               
+
+                            </arguments>
+
+                        </configuration>
+
+                    </execution>
+
+                </executions>
+
             </plugin>
+
+            <plugin>
+
+                <groupId>org.springframework.boot</groupId>
+
+                <artifactId>spring-boot-maven-plugin</artifactId>
+
+                <executions>
+
+                    <execution>
+
+                        <goals>
+
+                            <goal>repackage</goal>
+
+                        </goals>
+
+                    </execution>
+
+                </executions>
+
+            </plugin>
+
         </plugins>
-    </build>
+
+</build>
 
 </project>

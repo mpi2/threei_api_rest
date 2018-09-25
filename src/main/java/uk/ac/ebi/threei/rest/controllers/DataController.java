@@ -1,6 +1,8 @@
 package uk.ac.ebi.threei.rest.controllers;
 
 import java.io.IOException;
+
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +11,7 @@ import java.util.TreeSet;
 
 import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +36,8 @@ import uk.ac.ebi.threei.rest.services.GeneDTO;
 import uk.ac.ebi.threei.rest.services.GeneService;
 import uk.ac.ebi.threei.rest.services.ParameterDetailsService;
 import uk.ac.ebi.threei.rest.services.ProcedureHeatmapService;
+
+@RequestMapping(value = "/api")
 @RestController
 public class DataController {
 	
@@ -63,7 +68,7 @@ public class DataController {
 	@RequestMapping("/procedure_page")
 	@ResponseBody
 	public HttpEntity<ProcedurePage> getProcedurePage(Model model, @RequestParam(value = "gene", required = false) String gene,
-			@RequestParam(value = "construct", required = false) String construct, @RequestParam(value = "procedure", required = false) String procedure) {
+			@RequestParam(value = "construct", required = false) String construct, @RequestParam(value = "procedure", required = false) String procedure) throws IOException, SolrServerException {
 		System.out.println("calling get procedure page in controller");
 		// this works http://localhost:8080/procedure_page?gene=Adal&procedure=Homozygous%20viability%20at%20P14&construct=tm1a
 		//but why don't we have a result with Homozygous%20Fertility in our results now????
@@ -94,6 +99,7 @@ public class DataController {
 		
 		//page.setParameterDetails(parameterDetails);//maybe we don't need these in the rest response but useful for debug at the moment
 		SortedSet<String> headerKeys=getHeaderKeys(parameterDetails);//get unique column headers sorted alphabetically
+		page.setGeneAccession(geneService.getMgiAccessionFromGeneSymbol(parameterDetails.get(0).getGene()));//should only be one gene per procedure/celltype page
 		page.setColumnHeaders(new ArrayList<String>(headerKeys));
 		
 		List<DetailsRow> detailRows=new ArrayList<>();
@@ -103,6 +109,7 @@ public class DataController {
 			//new row for each parameter with 0-3 added for each state like in heatmap
 			DetailsRow row=new DetailsRow();
 			row.setRowHeader(p.getParameterName());
+			row.setParameterStableId(p.getParameterId());
 			//loop over the header strings and get the significance score from each
 			for(String header:headerKeys) {
 				//System.out.println("header is "+header);
@@ -151,9 +158,14 @@ public class DataController {
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/procedure_heatmap")
 	@ResponseBody
-	public HttpEntity<Data> procedureHeatmap(Model model, @RequestParam(value = "keywords", required = false) String keyword,
-			@RequestParam(value = "construct", required = false) String construct) {
-		return procedureHeatmapservice.getProcedureHeatmapData(keyword, construct);
+	public HttpEntity<Data> procedureHeatmap(Model model, @RequestParam(value = "keyword", required = false) String keyword,
+			@RequestParam(value = "construct", required = false) String constructFilter, @RequestParam(value = "sort", required = false) String sortField) {
+		
+		Filter filter=new Filter();
+		filter.setKeyword(keyword);
+		filter.setConstructFilter(constructFilter);
+		filter.setSortField(sortField);
+		return procedureHeatmapservice.getProcedureHeatmapData(filter);
 	}
 
 	
