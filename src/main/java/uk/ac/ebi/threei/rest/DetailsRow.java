@@ -5,6 +5,13 @@ import java.util.List;
 
 public class DetailsRow {
 	private String rowHeader;
+	private String parameterStableId;
+	public String getParameterStableId() {
+		return parameterStableId;
+	}
+	public void setParameterStableId(String parameterStableId) {
+		this.parameterStableId = parameterStableId;
+	}
 	private List<Integer> cellData=new ArrayList<>();
 	public String getRowHeader() {
 		return rowHeader;

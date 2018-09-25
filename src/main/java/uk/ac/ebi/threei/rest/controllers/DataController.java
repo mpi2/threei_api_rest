@@ -68,7 +68,7 @@ public class DataController {
 	@RequestMapping("/procedure_page")
 	@ResponseBody
 	public HttpEntity<ProcedurePage> getProcedurePage(Model model, @RequestParam(value = "gene", required = false) String gene,
-			@RequestParam(value = "construct", required = false) String construct, @RequestParam(value = "procedure", required = false) String procedure) {
+			@RequestParam(value = "construct", required = false) String construct, @RequestParam(value = "procedure", required = false) String procedure) throws IOException, SolrServerException {
 		System.out.println("calling get procedure page in controller");
 		// this works http://localhost:8080/procedure_page?gene=Adal&procedure=Homozygous%20viability%20at%20P14&construct=tm1a
 		//but why don't we have a result with Homozygous%20Fertility in our results now????
@@ -99,6 +99,7 @@ public class DataController {
 		
 		//page.setParameterDetails(parameterDetails);//maybe we don't need these in the rest response but useful for debug at the moment
 		SortedSet<String> headerKeys=getHeaderKeys(parameterDetails);//get unique column headers sorted alphabetically
+		page.setGeneAccession(geneService.getMgiAccessionFromGeneSymbol(parameterDetails.get(0).getGene()));//should only be one gene per procedure/celltype page
 		page.setColumnHeaders(new ArrayList<String>(headerKeys));
 		
 		List<DetailsRow> detailRows=new ArrayList<>();
@@ -108,6 +109,7 @@ public class DataController {
 			//new row for each parameter with 0-3 added for each state like in heatmap
 			DetailsRow row=new DetailsRow();
 			row.setRowHeader(p.getParameterName());
+			row.setParameterStableId(p.getParameterId());
 			//loop over the header strings and get the significance score from each
 			for(String header:headerKeys) {
 				//System.out.println("header is "+header);

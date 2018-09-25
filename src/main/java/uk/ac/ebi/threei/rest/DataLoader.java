@@ -47,7 +47,7 @@ public class DataLoader implements CommandLineRunner {
 	//wont run without this but doesn't use it - annoying!!!
 	@Bean(name = "solrClient")
 	HttpSolrClient gtSolrClient() {
-		String solrBaseUrl="ballh";
+		String solrBaseUrl="https://www.ebi.ac.uk/mi/impc/solr";
 		return new HttpSolrClient.Builder(solrBaseUrl+ "/gene").build();
 	}
 	
