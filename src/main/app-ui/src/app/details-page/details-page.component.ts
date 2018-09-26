@@ -16,6 +16,8 @@ export class DetailsPageComponent implements OnInit {
   procedure: string;
   construct: string;
   resourceLoaded ; boolean;
+
+  dataSource;
   
   constructor(private activatedRoute: ActivatedRoute, private heatmapService: HeatmapService) {
       this.activatedRoute.queryParams.subscribe(params => {

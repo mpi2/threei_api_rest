@@ -1,0 +1,25 @@
+a {
+    /* ok this is a hack to get links on the table cells */
+    opacity: 0.0;
+} 
+
+table{
+    width:100%;
+}
+td,th{
+    padding:0.5em 0.7em 0.5em 0.2em;
+    word-wrap:break-word;
+}
+td{
+    border-bottom:#efefef 1px solid;
+    vertical-align:top;
+}
+th{
+    font-weight:300;
+    padding-left:0.2em;
+    font-size:1.2em;
+    color:#333;
+    border-bottom:#777 1px solid;
+    font-family:"source sans pro" ,"Euphemia UCAS","Kannada Sangam MN";
+}
+  
