@@ -4,69 +4,41 @@
   <title> Home | 3i Consortium - Wellcome Trust Sanger Institute</title>
   <link rel="icon" type="image/png" href="assets/images/index.ico">
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link rel="icon" type="image/png" href="assets/images/index.ico">
 </head>
 
-<div id="wholepage" fxLayout="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
+<div id="wholepage-container" fxLayout="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" style="background-color:purple">
 
               <threei-top-menu></threei-top-menu>
-  
-    <br/>
-    <div id="region region-content">
-      <div id="block-block-3" class="block block-block">
-        <div class="content"><div style="width: 100%; text-align: center; padding-bottom: 20px;">
-          <div style="width: 500px; margin: auto;">
-            <form id="home-search-form" action="/data" method="get">
+   
+            <!-- <form id="home-search-form" action="/data" method="get">
               <input id="home-search-box" name="gene" style="width: 300px;" type="text" placeholder="Search by gene or phenotype..."/>
               <input id="home-search-submit" class="btn" style="width: 200px;" type="submit" value="Advanced Search"/>
-            </form>
-          </div>
-        </div>
-          <div class="clear"></div>
-        </div>
-      </div>
-    </div>
-
-    <div id="middle-of-verticle" fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
-      
-
-
-
-        <div id="dummyPaddingLeft" fxFlex="10%"></div>
+            </form> -->
+  <div id="middle-of-verticle" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" style="background-color:orange">
+    
+      <div id="dummyPaddingLeft" fxFlex="10%" color="secondary" ></div>
 
         <!-- router now contains center and side right content -->
-        <router-outlet></router-outlet>
+        <div id="page-content" style="background-color:grey" fxFlex="80%">Main content should go here
 
+            <div class="current-page-container" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" style="background-color:white">
 
-        <div id="dummyPaddingRight" fxFlex="10%"></div>
+              <router-outlet></router-outlet>
+
+            </div>
+        </div>
+
+        <div id="dummyPaddingRight" fxFlex="10%" style="background-color:red" ></div>
   </div> 
   <!-- end of left-main -->
  
 
 
 
-<mat-toolbar>
-    <div fxLayout="row" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center">
-      <div fxFlex="10%"></div>
-
-            <div fxFlex="80%" >
-            <a style="text-decoration: none; color: white; padding:30px; " href="/">HOME  </a>
-            <a style="text-decoration: none; color: white;  padding:30px;" href="/data">DATA  </a>
-            <a style="text-decoration: none; color: white; padding:30px; " href="/analysis">ANALYSIS  </a>
-            <a style="text-decoration: none; color: white; padding:30px; " href="/methods">METHODS  </a>
-            <a style="text-decoration: none; color: white; padding:30px; " href="/contact">CONTACT  </a>
-            <a style="text-decoration: none; color: white; padding:30px; " href="/learn_more">LEARNMORE  </a>
-              
-       
-            <p class="textright" style="text-align: right;word-spacing: normal; font-size:12px">Software <br/></p>
-          
-            </div>
-      <div fxFlex="10%"></div>
-    </div>
-    </mat-toolbar>
+  <!-- <threei-top-menu></threei-top-menu> -->
 
 </div>
 

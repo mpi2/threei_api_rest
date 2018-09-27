@@ -1,30 +1,30 @@
-<header id="header">
-    <div class="region region-header">
-        <div id="tn"></div>
-        <div id="logo">
-            <a href="/"><img src="assets/images/impc.png" alt="IMPC Logo"/></a>
+<mat-toolbar color="primary" role="heading">
+    <!-- <mat-toolbar-row> -->
+                    <!-- <div id="menu-padding-left"  fxFlex="10%" style="background-color:green">menu padding should be here
+                    </div> -->
+        <div class="menu-center-container" style="align-content: center">
+                        <a href="/"><img src="assets/images/impc.png" alt="IMPC Logo"/></a>
+                    
+
+
+            <!-- <nav><a routerLink="/home" >HOME</a></nav> -->
+            <!-- <div id="menu-text-container" style="height: 100%;" fxFlex="70%"> -->
+                <a  routerLink="home" routerLinkActive="active" ><button  mat-button routerLinkActive="mat-accent" >HOME</button></a>
+                <a  routerLink="data" routerLinkActive="active" ><button mat-button>DATA</button></a>
+                <a  routerLink="analysis" routerLinkActive="active"><button mat-button>ANALYSIS</button></a>
+                <a  routerLink="methods" routerLinkActive="active"><button mat-button>METHODS</button></a>
+                <a  routerLink="contact" routerLinkActive="active" ><button mat-button>CONTACT</button></a>
+
+                <a  routerLink="learn_more" routerLinkActive="active" ><button mat-button [matMenuTriggerFor]="menu2">LEARN MORE</button></a>
+                <mat-menu #menu2="matMenu">
+                    <a routerLink="faq" routerLinkActive="active"><button mat-menu-item>FAQ</button></a>
+                    <a routerLink="glossary" routerLinkActive="active" ><button mat-menu-item>Glossary</button></a>
+                    <a routerLink="publications" routerLinkActive="active"><button mat-menu-item>Publications</button></a>
+                    <a routerLink="privacy" routerLinkActive="active"><button mat-menu-item>Privacy Policy</button></a>
+                </mat-menu>
         </div>
-        <nav id="mn">  <div class="region region-mainnavi">
 
-
-<!-- <nav><a routerLink="/home" >HOME</a></nav> -->
-<a  routerLink="home" routerLinkActive="active" ><button  mat-button routerLinkActive="mat-accent" >HOME</button></a>
-<a  routerLink="data" routerLinkActive="active" ><button mat-button>DATA</button></a>
-<a  routerLink="analysis" routerLinkActive="active"><button mat-button>ANALYSIS</button></a>
-<a  routerLink="methods" routerLinkActive="active"><button mat-button>METHODS</button></a>
-<a  routerLink="contact" routerLinkActive="active" ><button mat-button>CONTACT</button></a>
-
-<a  routerLink="learn_more" routerLinkActive="active" ><button mat-button [matMenuTriggerFor]="menu2">LEARN MORE</button></a>
-<mat-menu #menu2="matMenu">
-    <a routerLink="faq" routerLinkActive="active"><button mat-menu-item>FAQ</button></a>
-    <a routerLink="glossary" routerLinkActive="active" ><button mat-menu-item>Glossary</button></a>
-    <a routerLink="publications" routerLinkActive="active"><button mat-menu-item>Publications</button></a>
-    <a routerLink="privacy" routerLinkActive="active"><button mat-menu-item>Privacy Policy</button></a>
-</mat-menu>
-
-</div>
-</nav>
-
-</div>
-</header>
+    <!-- <div id="menu-padding-right" fxFlex="10%">Padding right</div> -->
+    <!-- </mat-toolbar-row> -->
+</mat-toolbar>
 

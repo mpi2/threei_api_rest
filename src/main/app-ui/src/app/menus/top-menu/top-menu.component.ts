@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { MatMenuModule } from '@angular/material';
+import { MatMenuModule, MatToolbarModule,
+  MatTooltipModule,} from '@angular/material';
 import { Router } from '@angular/router';
 
 @Component({
