@@ -2,9 +2,9 @@
 
 
 
-  <div id="main-center" fxFlex="75%">
+  <mat-sidenav-content id="page-content"  fxFlex="70%">
           
-              <h1>Welcome to <span >3i</span></h1>
+              <h1 class="welcome">Welcome to <span class="text-highlight" >3i</span></h1>
             
               <div id="slider-and-main" fxLayout="column " fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
                   <threei-slideshow></threei-slideshow> 
@@ -22,43 +22,34 @@
                     
                   </article>
               </div>
-  </div>
+  </mat-sidenav-content>
 
-  <div id="right-sidebar" fxFlex="25%"  >
+  <mat-sidenav mode="side" opened fxFlex="30%"  position="end" fxLayout="column " fxLayout.xs="column" >
               
                 <threei-phenotype-of-the-month></threei-phenotype-of-the-month>
-                      <div id="block-heatmap-stats-KO">
-                        <div class="head">KO lines analysed</div>
-                        <div class="content">404</div>
-                      </div>
-                      <div id="block-heatmap-stats-phenotypes">
-                        <div class="head">Phenotypes identified</div>
-                        <div class="content">280</div>
-                      </div>
+                      <threei-stats-blocks></threei-stats-blocks>
+
                     
                     
                 
-                <div id="block-views-news-page-block" class="block block-views">
+                <div class="news-block">
+                  
                   <div class="head">News &amp; Events</div>
-                  <div class="content">
-                      <div class="view-content">
-                          <div class="views-row views-row-1 views-row-odd views-row-first">
-                              <div class="views-field views-field-title">
-                      <span class="field-content">
-                        <a  href="http://flowrepository.org/"  >Flow Cytometry Data Available</a>
-                      </span>
-                              </div>
-                              <div class="views-field views-field-body">
-                                <div class="field-content">
-                                  <p>Raw flow cytometry data from the observational screens are available from the  <a href="http://flowrepository.org/">Flow repository</a>. For details about panels see <a href="methods">Methods</a></p>
-                                </div>
-                              </div>
-                            </div>
+                    <div class="content">
+                      
+                      <a  href="http://flowrepository.org/"  >Flow Cytometry Data Available</a>
+                      
+                            
+                        <div class="views-field views-field-body">
+                          <div class="field-content">
+                              <p>Raw flow cytometry data from the observational screens are available from the  <a href="http://flowrepository.org/">Flow repository</a>. For details about panels see <a href="methods">Methods</a></p>
+                          </div>
+                              
                       
 
-                      </div>
+                        </div>
 
-                  </div>
+                    </div>
                 </div>
                 
                   <div class="content">
@@ -83,7 +74,7 @@
                 
               
               
-  </div>
+  </mat-sidenav>
 
 
 

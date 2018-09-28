@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {SlideshowModule} from 'ng-simple-slideshow';
-import { MatExpansionModule, MatRadioModule } from '@angular/material';
+import { MatSidenavModule,MatExpansionModule, MatRadioModule } from '@angular/material';
 import { PrivacyPageComponent } from './privacy-page/privacy-page.component';
 import { LearnMorePageComponent } from './learn-more-page/learn-more-page.component';
 import { HighchartsChartComponent } from './highcharts-chart.component';
@@ -33,6 +33,7 @@ import { ProcedureHeatmapComponent } from './procedure-heatmap/procedure-heatmap
 import { DetailsPageComponent } from './details-page/details-page.component';
 import { PhenotypeOfTheMonthComponent } from './phenotype-of-the-month/phenotype-of-the-month.component';
 import { SlideshowComponent } from './slideshow/slideshow.component';
+import { StatsBlocksComponent } from './stats-blocks/stats-blocks.component';
 
 
 
@@ -50,10 +51,10 @@ import { SlideshowComponent } from './slideshow/slideshow.component';
     PhenotypeofthemonthPageComponent,
     ImageacknowledgementsPageComponent,
     CellHeatmapComponent,
-    ProcedureHeatmapComponent, ProcedureHeatmapComponent, DetailsPageComponent, PhenotypeOfTheMonthComponent, SlideshowComponent,
+    ProcedureHeatmapComponent, ProcedureHeatmapComponent, DetailsPageComponent, PhenotypeOfTheMonthComponent, SlideshowComponent, StatsBlocksComponent,
   ],
   imports: [
-    BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule, HttpClientModule, MatRadioModule, MatProgressSpinnerModule, MatSelectModule, MatInputModule, MatCardModule, MatTabsModule,  FlexLayoutModule
+    MatSidenavModule,BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule, HttpClientModule, MatRadioModule, MatProgressSpinnerModule, MatSelectModule, MatInputModule, MatCardModule, MatTabsModule,  FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

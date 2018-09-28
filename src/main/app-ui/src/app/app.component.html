@@ -9,30 +9,33 @@
   <link rel="icon" type="image/png" href="assets/images/index.ico">
 </head>
 
-<div id="wholepage-container" fxLayout="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" style="background-color:purple">
-
-              <threei-top-menu></threei-top-menu>
+<!-- <div id="wholepage-container" fxLayout="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" style="background-color:purple"> -->
+<div class="mat-app-background basic-container">
+             
    
             <!-- <form id="home-search-form" action="/data" method="get">
               <input id="home-search-box" name="gene" style="width: 300px;" type="text" placeholder="Search by gene or phenotype..."/>
               <input id="home-search-submit" class="btn" style="width: 200px;" type="submit" value="Advanced Search"/>
             </form> -->
-  <div id="middle-of-verticle" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" style="background-color:orange">
+            <threei-top-menu></threei-top-menu>
+  <mat-sidenav-container id="middle-of-verticle" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="center" style="background-color:white">
     
-      <div id="dummyPaddingLeft" fxFlex="10%" color="secondary" ></div>
+      <!-- <mat-sidenav mode="side" opened color="primary">Sidenav left</mat-sidenav> -->
+      <!-- <div id="dummyPaddingLeft" fxFlex="10%" color="secondary" ></div> -->
 
         <!-- router now contains center and side right content -->
-        <div id="page-content" style="background-color:grey" fxFlex="80%">Main content should go here
-
-            <div class="current-page-container" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" style="background-color:white">
+        <mat-sidenav-content id="page-content"  fxFlex="80%">
+            
+            <!-- <div class="current-page-container" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" style="background-color:white"> -->
 
               <router-outlet></router-outlet>
 
-            </div>
-        </div>
+            <!-- </div> -->
+        </mat-sidenav-content>
 
-        <div id="dummyPaddingRight" fxFlex="10%" style="background-color:red" ></div>
-  </div> 
+        <!-- <div id="dummyPaddingRight" fxFlex="10%" style="background-color:red" ></div> -->
+        <!-- <mat-sidenav mode="side" opened color="primary">Sidenav right</mat-sidenav> -->
+        </mat-sidenav-container>
   <!-- end of left-main -->
  
 
@@ -41,6 +44,11 @@
   <!-- <threei-top-menu></threei-top-menu> -->
 
 </div>
+
+<!-- <mat-sidenav-container class="example-container" *ngIf="shouldRun">
+    <mat-sidenav mode="side" opened>Sidenav content</mat-sidenav>
+    <mat-sidenav-content>Main content</mat-sidenav-content>
+  </mat-sidenav-container> -->
 
 
 

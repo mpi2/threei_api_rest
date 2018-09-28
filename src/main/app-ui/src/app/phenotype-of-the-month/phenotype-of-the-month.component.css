@@ -1,0 +1,23 @@
+.blue-box{
+    color: #fff;
+    background-color: #0978a1;
+    font-size: 1.4em;
+    text-align: center;
+    border-radius: 4px 4px 4px 4px;
+    padding-bottom:10px;
+}
+
+.blue-box a, h3{
+    color: #fff;
+    /* get the color in the link to be white still */
+    font-weight: 300;
+}
+
+.blue-box a{
+    color: #fff;
+    text-decoration:underline;
+    font-weight: 300;
+    /* get the color in the link to be white still */
+    cursor: pointer;
+    
+}

@@ -1,0 +1,26 @@
+.block-heatmap-stats{
+    width: 47%;
+    background-color: orange;
+    border-radius: 5px;
+    color: white;
+    float: left;
+    margin-top: 10px;
+    font-weight: 300;
+    text-align: center;
+    padding-bottom:10px;
+}
+.white-text{
+    color: white;
+}
+
+.left{
+    align-content: flex-start;
+    margin-right:3%;
+    /* margin-left:0%; */
+}
+
+.right{
+    align-content: flex-end;
+    /* margin-right:0px; */
+    margin-left:3%;
+}
