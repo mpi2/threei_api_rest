@@ -15,3 +15,24 @@
 .content{
     text-align: left;
 }
+
+.btn:hover{
+    text-decoration:none;
+    color:#fff;
+    background-color:#0978a1;
+}
+.btn{
+    background-color: #666;
+    padding: .3em .6em;
+}
+
+fa {
+    color:#fff;
+    display: inline-block;
+    font-family: "source sans pro" ,"Euphemia UCAS","Kannada Sangam MN";
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
