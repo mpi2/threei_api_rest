@@ -2,3 +2,14 @@
     flex: 1 1 auto;
     height: 100px;
   }
+
+  .software {
+    font-size: 0.5em;
+    padding-left: 10%;
+    color: white;
+  }
+
+  .bottom{
+    background-color: darkgrey;
+    color: white;
+  }

@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 export class TopMenuComponent implements OnInit {
 
   @Input()
-  bottomMenu: boolean;
+  topMenu: boolean;
   // constructor(private router: Router) { }
   constructor() { }
 

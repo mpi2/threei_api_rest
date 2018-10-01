@@ -34,6 +34,7 @@ import { DetailsPageComponent } from './details-page/details-page.component';
 import { PhenotypeOfTheMonthComponent } from './phenotype-of-the-month/phenotype-of-the-month.component';
 import { SlideshowComponent } from './slideshow/slideshow.component';
 import { StatsBlocksComponent } from './stats-blocks/stats-blocks.component';
+import { LogosComponent } from './logos/logos.component';
 
 
 
@@ -51,7 +52,7 @@ import { StatsBlocksComponent } from './stats-blocks/stats-blocks.component';
     PhenotypeofthemonthPageComponent,
     ImageacknowledgementsPageComponent,
     CellHeatmapComponent,
-    ProcedureHeatmapComponent, ProcedureHeatmapComponent, DetailsPageComponent, PhenotypeOfTheMonthComponent, SlideshowComponent, StatsBlocksComponent,
+    ProcedureHeatmapComponent, ProcedureHeatmapComponent, DetailsPageComponent, PhenotypeOfTheMonthComponent, SlideshowComponent, StatsBlocksComponent, LogosComponent,
   ],
   imports: [
     MatSidenavModule,BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule, HttpClientModule, MatRadioModule, MatProgressSpinnerModule, MatSelectModule, MatInputModule, MatCardModule, MatTabsModule,  FlexLayoutModule
