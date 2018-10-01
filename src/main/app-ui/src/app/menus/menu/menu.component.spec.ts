@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TopMenuComponent } from './top-menu.component';
+import { TopMenuComponent } from './menu.component';
 
 describe('TopMenuComponent', () => {
   let component: TopMenuComponent;

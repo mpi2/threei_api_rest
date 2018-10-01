@@ -4,7 +4,7 @@ import { MatToolbarModule, MatTooltipModule,MatMenuModule, MatButtonModule} from
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import { TopMenuComponent } from './top-menu/top-menu.component';
+import { TopMenuComponent } from './menu/menu.component';
 
 @NgModule({
   imports: [
