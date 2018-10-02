@@ -1,65 +1,33 @@
-<div id="welcome" >
-        <h1>ANALYSIS</h1>
-</div>
-
-
-        <div id="main-center" fxFlex="60%">
-                <div id="slider-and-main" fxLayout="column " fxLayout.xs="row" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
-                    <threei-slideshow></threei-slideshow> 
-    <p></p>
-    <div id="region region-content">
-        <div class="intro"><h2 >Dig deeper into the data by looking at it from different angles. </h2> </div>
-    <p></p>
-    <p></p>
-    <p>Hi there and welcome to our analysis section. This is a new addition to our website and we are hoping to add new features over the coming months.</p><br/>
-    <p></p>
-        Why this new space? We realised that we are producing a lot of data but it is actually not easy to figure out quickly what it is in there. With the graphics in this section we are hoping to give you the opportunity to browse our  data without looking through it gene by gene or assay by assay.We hope you will enjoy this page. Please let us know if there is anything in particular that you would like to see appear in this space by using the contact button on the CONTACT page.
-    <br/>
-    <p></p>
-        <p>Story 1: A map of the immune system</p><br/>
-     <p>The first thing that struck us when we were starting to dig deeper into the data was the fact that we had data for hundreds of wild type control mice and that we could use this data to build a map of the mouse immune system. The map below was built using data from more than 400 C57BL/6N wild type mice.</p>
-     <p></p>
-    </div>
-    <!-- X-Frame-Options: DENY  where did this come from?? on our dev site this is now the option set for https://dev.mousephenotype.org/data/threeIAnalysis-->
-    <iframe width="420" height="345" [src]="video | safe" style='width: 850px; height: 700px;'></iframe>
-
-<p></p>
-</div>
-</div>
-
-<aside id="right-sidebar" fxFlex="20%"  >
-        <div class="region region-sidebar-second">
-          <threei-phenotype-of-the-month></threei-phenotype-of-the-month>
-          <div id="block-block-23" class="block block-block">
-            <div class="content">
-              <div id="block-heatmap-stats">
-                <div id="block-heatmap-stats-KO">
-                  <div class="head">KO lines analysed</div>
-                  <div class="content">404</div>
-                </div>
-                <div id="block-heatmap-stats-phenotypes">
-                  <div class="head">Phenotypes identified</div>
-                  <div class="content">280</div>
-                </div>
-              </div>
-              </div>
-          </div>
+      <mat-sidenav-content id="page-content"  fxFlex="70%">
           
-          
-          <div id="block-block-2" class="block block-block">
-            <div class="content">
-              <p>
-                <a href="http://www.wellcome.ac.uk/" >
-                  <img src="assets/images/slider/wt_logo.png"  width="300" height="39"/></a><br/>
-                <a href="https://www.immunology.org/" >
-                  <img src="assets/images/slider/bsi_logo-250x52.png" target="blank"  width="250" height="52"/></a><br/>
-                <a href="http://www.mousephenotype.org/" >
-                  <img src="assets/images/slider/impc_logo-150x50.png" width="150" height="50"/></a></p>
-
-
-            
-            </div>
-          </div>
-        </div>
+          <h1 class="welcome">Analysis</h1>
         
-      </aside>
+          <div id="slider-and-main" fxLayout="column " fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
+              <threei-slideshow></threei-slideshow> 
+              <article >
+                  <h1><div class="intro">Dig deeper into the data by looking at it from different angles.</div></h1>
+                  <p>Hi there and welcome to our analysis section. This is a new addition to our website and we are hoping to add new features over the coming months.</p><br/>
+            
+                  Why this new space? We realised that we are producing a lot of data but it is actually not easy to figure out quickly what it is in there. With the graphics in this section we are hoping to give you the opportunity to browse our  data without looking through it gene by gene or assay by assay.We hope you will enjoy this page. Please let us know if there is anything in particular that you would like to see appear in this space by using the contact button on the CONTACT page.
+                  <p>Story 1: A map of the immune system</p><br/>
+               <p>The first thing that struck us when we were starting to dig deeper into the data was the fact that we had data for hundreds of wild type control mice and that we could use this data to build a map of the mouse immune system. The map below was built using data from more than 400 C57BL/6N wild type mice.</p>
+               
+               </article>
+              
+          </div>
+              <!-- X-Frame-Options: DENY  where did this come from?? on our dev site this is now the option set for https://dev.mousephenotype.org/data/threeIAnalysis-->
+              <iframe width="420" height="345" [src]="video | safe" style='width: 850px; height: 700px;'></iframe>
+          
+          
+          
+    </mat-sidenav-content>
+    
+    <mat-sidenav mode="side" opened fxFlex="30%"  position="end" fxLayout="column " fxLayout.xs="column" >
+          
+            <threei-phenotype-of-the-month></threei-phenotype-of-the-month>
+              
+            <threei-logos></threei-logos>
+            
+          
+          
+    </mat-sidenav>
