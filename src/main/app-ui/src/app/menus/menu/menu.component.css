@@ -13,3 +13,28 @@
     background-color: darkgrey;
     color: white;
   }
+
+
+/* .button.active .mat-button-focus-overlay{
+  background-color:orange !important;
+} */
+
+/* .no-hover-effect.mat-button.mat-primary .mat-button-focus-overlay,
+.no-hover-effect.mat-button.mat-accent .mat-button-focus-overlay,
+.no-hover-effect.mat-button.mat-warn .mat-button-focus-overlay
+{
+  background-color: orange !important;
+} */
+.active {
+  background-color:orange;
+  padding:0.2em;
+}
+
+/* .menu-center-container  > a > button.active .mat-button-focus-overlay{
+  background-color:green;
+} */
+
+/* button{
+  background-color:green;
+  color: purple;
+} */
