@@ -174,25 +174,6 @@ legend: {
 },
 
 
-plotOptions: {
-  series: {
-      events: {
-          click: function (e) {
-              // var text = '<b>Clicked</b><br>Series: ' + this.name +
-              //         '<br>Point: ' + e.point.name + ' (' + e.point.value + '/km²)';
-             
-              //may have to use routerLink like for menus to link to our new not created yet parameter page
-                var url = 'http://starwars.com';
-                window.open(url,'_blank');
-                  // this.chart.clickLabel.attr({
-                  //     text: text
-                  // });
-              
-          }
-      }
-  }
-},
-
 series: [{
   name: 'Data Loading....',
   borderWidth: 1,
@@ -235,7 +216,8 @@ series: [{
       //console.log('response from json file here: '+JSON.stringify(this.response['_embedded'].Data[0]['data']));
       this.data=this.response['data'];
       
-      this.columnHeaders=this.addLinksToColumnHeaders(this.response['columnHeaders']);
+      //this.columnHeaders=this.addLinksToColumnHeaders(this.response['columnHeaders']);
+      this.columnHeaders=this.response['columnHeaders'];
     //   this.columnHeaders=[
     //     '<[routerLink]="" (click)="onGoToPage2()">Homozygous viability at P14</a>',
     
@@ -376,29 +358,38 @@ titleChange = function(event) {
     
         yAxis: [{
           categories: this.rowHeaders,
-          labels: {
-            useHTML: true
-          },
-          title: null
+          // labels: {
+          //   useHTML: true
+          // },
+          // title: null
         },{
         categories: this.constructs,
         title: null
         } ],
     
         tooltip: {
-          crosshairs: [true, true],
-          formatter: function() {
-            return "I'd like to have first yAxis category here<br>" + "<span style=\"font-weight: bold; color:" + this.series.color + "\">" + this.series.chart.yAxis[0].categories[this.y] + "</span><br/>" + "And second yAxis category here. <br/>" + "<span style=\"font-weight: bold; color:" + this.series.color + "\">" + this.series.chart.yAxis[1].categories[this.y] + "</span><br/>" + "x value: " + this.point.x + "<br/>"
-          },
-          "useHTML": true
-        },
+          // shadow: false,
+          useHTML: true,
+          formatter: function () {
+              return '<b>' + this.series.xAxis.categories[this.point.x] + '</b><br/>' +
+              this.series.colorAxis.dataClasses[this.point.dataClass].name + '</b><br>'+
+              '<b>' + this.series.yAxis.categories[this.point.y] + '</b>';
+          }
+      },
+        // tooltip: {
+        //   crosshairs: [true, true],
+        //   formatter: function() {
+        //     return "I'd like to have first yAxis category here<br>" + "<span style=\"font-weight: bold; color:" + this.series.color + "\">" + this.series.chart.yAxis[0].categories[this.y] + "</span><br/>" + "And second yAxis category here. <br/>" + "<span style=\"font-weight: bold; color:" + this.series.color + "\">" + this.series.chart.yAxis[1].categories[this.y] + "</span><br/>" + "x value: " + this.point.x + "<br/>"
+        //   },
+        //   "useHTML": true
+        // },
         
         plotOptions: {
           series: {
               events: {
                   click: function (e) {
                     var gene= e.point.series.yAxis.categories[e.point.y];
-                      //var construct= e.point.series.yAxis[0].categories;//[e.point.y];
+                      
                       var procedure=e.point.series.xAxis.categories[e.point.x];
                       
                       var text = 'gene: ' +gene +
@@ -407,10 +398,7 @@ titleChange = function(event) {
                       //may have to use routerLink like for menus to link to our new not created yet parameter page
                         var routerLink='details?'+'procedure='+procedure+'&gene='+gene;
                         window.open(routerLink,'_blank');
-                        //   this.chart.clickLabel.attr({
-                        //       text: text
-                        //   });
-                          console.log('text on click='+text);
+                        
                       
                   }
               },
@@ -422,7 +410,6 @@ titleChange = function(event) {
             borderWidth: 1,
             //data: this.data,
             data: this.data,
-            //, [2, 0, 35], [2, 1, 15], [2, 2, 123], [2, 3, 64], [2, 4, 52], [3, 0, 72], [3, 1, 132], [3, 2, 114], [3, 3, 19], [3, 4, 16], [4, 0, 38], [4, 1, 5], [4, 2, 8], [4, 3, 117], [4, 4, 115], [5, 0, 88], [5, 1, 32], [5, 2, 12], [5, 3, 6], [5, 4, 120], [6, 0, 13], [6, 1, 44], [6, 2, 88], [6, 3, 98], [6, 4, 96], [7, 0, 31], [7, 1, 1], [7, 2, 82], [7, 3, 32], [7, 4, 30], [8, 0, 85], [8, 1, 97], [8, 2, 123], [8, 3, 64], [8, 4, 84], [9, 0, 47], [9, 1, 114], [9, 2, 31], [9, 3, 48], [9, 4, 91]],
             dataLabels: {
                 enabled: false,
                 color: '#000000'
