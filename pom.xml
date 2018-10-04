@@ -49,7 +49,7 @@
 
         <plugins>
 
-            <!-- <plugin>
+             <plugin>
 
                 <groupId>org.codehaus.mojo</groupId>
 
@@ -119,15 +119,15 @@
                 </executions>
 
             </plugin>
-            -->
+            
 
             <plugin>
-
+<!--need this plugin without the repackage and the above plugins for running the loader  -->
                 <groupId>org.springframework.boot</groupId>
 
                 <artifactId>spring-boot-maven-plugin</artifactId>
 
-                <!-- <executions>
+                <executions>
 
                     <execution>
 
@@ -139,7 +139,7 @@
 
                     </execution>
 
-                </executions> -->
+                </executions>
 
             </plugin> 
 
