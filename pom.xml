@@ -122,7 +122,7 @@
             
 
             <plugin>
-<!--need this plugin without the repackage and the above plugins for running the loader  -->
+<!--need this plugin without the repackage and the above plugins for running the loader with all for running the app and api  -->
                 <groupId>org.springframework.boot</groupId>
 
                 <artifactId>spring-boot-maven-plugin</artifactId>
