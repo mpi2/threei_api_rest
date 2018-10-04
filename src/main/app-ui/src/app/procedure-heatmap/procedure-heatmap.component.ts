@@ -132,7 +132,7 @@ export class ProcedureHeatmapComponent implements OnInit {
       layout: 'vertical',
       // margin: 0,
       verticalAlign: 'top',
-      // y: 25,
+      backgroundColor: 'whitesmoke'
       // symbolHeight: 280
   },
   
@@ -141,15 +141,6 @@ export class ProcedureHeatmapComponent implements OnInit {
     series: {
         events: {
             click: function (e) {
-                // var text = '<b>Clicked</b><br>Series: ' + this.name +
-                //         '<br>Point: ' + e.point.name + ' (' + e.point.value + '/km²)';
-               
-                //may have to use routerLink like for menus to link to our new not created yet parameter page
-                  var url = 'http://starwars.com';
-                  window.open(url,'_blank');
-                    // this.chart.clickLabel.attr({
-                    //     text: text
-                    // });
                 
             }
         }

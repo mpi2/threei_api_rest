@@ -169,6 +169,7 @@ legend: {
     layout: 'vertical',
     // margin: 0,
     verticalAlign: 'top',
+    backgroundColor: 'whitesmoke'
     // y: 25,
     // symbolHeight: 280
 },
