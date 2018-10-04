@@ -3,6 +3,7 @@
 /Users/jwarren/git/threei_api_rest/src/main/java/uk/ac/ebi/threei/rest/Data.java
 /Users/jwarren/git/threei_api_rest/src/main/java/uk/ac/ebi/threei/rest/services/GeneService.java
 /Users/jwarren/git/threei_api_rest/src/main/java/uk/ac/ebi/threei/rest/Types.java
+/Users/jwarren/git/threei_api_rest/src/main/java/uk/ac/ebi/threei/rest/controllers/RootRedirectController.java
 /Users/jwarren/git/threei_api_rest/src/main/java/uk/ac/ebi/threei/rest/ProcedureHeatmapRow.java
 /Users/jwarren/git/threei_api_rest/src/main/java/uk/ac/ebi/threei/rest/procedure/SexType.java
 /Users/jwarren/git/threei_api_rest/src/main/java/uk/ac/ebi/threei/rest/procedure/Result.java

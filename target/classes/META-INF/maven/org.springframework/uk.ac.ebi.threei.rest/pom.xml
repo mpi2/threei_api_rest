@@ -19,8 +19,6 @@
         <version>2.0.2.RELEASE</version>
     </parent>
 
-  
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -110,6 +108,7 @@
                             <arguments>
 
                                 <argument>build</argument>
+                               
 
                             </arguments>
 
