@@ -5,7 +5,7 @@ import * as Highcharts from 'highcharts/highcharts';
 import * as HC_map from 'highcharts/modules/map';
 import * as HC_exporting from 'highcharts/modules/exporting';
 //import * as HC_CustomEvents from 'highcharts-custom-events';
-import { MatRadioModule, MatSelectModule } from '@angular/material';
+import { MatRadioModule, MatSelectModule, MatTabChangeEvent } from '@angular/material';
 
 import { HeatmapService } from '../heatmap.service';
 import { CellFilter } from './cell-filter';
@@ -423,12 +423,8 @@ titleChange = function(event) {
       //this.Highcharts.setOptions(this.cellChartOptions);
       this.cellChartOptions=this.cellChart;
       this.updatechart=true;
-      this.resourceLoaded=true;
       
     };//end of display method
-
-
-    
 
    
       
