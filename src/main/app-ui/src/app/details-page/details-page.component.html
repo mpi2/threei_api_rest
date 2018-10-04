@@ -1,11 +1,21 @@
+<div id="main-center" fxFlex="80%">
+    Gene: {{gene}}
+    Gene Accession: {{geneAccession}}
+    Procedure: {{procedure}}
+  <div id="slider-and-main" fxLayout="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
+  
 
-  {{gene}}
-  {{geneAccession}}
-  {{procedure}}
-
-  <table style="width: 600px">
+   <table fxFlex="100%">
     <th>Parameter Name</th><th *ngFor="let columnHeader of columnHeaders">{{columnHeader}}</th>
     <ng-container *ngFor="let row of rows"><tr><td>{{row.rowHeader}}</td><td *ngFor="let cell of row.cellData"
-      [style.background-color]="getStyle(cell)"><a href="https://www.mousephenotype.org/data/charts?phenotyping_center=WTSI&bare=true&accession={{geneAccession}}&parameter_stable_id={{row.parameterStableId}}&chart_only=true"><span>{{row.parameterStableId}} </span></a></td></tr></ng-container>
+      [style.background-color]="getStyle(cell)"><a href="https://www.mousephenotype.org/data/charts?phenotyping_center=WTSI&bare=true&accession={{geneAccession}}&parameter_stable_id={{row.parameterStableId}}&chart_only=true">{{row.parameterStableId}}</a></td></tr></ng-container>
   </table>
+
+  <!-- <aside id="right-sidebar" fxFlex="20%"  >
+
+  </aside> -->
+
+
+  </div>
+</div>
 

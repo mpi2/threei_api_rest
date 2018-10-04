@@ -1,20 +1,16 @@
-<div id="welcome" >
-    <h1>PRIVACY</h1>
-</div>
-<div id="main-center" fxFlex="60%">
-    <div id="slider-and-main" fxLayout="column " fxLayout.xs="row" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
-        <threei-slideshow></threei-slideshow>
-
-  <div id="region region-content">
-    <div class="intro"><h2 >Information about the 3I privacy policy </h2> </div>
-    <p></p>
-    <p></p>
-    <div class="panel_glossary">
-      <i class="fa fa-list-alt"></i>
-      Privacy Policy
-    </div>
-    <br/><br/><br/><br/>
-    <div id="accordian1_main" style=" border: 1px solid #eee; width: 100%; padding:1em">
+<mat-sidenav-content id="page-content"  fxFlex="70%">
+          
+    <h1 class="welcome">Privacy</h1>
+  
+    <div id="slider-and-main" fxLayout="column " fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
+        <threei-slideshow></threei-slideshow> 
+      
+          <h2 ><div class="intro">Information about the 3I privacy policy </div> </h2>
+    <div class="box-for-contents">
+        <div class="panel_glossary">
+          <i class="fa fa-list-alt" style="color:white"></i>
+            Privacy Policy
+        </div>
       <p> The General Data Protection Regulation (GDPR) will apply in the UK
         from 25 May 2018. It will replace the 1998 Data Protection Act and
         introduce new rules on privacy notices, as well as processing and
@@ -25,49 +21,13 @@
       <span><a href="https://www.ebi.ac.uk/data-protection/privacy-notice/three-i-website">Three I project website</a></span>
       applies to usage of the Three I <a href="http://www.immunophenotype.org/"> www.immunophenotyping.org </a> website.
 
-
-
     </div>
 
-  </div>
-  <p></p>
-  <p></p>
-  <p></p>
-</div>
-</div>
-<aside id="right-sidebar" fxFlex="20%"  >
-    <div class="region region-sidebar-second">
-      <threei-phenotype-of-the-month></threei-phenotype-of-the-month>
-      <div id="block-block-23" class="block block-block">
-        <div class="content">
-          <div id="block-heatmap-stats">
-            <div id="block-heatmap-stats-KO">
-              <div class="head">KO lines analysed</div>
-              <div class="content">404</div>
-            </div>
-            <div id="block-heatmap-stats-phenotypes">
-              <div class="head">Phenotypes identified</div>
-              <div class="content">280</div>
-            </div>
-          </div>
-          </div>
-      </div>
-      
-      
-      <div id="block-block-2" class="block block-block">
-        <div class="content">
-          <p>
-            <a href="http://www.wellcome.ac.uk/" >
-              <img src="assets/images/slider/wt_logo.png"  width="300" height="39"/></a><br/>
-            <a href="https://www.immunology.org/" >
-              <img src="assets/images/slider/bsi_logo-250x52.png" target="blank"  width="250" height="52"/></a><br/>
-            <a href="http://www.mousephenotype.org/" >
-              <img src="assets/images/slider/impc_logo-150x50.png" width="150" height="50"/></a></p>
-
-
-        
-        </div>
-      </div>
-    </div>
     
-  </aside>
+  </div>
+</mat-sidenav-content>
+<mat-sidenav mode="side" opened fxFlex="28%"  position="end" fxLayout="column " fxLayout.xs="column" fxLayoutGap="10px">
+    <threei-phenotype-of-the-month></threei-phenotype-of-the-month>
+    <threei-stats-blocks></threei-stats-blocks>
+    <threei-logos></threei-logos>     
+</mat-sidenav>

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatCard  } from '@angular/material';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatCard, MatButtonModule  } from '@angular/material';
 import * as Highcharts from 'highcharts/highcharts';
 import * as HC_map from 'highcharts/modules/map';
 import * as HC_exporting from 'highcharts/modules/exporting';
@@ -55,11 +55,22 @@ export class CellHeatmapComponent implements OnInit {
     response: Response;
     chartTitle = 'Procedure Heatmap'; // for init - change through titleChange
     updatechart=false;
+    sort: string;
 
   
   procedureChart;
   resourceLoaded: boolean =false;
   cellChart;
+
+
+  constructor(private activatedRoute: ActivatedRoute, private heatmapService: HeatmapService) {
+    this.activatedRoute.queryParams.subscribe(params => {
+          this.sortFieldSelected = params['sort'];
+          
+          console.log('sort='+this.sortFieldSelected); // Print the parameter to the console. 
+          this.filterMethod();
+      });
+  }
 
   filterMethod(){
     //console.log('query button clicked with constructSeleted '+this.constructSelected+' cell selected='+this.cellSelected+' cellSubtypeSelected='+this.cellSubtypeSelected);
@@ -104,8 +115,12 @@ xAxis: {
     categories: [
           'Data loading...',
                ],
+    // labels: {
+    //     rotation: 90
+    // },
     labels: {
-        rotation: 90
+      useHTML: true,
+      rotation: 90
     },
     reserveSpace: true,
   },
@@ -192,12 +207,9 @@ series: [{
 
 }
    
-  constructor(private heatmapService: HeatmapService) { 
-    
-  }
 
   ngOnInit() {
-    this.getHeatmapData(undefined);
+    this.filterMethod();
     this.getCellTypesDropdown();
     this.getCellSubTypesDropdown();
     this.getAssaysDropdown();
@@ -222,23 +234,11 @@ series: [{
       //this.data = this.response['response']['docs']
       //console.log('response from json file here: '+JSON.stringify(this.response['_embedded'].Data[0]['data']));
       this.data=this.response['data'];
-      this.columnHeaders=this.response['columnHeaders'];
+      
+      this.columnHeaders=this.addLinksToColumnHeaders(this.response['columnHeaders']);
     //   this.columnHeaders=[
     //     '<[routerLink]="" (click)="onGoToPage2()">Homozygous viability at P14</a>',
-    //     "Homozygous Fertility",
-    //     "Haematology",
-    //     "Peripheral Blood Leukocytes",
-    //     "Spleen",
-    //     "Mesenteric Lymph Node",
-    //     "Bone Marrow",
-    //     "Ear Epidermis",
-    //     "Anti-nuclear Antibodies",
-    //     "Cytotoxic T Cell Function",
-    //     "DSS Challenge",
-    //     "Influenza",
-    //     "Trichuris Challenge",
-    //     "Salmonella Challenge"
-    //     ];
+    
       this.rowHeaders=this.response['rowHeaders'];
       //here we need to add a whole column populated with the construct as java has no way of mixing strings and ints in an array
       this.constructs=this.response['constructs'];
@@ -248,6 +248,17 @@ series: [{
     
       
     });
+  }
+
+  addLinksToColumnHeaders(columnHeaders: string[]){
+    let tempHeaders=new Array<string>();
+      for(let header of columnHeaders){
+        //console.log('column header='+header);
+        let tempHeader='<a href="/data?sort='+header+'">'+ header+'</a>';
+        //console.log('tempHeader='+tempHeader);
+        tempHeaders.push(tempHeader);
+      }
+      return tempHeaders;
   }
 
   getConstructsDropdown(){
@@ -365,6 +376,9 @@ titleChange = function(event) {
     
         yAxis: [{
           categories: this.rowHeaders,
+          labels: {
+            useHTML: true
+          },
           title: null
         },{
         categories: this.constructs,

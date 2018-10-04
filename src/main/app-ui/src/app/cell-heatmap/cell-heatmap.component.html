@@ -2,27 +2,30 @@
 
 <form (ngSubmit)="filterMethod()" #loginForm="ngForm">
 
-    <mat-card>
+    <mat-card fxLayout="row" fxLayoutGap="20px">
         <mat-card-content>
          
           
       <mat-form-field >
               <input matInput type="search" placeholder="Search Gene Name or Symbol" [(ngModel)]="keyword" name="keyword" placeholder="Search for gene symbol or name">
       </mat-form-field>
-
+      </mat-card-content>
+      <mat-card-content>
       <mat-form-field>
           <mat-select   placeholder="Construct" [(value)]="constructSelected">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let construct of constructTypes" [value]="construct">{{construct}}</mat-option>
           </mat-select>
         </mat-form-field>
-
+        </mat-card-content>
+        <mat-card-content>
        <mat-form-field>
           <mat-select   placeholder="Cell type" [(value)]="cellSelected">
             <mat-option>None</mat-option>
             <mat-option *ngFor="let cell of cells" [value]="cell">{{cell}}</mat-option>
           </mat-select>
         </mat-form-field>
+      </mat-card-content>
       
        <!-- <mat-form-field>
           <mat-select   placeholder="Cell subtype" [(value)]="cellSubtypeSelected">
@@ -39,19 +42,19 @@
           </mat-select>
         </mat-form-field>  -->
 
-
-        <button mat-fab>
+      <div fxLayoutAlign="center center" fxLayoutGap="10px">
+        <button mat-raised-button color="primary">
             Filter
           </button>
-          <button type="button" mat-fab (click)="clearFilter()">
+          <button mat-raised-button type="button" mat-fab (click)="clearFilter()">
               Clear Filter
           </button>
 
             
-      </mat-card-content>
+        </div>
     </mat-card> 
 
-    <mat-card>
+    <!-- <mat-card>
       <mat-card-content>
           <mat-form-field>
               <mat-select   placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected">
@@ -60,7 +63,7 @@
               </mat-select>
             </mat-form-field> 
       </mat-card-content>
-    </mat-card>
+    </mat-card> -->
 </form>
 <mat-card>
     <mat-card-content>

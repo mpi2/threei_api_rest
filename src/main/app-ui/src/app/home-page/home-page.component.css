@@ -1,0 +1,27 @@
+.news-block{
+    background-color: #eee;
+    margin-top: 5%;
+    text-align: center;
+}
+
+.news-block .head{
+    font-size:1.5em;
+    text-transform:uppercase;
+    border-bottom: 0.5px solid #666;
+    padding: 5%;
+    
+    
+}
+.content{
+    text-align: left;
+}
+
+.btn:hover{
+    text-decoration:none;
+    color:#fff;
+    background-color:#0978a1;
+}
+.btn{
+    background-color: #666;
+    padding: .3em .6em;
+}

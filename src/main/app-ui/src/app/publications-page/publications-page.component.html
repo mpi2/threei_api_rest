@@ -1,22 +1,17 @@
-<div id="welcome">
-    <h1>PUBLICATIONS</h1>
-</div>
-
-<div id="main-center" fxFlex="60%">
-    <div id="slider-and-main" fxLayout="column" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
-        <threei-slideshow></threei-slideshow>
-
-  <div id="region region-content" fxLayout="column">
-    <div fxFlex="100%"><h2 >We have compiled the following list of relevant publications. </h2> </div>
-    <p></p>
-    <p></p>
-    <div class="panel_glossary">
-      <i class="fa fa-list-alt"></i>
-      Publications
-    </div>
-    <br/><br/><br/><br/>
-    <div id="accordian1_main" style=" border: 1px solid #ccc; width: 100%; padding:1em">
-      <p></p>
+<mat-sidenav-content id="page-content"  fxFlex="70%">
+          
+    <h1 class="welcome">Welcome to <span class="text-highlight" >3i</span></h1>
+  
+    <div id="slider-and-main" fxLayout="column " fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
+        <threei-slideshow></threei-slideshow> 
+      <article >
+  <h2 >We have compiled the following list of relevant publications. </h2>
+       
+    <div class="box-for-contents">
+        <div class="panel_glossary">
+            <i class="fa fa-list-alt" style="color: white"></i>
+            Publications
+        </div>
       <br/>
       Bradley et al (2012) Mammalian Genome 23, 580-6<br/>
       <b>The mammalian gene function resource: the International Knockout Mouse Consortium.</b><br/>
@@ -28,8 +23,8 @@
                 <a href="../assets/publications-pdfs/Bradley 2012 IKMC.pdf">Bradley 2012 IKMC.pdf</a></span>
         </li>
       </ul>
-
-      <p></p>
+      
+      
       Skarnes et al. (2011) Nature, 474, 337-42<br/>
       <b>A conditional knockout resource for the genome-wide study of mouse gene function.</b><br/>
       This paper describes the knockout strategy across the IMPC.<br/>
@@ -42,7 +37,7 @@
       </ul>
 
 
-      <p></p>
+      
       White et al. (2013) Cell, 154, 452-64<br/>
       <b>Genome-wide generation and systematic phenotyping of knockout mice reveals new roles for many genes.</b><br/>
       This paper contains an overview over the first 250 lines phenotyped in the WTSI pipeline.<br/>
@@ -54,7 +49,7 @@
         </li>
       </ul>
 
-      <p></p>
+     
       Brown and Moore (2012) Mammalian Genome, 23, 632-60<br/>
       <b>The International Mouse Phenotyping Consortium: past and future perspectives on mouse phenotyping</b><br/>
       This paper ....<br/>
@@ -65,50 +60,14 @@
                 <a href="../assets/publications-pdfs/Brown and Moore 2012 IMPC.pdf"> Brown and Moore 2012 IMPC.pdf</a></span>
         </li>
       </ul>
-
-      <br/>
-      <br/>
-
-    </div>
-
+</div>
+    </article>
   </div>
-</div>
-</div>
+</mat-sidenav-content>
 
-<aside id="right-sidebar" fxFlex="20%"  >
-    <div class="region region-sidebar-second">
-      <threei-phenotype-of-the-month></threei-phenotype-of-the-month>
-      <div id="block-block-23" class="block block-block">
-        <div class="content">
-          <div id="block-heatmap-stats">
-            <div id="block-heatmap-stats-KO">
-              <div class="head">KO lines analysed</div>
-              <div class="content">404</div>
-            </div>
-            <div id="block-heatmap-stats-phenotypes">
-              <div class="head">Phenotypes identified</div>
-              <div class="content">280</div>
-            </div>
-          </div>
-          </div>
-      </div>
-      
-      
-      <div id="block-block-2" class="block block-block">
-        <div class="content">
-          <p>
-            <a href="http://www.wellcome.ac.uk/" >
-              <img src="assets/images/slider/wt_logo.png"  width="300" height="39"/></a><br/>
-            <a href="https://www.immunology.org/" >
-              <img src="assets/images/slider/bsi_logo-250x52.png" target="blank"  width="250" height="52"/></a><br/>
-            <a href="http://www.mousephenotype.org/" >
-              <img src="assets/images/slider/impc_logo-150x50.png" width="150" height="50"/></a></p>
-
-
-        
-        </div>
-      </div>
-    </div>
-    
-  </aside>
+<mat-sidenav mode="side" opened fxFlex="28%"  position="end" fxLayout="column " fxLayout.xs="column" fxLayoutGap="10px">
+    <threei-phenotype-of-the-month></threei-phenotype-of-the-month>
+    <threei-stats-blocks></threei-stats-blocks>
+    <threei-logos></threei-logos>     
+</mat-sidenav>
  

@@ -1,14 +1,14 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import {SlideshowModule} from 'ng-simple-slideshow';
-import { MatExpansionModule, MatRadioModule } from '@angular/material';
+import { MatSidenavModule,MatExpansionModule, MatRadioModule } from '@angular/material';
 import { PrivacyPageComponent } from './privacy-page/privacy-page.component';
 import { LearnMorePageComponent } from './learn-more-page/learn-more-page.component';
 import { HighchartsChartComponent } from './highcharts-chart.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule} from '@angular/forms';
-import { MatCheckboxModule, MatProgressSpinnerModule, MatCardModule, MatSliderModule, MatGridListModule, MatInputModule, MatSelectModule, MatCheckbox, MatButtonModule, MatTabsModule, MatToolbarModule} from '@angular/material';
+import { MatCheckboxModule, MatProgressSpinnerModule, MatCardModule, MatSliderModule, MatGridListModule, MatInputModule, MatSelectModule, MatCheckbox, MatButtonModule, MatTabsModule} from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
@@ -33,6 +33,9 @@ import { ProcedureHeatmapComponent } from './procedure-heatmap/procedure-heatmap
 import { DetailsPageComponent } from './details-page/details-page.component';
 import { PhenotypeOfTheMonthComponent } from './phenotype-of-the-month/phenotype-of-the-month.component';
 import { SlideshowComponent } from './slideshow/slideshow.component';
+import { StatsBlocksComponent } from './stats-blocks/stats-blocks.component';
+import { LogosComponent } from './logos/logos.component';
+import { TemplateComponent } from './template/template.component';
 
 
 
@@ -50,10 +53,10 @@ import { SlideshowComponent } from './slideshow/slideshow.component';
     PhenotypeofthemonthPageComponent,
     ImageacknowledgementsPageComponent,
     CellHeatmapComponent,
-    ProcedureHeatmapComponent, ProcedureHeatmapComponent, DetailsPageComponent, PhenotypeOfTheMonthComponent, SlideshowComponent,
+    ProcedureHeatmapComponent, ProcedureHeatmapComponent, DetailsPageComponent, PhenotypeOfTheMonthComponent, SlideshowComponent, StatsBlocksComponent, LogosComponent, TemplateComponent,
   ],
   imports: [
-    BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule, HttpClientModule, MatRadioModule, MatProgressSpinnerModule, MatSelectModule, MatInputModule, MatCardModule, MatTabsModule, MatToolbarModule, FlexLayoutModule
+    MatSidenavModule,BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule, HttpClientModule, MatRadioModule, MatProgressSpinnerModule, MatSelectModule, MatInputModule, MatCardModule, MatTabsModule,  FlexLayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent]

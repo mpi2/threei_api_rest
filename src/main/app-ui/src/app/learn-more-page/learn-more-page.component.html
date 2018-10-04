@@ -1,53 +1,43 @@
-<div id="welcome" >
-  <h1>LEARN MORE</h1>
-</div>
-
-<div id="main-center" fxFlex="60%">
-    <div id="slider-and-main" fxLayout="column " fxLayout.xs="row" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
+<mat-sidenav-content id="page-content"  fxFlex="70%">
+          
+    <h1 class="welcome">Learn More</h1>
+  
+    <div id="slider-and-main" fxLayout="column " fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
         <threei-slideshow></threei-slideshow> 
-<p></p>
-  <div id="region region-content">
-    <div class="intro"><h2>Do not hesitate to contact us if you cannot find a answer to your question below. </h2> </div>
+      <article >
+            
+
+
+
+          <h2><div class="intro">Do not hesitate to contact us if you cannot find a answer to your question below. </div></h2>
     <p></p>
     <p></p>
     <h3 style="font-size: 25px;">FREQUENTLY ASKED QUESTIONS</h3><p></p>
     <p>We have collated the questions most frequently asked and provided those in a managed archive.</p>
-    <p><a href="{/faq}" class="btn" style="color: white;"><i class="fa" style="font-size:9px;position:relative;bottom:2px;" >&#xf04b;</i>Browse our FAQ list</a></p>
+    <p><a routerLink="../faq" class="btn" style="color: white;"><i class="fa" style="font-size:9px;position:relative;bottom:2px;" >&#xf04b;</i>Browse our FAQ list</a></p>
 
     <h3 style="font-size: 25px;">Glossary</h3><p></p>
     <p>If you are unsure of the terminology used in this website please use the following helpful glossary.</p>
-    <p><a href="{/glossary}" class="btn" style="color: white;"><i class="fa" style="font-size:9px;position:relative;bottom:2px;" >&#xf04b;</i>Browse our Glossary</a></p>
+    <p><a routerLink="../glossary" class="btn" style="color: white;"><i class="fa" style="font-size:9px;position:relative;bottom:2px;" >&#xf04b;</i>Browse our Glossary</a></p>
 
     <h3 style="font-size: 25px;">Publications</h3><p></p>
     <p>We have collated a useful library of publications.</p>
-    <p><a href="publications}" class="btn" style="color: white;"><i class="fa" style="font-size:9px;position:relative;bottom:2px;" >&#xf04b;</i>Browse our publications</a></p>
+    <p><a routerLink="../publications" class="btn" style="color: white;"><i class="fa" style="font-size:9px;position:relative;bottom:2px;" >&#xf04b;</i>Browse our publications</a></p>
     <p></p>
 
-  </div>
-  <p></p>
-  <p></p>
-  <p></p>
-</div>
-</div>
-<aside id="right-sidebar" fxFlex="20%"  >
-    <div class="region region-sidebar-second">
-      <threei-phenotype-of-the-month></threei-phenotype-of-the-month>
-          
-      
-      <div id="block-block-2" class="block block-block">
-        <div class="content">
-          <p>
-            <a href="http://www.wellcome.ac.uk/" >
-              <img src="assets/images/slider/wt_logo.png"  width="300" height="39"/></a><br/>
-            <a href="https://www.immunology.org/" >
-              <img src="assets/images/slider/bsi_logo-250x52.png" target="blank"  width="250" height="52"/></a><br/>
-            <a href="http://www.mousephenotype.org/" >
-              <img src="assets/images/slider/impc_logo-150x50.png" width="150" height="50"/></a></p>
-
-
-        
-        </div>
-      </div>
+  
+      </article>
     </div>
-    
-  </aside>
+</mat-sidenav-content>
+
+<mat-sidenav mode="side" opened fxFlex="28%"  position="end" fxLayout="column " fxLayout.xs="column" fxLayoutGap="10px">
+      
+        <threei-phenotype-of-the-month></threei-phenotype-of-the-month>
+              <threei-stats-blocks></threei-stats-blocks>
+
+      
+              <threei-logos></threei-logos>
+        
+      
+      
+</mat-sidenav>

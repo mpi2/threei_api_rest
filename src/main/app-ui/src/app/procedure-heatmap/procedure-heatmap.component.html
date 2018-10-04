@@ -2,22 +2,23 @@
        <form (ngSubmit)="filterMethod()" #loginForm="ngForm">
        <mat-spinner *ngIf="!resourceLoaded"></mat-spinner>
 
-        <mat-card>
+        <mat-card fxLayout="row" fxLayoutGap="20px">
           <mat-card-content>
            
             
         <mat-form-field >
                 <input matInput type="search" placeholder="Search Gene Name or Symbol" [(ngModel)]="keyword" name="keyword" placeholder="Search for gene symbol or name">
         </mat-form-field>
-  
+        </mat-card-content>
+        <mat-card-content>
         <mat-form-field>
             <mat-select   placeholder="Construct" [(value)]="constructSelected">
               <mat-option>None</mat-option>
               <mat-option *ngFor="let construct of constructTypes" [value]="construct">{{construct}}</mat-option>
             </mat-select>
           </mat-form-field>
-
         </mat-card-content>
+        <mat-card-content fxLayoutAlign="center center" fxLayoutGap="10px">
 
         <button mat-fab>
           Filter
@@ -25,8 +26,9 @@
         <button type="button" mat-fab (click)="clearFilter()">
             Clear Filter
         </button>
-
+      </mat-card-content>
         </mat-card>
+      
 
         <mat-card>
           <mat-card-content>
@@ -40,9 +42,15 @@
         </mat-card>
         </form>
 
-        <div >
-            <highcharts-chart style="height: 1700px; margin: 0 auto"
-              [Highcharts]="Highcharts"
-              [options]="procedureChartOptions"
-              [(update)]="updateDemo2"  
-            ></highcharts-chart>
+        <mat-card>
+            <mat-card-content>
+                <mat-spinner *ngIf="!resourceLoaded"></mat-spinner>
+
+                  <highcharts-chart style="height: 1700px; margin: 0 auto"
+                      [Highcharts]="Highcharts"
+                      [options]="procedureChartOptions"
+                      [(update)]="updateDemo2"  
+                    ></highcharts-chart>
+
+            </mat-card-content>
+        </mat-card>

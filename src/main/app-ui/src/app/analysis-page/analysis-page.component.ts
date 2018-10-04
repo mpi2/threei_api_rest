@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { ViewEncapsulation, ViewChild, ElementRef, PipeTransform, Pipe } from '@angular/core';
+import { ViewChild, ElementRef, PipeTransform, Pipe } from '@angular/core';
 import { DomSanitizer } from "@angular/platform-browser";
 
 @Pipe({ name: 'safe' })
