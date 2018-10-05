@@ -57,8 +57,10 @@
           
 <mat-sidenav-content id="page-content"  fxFlex="100%">
   <div id="slider-and-main" fxLayout="column " fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
+    <h1>Data Search</h1>
+    <mat-card>
     <mat-tab-group   (selectedTabChange)="tabChanged($event)">
-      <mat-tab label="Cell View">
+      <mat-tab color="primary" label="Cell View">
         <ng-template matTabContent>
                             <!-- <threei-procedure-heatmap></threei-procedure-heatmap> -->
           <threei-cell-heatmap></threei-cell-heatmap>
@@ -74,7 +76,7 @@
       </mat-tab-group>
             
             
-          
+    </mat-card>    
   </div>
   </mat-sidenav-content>
 

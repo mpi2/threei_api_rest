@@ -108,6 +108,7 @@
                             <arguments>
 
                                 <argument>build</argument>
+                                <argument>--prod</argument>
                                
 
                             </arguments>
@@ -139,7 +140,7 @@
 
                     </execution>
 
-                </executions> 
+                </executions>
 
             </plugin> 
 

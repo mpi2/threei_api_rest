@@ -7,12 +7,13 @@
            
             
         <mat-form-field >
-                <input matInput type="search" placeholder="Search Gene Name or Symbol" [(ngModel)]="keyword" name="keyword" placeholder="Search for gene symbol or name">
+            <mat-label>Search for gene symbol:</mat-label><input matInput type="search" placeholder="Search Gene Symbol" [(ngModel)]="keyword" name="keyword">
         </mat-form-field>
         </mat-card-content>
         <mat-card-content>
         <mat-form-field>
-            <mat-select   placeholder="Construct" [(value)]="constructSelected">
+            <mat-label>Filter by construct</mat-label>
+            <mat-select   placeholder="Construct filter" [(value)]="constructSelected">
               <mat-option>None</mat-option>
               <mat-option *ngFor="let construct of constructTypes" [value]="construct">{{construct}}</mat-option>
             </mat-select>
@@ -32,6 +33,7 @@
 
         <mat-card>
           <mat-card-content>
+              <mat-label>Sort by most significant procedure</mat-label>
               <mat-form-field>
                   <mat-select   placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected">
                       <mat-option>None</mat-option>
