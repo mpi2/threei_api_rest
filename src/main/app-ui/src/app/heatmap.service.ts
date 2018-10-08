@@ -13,6 +13,8 @@ import { environment } from '../environments/environment';
 })
 export class HeatmapService {
 
+  procedureBusy: boolean;
+  cellBusy: boolean;
   restDataBaseUrl = 'http://localhost:8080/data';
   restBaseUrl= environment.restBaseUrl;
   constructor(private http: HttpClient) { }
@@ -22,7 +24,6 @@ export class HeatmapService {
       console.log('calling heatmap service method');
       let filterString=this.getFilterString(filter);
       let urlstring=this.restBaseUrl +'/cell_heatmap'+filterString;
-      console.log('urlSTring='+urlstring);
         return this.http.get<Response>(
           urlstring, { observe: 'response' });
     }
@@ -34,7 +35,6 @@ export class HeatmapService {
       if(procedure)filterString+='&procedure='+procedure;
       if(construct)filterString+='&construct='+construct;
       let urlstring=this.restBaseUrl +'/procedure_page?'+filterString;
-      console.log('urlSTring='+urlstring);
         return this.http.get<Response>(
           urlstring, { observe: 'response' });
     }
@@ -42,7 +42,7 @@ export class HeatmapService {
   getFilterString(filter: CellFilter) {
     let filterQuery = '';
     if (filter) {
-      console.log('query button clicked with search=' + filter.keyword + ' constructSeleted ' + filter.construct + ' cell selected=' + filter.cellType + ' cellSubtypeSelected=' + filter.cellSubType + 'sortField=' + filter.sort);
+      console.log('query button clicked with CellFilter search=' + filter.keyword + ' constructSeleted ' + filter.construct + ' cell selected=' + filter.cellType + ' cellSubtypeSelected=' + filter.cellSubType + 'sortField=' + filter.sort);
       filterQuery += '?';
       if (filter.sort) {
         filterQuery += '&sort=' + filter.sort;
@@ -69,7 +69,7 @@ export class HeatmapService {
     getProcedureFilterString(filter: ProcedureFilter) {
       let filterQuery = '';
       if (filter) {
-        console.log('query button clicked with search=' + filter.keyword + ' constructSeleted ' + filter.construct + 'sortField=' + filter.sort);
+        console.log('query button clicked with Procedure search=' + filter.keyword + ' constructSeleted ' + filter.construct + 'sortField=' + filter.sort);
         filterQuery += '?';
         if (filter.sort) {
           filterQuery += '&sort=' + filter.sort;
@@ -90,7 +90,6 @@ export class HeatmapService {
       console.log('calling procedure heatmap service method');
       let filterString=this.getProcedureFilterString(filter);
       let urlstring=this.restBaseUrl +'/procedure_heatmap'+filterString;
-      console.log('urlSTring='+urlstring);
       return this.http.get<Response>(
         urlstring, { observe: 'response' });
     }
@@ -128,6 +127,19 @@ export class HeatmapService {
   }
 
   
-   
+  setCellBusy(){
+    this.cellBusy=true;
+  }
+  setCellNotBusy(){
+    this.cellBusy=false;
+  }
+
+  setProcedureBusy(){
+    this.procedureBusy=false;
+  }
+
+  setProcedureNotBusy(){
+    this.procedureBusy=false;
+  }
 
 }

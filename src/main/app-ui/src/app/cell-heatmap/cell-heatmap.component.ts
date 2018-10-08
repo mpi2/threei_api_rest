@@ -57,18 +57,16 @@ export class CellHeatmapComponent implements OnInit {
     updatechart=false;
     sort: string;
 
-  
-  procedureChart;
   resourceLoaded: boolean =false;
   cellChart;
 
 
   constructor(private activatedRoute: ActivatedRoute, private heatmapService: HeatmapService) {
+    console.log('constructor on cell heatmap fired');
     this.activatedRoute.queryParams.subscribe(params => {
           this.sortFieldSelected = params['sort'];
-          
-          console.log('sort='+this.sortFieldSelected); // Print the parameter to the console. 
-          this.filterMethod();
+          //console.log('sort='+this.sortFieldSelected); // Print the parameter to the console. 
+          //this.filterMethod();
       });
   }
 

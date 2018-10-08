@@ -61,16 +61,20 @@
     <mat-card>
     <mat-tab-group   (selectedTabChange)="tabChanged($event)">
       <mat-tab color="primary" label="Cell View">
-        <ng-template matTabContent>
+          cell content here
+        <!-- <ng-template> -->
                             <!-- <threei-procedure-heatmap></threei-procedure-heatmap> -->
+                           
           <threei-cell-heatmap></threei-cell-heatmap>
-        </ng-template>
+        <!-- </ng-template> -->
       </mat-tab>
                     
       <mat-tab label="Procedure View">
-        <ng-template matTabContent>
+          procedure content here
+        <!-- <ng-template> -->
+          
               <threei-procedure-heatmap></threei-procedure-heatmap>
-        </ng-template>
+        <!-- </ng-template> -->
       </mat-tab> 
                 
       </mat-tab-group>
