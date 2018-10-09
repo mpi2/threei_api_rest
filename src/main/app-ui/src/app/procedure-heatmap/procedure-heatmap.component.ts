@@ -167,7 +167,7 @@ export class ProcedureHeatmapComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getConstructsDropdown();
+    this.heatmapService.getConstructsDropdown();
     this.getHeatmapData( this.searchBox);
   }
 
@@ -183,24 +183,6 @@ export class ProcedureHeatmapComponent implements OnInit {
     
     
     this.getHeatmapData(filter);
-  }
-  
-
-  getConstructsDropdown(){
-    //console.log('calling assay dropdown');
-    this.resourceLoaded=false;
-    //if(this.data.length<=1){
-    this.heatmapService.getConstructsResponse().subscribe(resp => {
-      // display its headers
-      var lResponse = { ... resp.body};
-      //console.log('response='+JSON.stringify(resp));
-      //this.data = this.response['response']['docs']
-      //console.log('response from json file here: '+JSON.stringify(this.response['_embedded'].Data[0]['data']));
-      
-      this.constructTypes=lResponse['types'];
-      //console.log("assays being returned="+this.assays);
-      //let headerData=this.response['_embedded'].Data[0]['columnHeaders'];      
-  });
   }
 
   

@@ -13,19 +13,37 @@ import { environment } from '../environments/environment';
 })
 export class HeatmapService {
 
+  cellHeatmapResponse: Observable<HttpResponse<Response>>;//cache the normal response here os if filters are empty just return this without making a request to the rest api
   procedureBusy: boolean;
   cellBusy: boolean;
   restDataBaseUrl = 'http://localhost:8080/data';
   restBaseUrl= environment.restBaseUrl;
+
+  constructs: string[];//all constructs available including the brackets
+  constructTypes: string[];//for menu dropdown just conatains unique set with brackets part removed
+  cells: string[];
+  cellSubTypes: string[];
+  assays: string[];
+
+  cellHeatmapChart;
+  procedureHeatmapChart;
+
   constructor(private http: HttpClient) { }
 
   getCellHeatmapResponse(filter: CellFilter):
       Observable<HttpResponse<Response>> {
       console.log('calling heatmap service method');
+      if(this.cellHeatmapResponse!=undefined && filter.keyword==undefined && filter.construct==undefined && filter.cellType==undefined && filter.sort==undefined){//&& filter.cellSubType==undefined && filter.cellSubType== undefine
+        console.log('using cached cellheatmap');
+        return this.cellHeatmapResponse;
+        
+      }else{//if response not been made already or filters are not default then make a request to the api
       let filterString=this.getFilterString(filter);
       let urlstring=this.restBaseUrl +'/cell_heatmap'+filterString;
-        return this.http.get<Response>(
+        this.cellHeatmapResponse= this.http.get<Response>(
           urlstring, { observe: 'response' });
+          return this.cellHeatmapResponse;
+        }
     }
 
     getDetailsPageResponse(gene: string, procedure: string, construct: string):
@@ -141,5 +159,62 @@ export class HeatmapService {
   setProcedureNotBusy(){
     this.procedureBusy=false;
   }
+
+
+
+
+
+//methods below for cell heatmap and some for both
+
+  getConstructsDropdown(){
+    //console.log('calling assay dropdown');
+    //this.resourceLoaded=false;
+    //if(this.data.length<=1){
+    this.getConstructsResponse().subscribe(resp => {
+      // display its headers
+      var lResponse = { ... resp.body};
+      //console.log('response='+JSON.stringify(resp));
+      //this.data = this.response['response']['docs']
+      //console.log('response from json file here: '+JSON.stringify(this.response['_embedded'].Data[0]['data']));
+      
+      this.constructTypes=lResponse['types'];
+      //console.log("assays being returned="+this.assays);
+      //let headerData=this.response['_embedded'].Data[0]['columnHeaders'];      
+  });
+  }
+
+
+  getCellTypesDropdown(){
+    this.getCellTypeResponse().subscribe(resp => {
+      var lResponse = { ... resp.body};
+      this.cells=lResponse['types'];
+  });
+}
+
+
+getCellSubTypesDropdown(){
+  //console.log('calling cellSubType dropdown');
+  //this.resourceLoaded=false;
+  //if(this.data.length<=1){
+  this.getCellSubTypeResponse().subscribe(resp => {
+    // display its headers
+    var lResponse = { ... resp.body};
+    this.cellSubTypes=lResponse['types']; 
+});
+}
+
+getAssaysDropdown(){
+  //console.log('calling assay dropdown');
+  //this.resourceLoaded=false;
+  //if(this.data.length<=1){
+  this.getAssaysResponse().subscribe(resp => {
+    // display its headers
+    var lResponse = { ... resp.body};
+    this.assays=lResponse['types'];
+});
+}
+
+
+
 
 }

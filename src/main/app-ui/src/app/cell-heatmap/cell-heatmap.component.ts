@@ -63,18 +63,17 @@ export class CellHeatmapComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute, private heatmapService: HeatmapService) {
     console.log('constructor on cell heatmap fired');
-    this.activatedRoute.queryParams.subscribe(params => {
-          this.sortFieldSelected = params['sort'];
+    //this.activatedRoute.queryParams.subscribe(params => {
+          //this.sortFieldSelected = params['sort'];
           //console.log('sort='+this.sortFieldSelected); // Print the parameter to the console. 
           //this.filterMethod();
-      });
+      //});
   }
 
   filterMethod(){
-    //console.log('query button clicked with constructSeleted '+this.constructSelected+' cell selected='+this.cellSelected+' cellSubtypeSelected='+this.cellSubtypeSelected);
+    console.log('query button clicked with constructSeleted '+this.constructSelected+' cell selected='+this.cellSelected+' cellSubtypeSelected='+this.cellSubtypeSelected);
     
       let filter = new CellFilter(this.keyword, this.constructSelected, this.cellSelected, this.cellSubtypeSelected, this.assaySelected, this.sortFieldSelected);
-    
     this.getHeatmapData(filter);
   }
   
@@ -88,9 +87,6 @@ export class CellHeatmapComponent implements OnInit {
     this.getHeatmapData(filter);
   }
 
-  
-  
-
 cellChartOptions={
 
     
@@ -100,9 +96,8 @@ cellChartOptions={
     marginBottom: 80,
     plotBorderWidth: 1,
      height: 17000,
-     width:1000
+     //width:1000
 },
-
 
 title: {
     text: 'Cell Type Heatmap'
@@ -127,12 +122,14 @@ xAxis: {
     {
    categories: ['gene blah1, gene blah2'],
    title: 'gene'
-},{
-   linkedTo: 0,
-   title: 'construct',
-   lineWidth: 2,
-   categories: ['constr blah1, contr blah2'],
-}],
+ },
+ //{
+//    linkedTo: 0,
+//    title: 'construct',
+//    lineWidth: 2,
+//    categories: ['constr blah1, contr blah2'],
+// }
+],
 
 colorAxis: {
 
@@ -189,11 +186,12 @@ series: [{
    
 
   ngOnInit() {
+    console.log('calling cell heatmap init method');
     this.filterMethod();
-    this.getCellTypesDropdown();
-    this.getCellSubTypesDropdown();
-    this.getAssaysDropdown();
-    this.getConstructsDropdown();
+    this.heatmapService.getCellTypesDropdown();
+    this.heatmapService.getCellSubTypesDropdown();
+    this.heatmapService.getAssaysDropdown();
+    this.heatmapService.getConstructsDropdown();
     
     
   }
@@ -206,6 +204,13 @@ series: [{
 
   getHeatmapData(filter: CellFilter){
     this.resourceLoaded=false;
+
+    // if(this.heatmapService.cellHeatmapChart!=undefined && filter.keyword==undefined && filter.construct==undefined && this.cellSelected==undefined && filter.cellSubType==undefined && filter.cellSubType== undefined && filter.sort==undefined){
+    //   this.cellChartOptions=this.heatmapService.cellHeatmapChart;
+    //   console.log('using cached cellheatmap');
+    //   this.updatechart=true;
+      
+    // }else{
     //if(this.data.length<=1){
     this.heatmapService.getCellHeatmapResponse(filter).subscribe(resp => {
       // display its headers
@@ -229,6 +234,8 @@ series: [{
     
       
     });
+  //}
+  this.resourceLoaded=true;;
   }
 
   addLinksToColumnHeaders(columnHeaders: string[]){
@@ -241,73 +248,6 @@ series: [{
       }
       return tempHeaders;
   }
-
-  getConstructsDropdown(){
-    //console.log('calling assay dropdown');
-    this.resourceLoaded=false;
-    //if(this.data.length<=1){
-    this.heatmapService.getConstructsResponse().subscribe(resp => {
-      // display its headers
-      var lResponse = { ... resp.body};
-      //console.log('response='+JSON.stringify(resp));
-      //this.data = this.response['response']['docs']
-      //console.log('response from json file here: '+JSON.stringify(this.response['_embedded'].Data[0]['data']));
-      
-      this.constructTypes=lResponse['types'];
-      //console.log("assays being returned="+this.assays);
-      //let headerData=this.response['_embedded'].Data[0]['columnHeaders'];      
-  });
-  }
-
-  getCellTypesDropdown(){
-    //console.log('calling cellType dropdown');
-    this.resourceLoaded=false;
-    //if(this.data.length<=1){
-    this.heatmapService.getCellTypeResponse().subscribe(resp => {
-      // display its headers
-      var lResponse = { ... resp.body};
-      //console.log('response='+JSON.stringify(resp));
-      //this.data = this.response['response']['docs']
-      //console.log('response from json file here: '+JSON.stringify(this.response['_embedded'].Data[0]['data']));
-      
-      this.cells=lResponse['types'];
-      //let headerData=this.response['_embedded'].Data[0]['columnHeaders'];      
-  });
-}
-
-  getCellSubTypesDropdown(){
-    //console.log('calling cellSubType dropdown');
-    this.resourceLoaded=false;
-    //if(this.data.length<=1){
-    this.heatmapService.getCellSubTypeResponse().subscribe(resp => {
-      // display its headers
-      var lResponse = { ... resp.body};
-      //console.log('response='+JSON.stringify(resp));
-      //this.data = this.response['response']['docs']
-      //console.log('response from json file here: '+JSON.stringify(this.response['_embedded'].Data[0]['data']));
-      
-      this.cellSubTypes=lResponse['types'];
-      //console.log("subtypes being returned="+this.cellSubTypes);
-      //let headerData=this.response['_embedded'].Data[0]['columnHeaders'];      
-  });
-}
-
-getAssaysDropdown(){
-  //console.log('calling assay dropdown');
-  this.resourceLoaded=false;
-  //if(this.data.length<=1){
-  this.heatmapService.getAssaysResponse().subscribe(resp => {
-    // display its headers
-    var lResponse = { ... resp.body};
-    //console.log('response='+JSON.stringify(resp));
-    //this.data = this.response['response']['docs']
-    //console.log('response from json file here: '+JSON.stringify(this.response['_embedded'].Data[0]['data']));
-    
-    this.assays=lResponse['types'];
-    //console.log("assays being returned="+this.assays);
-    //let headerData=this.response['_embedded'].Data[0]['columnHeaders'];      
-});
-}
 
 
  
@@ -324,12 +264,6 @@ titleChange = function(event) {
 };
   
 
-
-
-  
-  
-
-
   displayCellChart(){
   
     console.log('calling display cell chart method');
@@ -338,13 +272,52 @@ titleChange = function(event) {
     this.cellChart= {
     
       chart: {
-        // type: 'heatmap',
-        // marginTop: 200,
-        // marginBottom: 80,
-        // plotBorderWidth: 1,
+        type: 'heatmap',
+        marginTop: 200,
+        marginBottom: 80,
+        plotBorderWidth: 1,
         height: chartHeight,
-         //width:1000
+        width:1000
     },
+    title: {
+      text: 'Cell Type Heatmap'
+    },
+    colorAxis: {
+
+      dataClasses: [{
+        from: 0,
+        to: 1,
+        color: '#ffffff',
+        name: 'No Data'
+    }, {
+        from: 1,
+        to: 2,
+        color: '#808080',
+        name: 'Not enough data'
+    }, {
+        from: 2,
+        to: 3,
+        color: '#0000ff',
+        name: 'Not Significantly Different'
+    }, {
+        from: 3,
+        to: 4,
+        color: '#c4463a',
+        name: 'Significantly Different'
+    }
+    ],
+    min: 0,
+    max: 4,
+    },
+    legend: {
+      align: 'right',
+      layout: 'vertical',
+      // margin: 0,
+      verticalAlign: 'top',
+      backgroundColor: 'whitesmoke'
+      // y: 25,
+      // symbolHeight: 280
+  },
     
         xAxis: { 
           opposite: true,
@@ -420,6 +393,7 @@ titleChange = function(event) {
       this.resourceLoaded=true;
       //this.Highcharts.setOptions(this.cellChartOptions);
       this.cellChartOptions=this.cellChart;
+      this.heatmapService.cellHeatmapChart=this.cellChart;
       this.updatechart=true;
       
     };//end of display method
