@@ -47,7 +47,7 @@
             <mat-card-content>
                 <mat-spinner *ngIf="!resourceLoaded"></mat-spinner>
 
-                  <highcharts-chart style="height: 1700px; margin: 0 auto"
+                  <highcharts-chart
                       [Highcharts]="Highcharts"
                       [options]="procedureChartOptions"
                       [(update)]="updateDemo2"  

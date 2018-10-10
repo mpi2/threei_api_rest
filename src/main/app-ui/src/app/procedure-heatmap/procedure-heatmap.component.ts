@@ -168,7 +168,6 @@ chart: {
   }
 
   getHeatmapData(filter: ProcedureFilter) {
-    console.log('searchbox=' + this.searchBox);
     this.resourceLoaded = false;
     this.heatmapService.getProcedureHeatmapResponse(filter).subscribe(resp => {
       // display its headers
@@ -207,6 +206,7 @@ chart: {
         this.procedureChartOptions = this.heatmapService.defaultProcedureHeatmapChart;
         console.log('using cached cellheatmap');
         this.resourceLoaded = true;
+        this.updateDemo2 = true;
       } else {
       this.displayProcedureChart();
       }
@@ -234,7 +234,12 @@ this.procedureChart = {
 
 
     chart: {
-        height: chartHeight,
+      type: 'heatmap',
+      marginTop: 200,
+      marginBottom: 80,
+      plotBorderWidth: 1,
+      height: chartHeight,
+      width: 1000
     },
 
     xAxis: {
@@ -338,6 +343,7 @@ this.resourceLoaded = true;
        // call to the this method - once default is set always default for this user.
       this.heatmapService.defaultProcedureHeatmapChart = this.procedureChart;
       }
+      this.updateDemo2 = true;
   }// end of display method
 
 
