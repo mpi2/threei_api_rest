@@ -4,13 +4,13 @@ import { MatToolbarModule, MatTooltipModule,MatMenuModule, MatButtonModule} from
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import { TopMenuComponent } from './menu/menu.component';
+import { MenuComponent } from './menu/menu.component';
 
 @NgModule({
   imports: [
     MatToolbarModule, MatTooltipModule, CommonModule, MatMenuModule, BrowserAnimationsModule, MatButtonModule, RouterModule
   ],
-  declarations: [TopMenuComponent],
-  exports : [TopMenuComponent]
+  declarations: [MenuComponent],
+  exports : [MenuComponent]
 })
 export class MenusModule { }

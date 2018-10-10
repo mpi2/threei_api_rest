@@ -59,27 +59,14 @@
   <div id="slider-and-main" fxLayout="column " fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
     <h1>Data Search</h1>
     <mat-card>
-    <mat-tab-group   (selectedTabChange)="tabChanged($event)">
-      <mat-tab color="primary" label="Cell View">
-          cell content here
-        <!-- <ng-template> -->
-                            <!-- <threei-procedure-heatmap></threei-procedure-heatmap> -->
-                           
-          <threei-cell-heatmap></threei-cell-heatmap>
-        <!-- </ng-template> -->
-      </mat-tab>
-                    
-      <mat-tab label="Procedure View">
-          procedure content here
-        <!-- <ng-template> -->
-          
-              <!-- <threei-procedure-heatmap></threei-procedure-heatmap> -->
-        <!-- </ng-template> -->
-      </mat-tab> 
-                
+      <mat-tab-group   (selectedTabChange)="tabChanged($event)">
+        <mat-tab color="primary" label="Cell View">                   
+            <threei-cell-heatmap></threei-cell-heatmap>
+        </mat-tab>            
+        <mat-tab label="Procedure View">
+            <threei-procedure-heatmap></threei-procedure-heatmap>
+        </mat-tab>      
       </mat-tab-group>
-            
-            
     </mat-card>    
   </div>
   </mat-sidenav-content>
