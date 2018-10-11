@@ -204,7 +204,7 @@ chart: {
       filter.keyword === undefined && filter.construct === undefined &&
       filter.sort === undefined) {
         this.procedureChartOptions = this.heatmapService.defaultProcedureHeatmapChart;
-        console.log('using cached cellheatmap');
+        console.log('using cached procedureheatmap');
         this.resourceLoaded = true;
         this.updateDemo2 = true;
       } else {
