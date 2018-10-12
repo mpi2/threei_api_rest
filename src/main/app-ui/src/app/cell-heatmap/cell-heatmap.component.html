@@ -9,6 +9,9 @@
       <mat-form-field >
               <mat-label>Search for gene symbol</mat-label><input matInput type="search" placeholder="Search Gene Symbol" [(ngModel)]="keyword" name="keyword" placeholder="Search for gene symbol">
       </mat-form-field>
+      <button mat-raised-button color="primary">
+        Search
+      </button>
       <mat-form-field>
           <mat-label>Filter by construct</mat-label>
           <mat-select   placeholder="Construct Filter" [(value)]="constructSelected">
@@ -34,16 +37,9 @@
             <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
         </mat-select>
       </mat-form-field> 
-      <div fxLayoutAlign="center center" fxLayoutGap="10px">
-        <button mat-raised-button color="primary">
-            Search
-          </button>
           <button mat-raised-button type="button" mat-fab (click)="clearFilter()">
              Reset
           </button>
-
-            
-        </div>
       </mat-card-content>
     </mat-card> 
 </form>
