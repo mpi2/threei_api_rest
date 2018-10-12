@@ -245,15 +245,15 @@ legend: {
       this.constructs = this.response['constructs'];
       // console.log('construct='+this.constructs+'||');
       // console.log('rowheaders='+this.rowHeaders+'||');
-      if (this.heatmapService.defaultCellHeatmapChart !== undefined && filter.keyword === undefined && filter.construct === undefined
-        && this.cellSelected === undefined && filter.cellSubType === undefined &&
-        filter.cellSubType === undefined && filter.sort === undefined) {
-          this.cellChartOptions = this.heatmapService.defaultCellHeatmapChart;
-          console.log('using cached cellheatmap');
-          this.resourceLoaded = true;
-        } else {
+      // if (this.heatmapService.defaultCellHeatmapChart !== undefined && filter.keyword === undefined && filter.construct === undefined
+      //   && this.cellSelected === undefined && filter.cellSubType === undefined &&
+      //   filter.cellSubType === undefined && filter.sort === undefined) {
+      //     this.cellChartOptions = this.heatmapService.defaultCellHeatmapChart;
+      //     console.log('using cached cellheatmap');
+      //     this.resourceLoaded = true;
+      //   } else {
           this.displayCellChart();
-        }
+       // }
     });
   }
 
@@ -344,10 +344,10 @@ displayCellChart() {
   // this.cellChartOptions.series[0].name = 'Cell types with significant parameters',
   this.cellChartOptions.series[0].data = this.data;
   this.resourceLoaded = true;
-  if (this.heatmapService.defaultCellHeatmapChart === undefined) { // only update the default on first
-    //  // call to the this method - once default is set always default for this user.
-    this.heatmapService.defaultCellHeatmapChart = this.cellChartOptions;
-  }
+  // if (this.heatmapService.defaultCellHeatmapChart === undefined) { // only update the default on first
+  //   //  // call to the this method - once default is set always default for this user.
+  //   this.heatmapService.defaultCellHeatmapChart = this.cellChartOptions;
+  // }
     // return this.cellChartOptions = this.cellHeatmapChart;
     this.updatechart = true;
   }// end of display metho

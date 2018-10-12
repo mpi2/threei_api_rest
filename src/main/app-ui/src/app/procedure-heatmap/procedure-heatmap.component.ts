@@ -233,16 +233,16 @@ chart: {
     //       cell=[construct, 0, index];
     //       this.data.push(cell);
     //   }
-    if (this.heatmapService.defaultProcedureHeatmapChart !== undefined &&
-      filter.keyword === undefined && filter.construct === undefined &&
-      filter.sort === undefined) {
-        this.procedureChartOptions = this.heatmapService.defaultProcedureHeatmapChart;
-        console.log('using cached procedureheatmap');
-        this.resourceLoaded = true;
-        this.updateDemo2 = true;
-      } else {
+    // if (this.heatmapService.defaultProcedureHeatmapChart !== undefined &&
+    //   filter.keyword === undefined && filter.construct === undefined &&
+    //   filter.sort === undefined) {
+    //     this.procedureChartOptions = this.heatmapService.defaultProcedureHeatmapChart;
+    //     console.log('using cached procedureheatmap');
+    //     this.resourceLoaded = true;
+    //     this.updateDemo2 = true;
+    //   } else {
       this.displayProcedureChart();
-      }
+      // }
     });
   }
 
@@ -282,10 +282,10 @@ return this.constructTypes;
   this.resourceLoaded = true;
       // this.Highcharts.setOptions(this.cellChartOptions);
       this.resourceLoaded = true;
-      if (this.heatmapService.defaultProcedureHeatmapChart === undefined) { // only update the default on first
-       // call to the this method - once default is set always default for this user.
-      this.heatmapService.defaultProcedureHeatmapChart = this.procedureChartOptions;
-      }
+      // if (this.heatmapService.defaultProcedureHeatmapChart === undefined) { // only update the default on first
+      //  // call to the this method - once default is set always default for this user.
+      // this.heatmapService.defaultProcedureHeatmapChart = this.procedureChartOptions;
+      // }
       this.updateDemo2 = true;
   }// end of display method
 
