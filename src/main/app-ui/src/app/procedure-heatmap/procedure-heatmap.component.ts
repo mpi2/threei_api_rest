@@ -81,16 +81,19 @@ chart: {
       },
       reserveSpace: true,
     },
-    yAxis: [
+    yAxis:
+    // [
       {
      categories: ['gene blah1, gene blah2'],
      title: 'gene'
-  }, {
-     linkedTo: 0,
-     title: 'construct',
-     lineWidth: 2,
-     categories: ['constr blah1, contr blah2'],
-  }],
+  },
+  //  {
+  //    linkedTo: 0,
+  //    title: 'construct',
+  //    lineWidth: 2,
+  //    categories: ['constr blah1, contr blah2'],
+  // }
+// ],
   colorAxis: {
     dataClasses: [{
       from: 0,
@@ -125,24 +128,54 @@ chart: {
       backgroundColor: 'whitesmoke'
       // symbolHeight: 280
   },
+  tooltip: {
+    // shadow: false,
+    useHTML: true,
+    formatter: function () {
+        return '<b>' + this.series.xAxis.categories[this.point.x] + '</b><br/>' +
+        this.series.colorAxis.dataClasses[this.point.dataClass].name + '</b><br>' +
+        '<b>' + this.series.yAxis.categories[this.point.y] + '</b>';
+    }
+},
+
   plotOptions: {
     series: {
         events: {
             click: function (e) {
+              const gene = e.point.series.yAxis.categories[e.point.y];
+
+                const procedure = e.point.series.xAxis.categories[e.point.x];
+
+                const text = 'gene: ' + gene +
+                         ' Procedure: ' + procedure + ' significance=' + e.point.value;
+
+                // may have to use routerLink like for menus to link to our new not created yet parameter page
+                  const routerLink = 'details?' + 'procedure=' + procedure + '&gene=' + gene;
+                  window.open(routerLink, '_blank');
             }
-        }
-    }
-  },
+        },
+    },
+},
 
   series: [{
     name: 'Data Loading....',
     borderWidth: 1,
-    data: [[0, 0, 'blah'], [0, 1, 1]],
+    data: [[0, 1, 1]],
     dataLabels: {
         enabled: false,
         color: '#000000'
     }
   }],
+
+   // this.procedureChartOptions.series = [{
+    //     name: 'Procedures with significant parameters',
+    //     borderWidth: 1,
+    //     data: this.data,
+    //     dataLabels: {
+    //         enabled: false,
+    //         color: '#000000'
+    //     }
+    // }];
 
 };
 
@@ -225,137 +258,35 @@ titleChange = function(event) {
 };
 
 
+getConstructsDropdown(): string[] {
+  // console.log('calling assay dropdown');
+  // this.resourceLoaded=false;
+  // if(this.data.length<=1){
+  this.heatmapService.getConstructsResponse().subscribe(resp => {
+    // display its headers
+    const lResponse = { ... resp.body};
+    this.constructTypes = lResponse['types'];
+});
+return this.constructTypes;
+}
 
   displayProcedureChart() {
-console.log('calling display procedure chart method');
-const spaceForHeaders = 350;
-    const chartHeight = spaceForHeaders + this.rowHeaders.length * 20;
-this.procedureChart = {
-
-
-    chart: {
-      type: 'heatmap',
-      marginTop: 200,
-      marginBottom: 80,
-      plotBorderWidth: 1,
-      height: chartHeight,
-      width: 1000
-    },
-
-    xAxis: {
-      opposite: true,
-        categories: this.columnHeaders,
-        labels: {
-            rotation: 90
-        },
-        reserveSpace: true,
-      },
-// example of multiple columns working http://jsfiddle.net/0qmt0mkq/
-yAxis: [{
-    categories: this.rowHeaders,
-    title: null
-  }, {
-  categories: this.constructs,
-  title: null
-  } ],
-
-    colorAxis: {
-
-      dataClasses: [{
-        from: 0,
-        to: 1,
-        color: '#ffffff',
-        name: 'No Data'
-    }, {
-        from: 1,
-        to: 2,
-        color: '#808080',
-        name: 'Not enough data'
-    }, {
-        from: 2,
-        to: 3,
-        color: '#0000ff',
-        name: 'Not Significantly Different'
-    }, {
-        from: 3,
-        to: 4,
-        color: '#c4463a',
-        name: 'Significantly Different'
-    }
-    ],
-    min: 0,
-    max: 4,
-    },
-
-    legend: {
-        align: 'right',
-        layout: 'vertical',
-        // margin: 0,
-        verticalAlign: 'top',
-        // y: 25,
-        // symbolHeight: 280
-    },
-
-    tooltip: {
-        formatter: function () {
-            return '<b>' + this.series.xAxis.categories[this.point.x] + '</b><br/>' +
-            this.series.colorAxis.dataClasses[this.point.dataClass].name + '</b><br>'+
-            '<b>' + this.series.yAxis.categories[this.point.y] + '</b>';
-        }
-    },
-    plotOptions: {
-      series: {
-          events: {
-              click: function (e) {
-                  const gene = e.point.series.yAxis.categories[e.point.y];
-                  // var construct=e.point.series.yAxis.categories[e.point.y];
-                  const procedure = e.point.series.xAxis.categories[e.point.x];
-                  const text = 'gene: ' + gene +
-                           ' Procedure: ' + procedure + ' significance=' + e.point.value ;
-                  // may have to use routerLink like for menus to link to our new not created yet parameter page
-                    const url = 'http://starwars.com';
-                    const routerLink = 'details?' + 'procedure=' + procedure + '&gene=' + gene;
-                    window.open(routerLink,'_blank');
-                    //   this.chart.clickLabel.attr({
-                    //       text: text
-                    //   });
-                      console.log('text on click=' + text);
-              }
-          }
-      }
-  },
-
-    series: [{
-        name: 'Procedures with significant parameters',
-        borderWidth: 1,
-        data: this.data,
-        dataLabels: {
-            enabled: false,
-            color: '#000000'
-        }
-    }]
-};
-this.resourceLoaded = true;
+  console.log('calling display procedure chart method');
+  const spaceForHeaders = 350;
+  const chartHeight = spaceForHeaders + this.rowHeaders.length * 20;
+  this.procedureChartOptions.chart.height = chartHeight;
+  this.procedureChartOptions.xAxis.categories = this.columnHeaders;
+  // example of multiple columns working http://jsfiddle.net/0qmt0mkq/
+  this.procedureChartOptions.yAxis.categories = this.rowHeaders;
+  this.procedureChartOptions.series[0].data = this.data;
+  this.resourceLoaded = true;
       // this.Highcharts.setOptions(this.cellChartOptions);
-      this.procedureChartOptions = this.procedureChart;
       this.resourceLoaded = true;
       if (this.heatmapService.defaultProcedureHeatmapChart === undefined) { // only update the default on first
        // call to the this method - once default is set always default for this user.
-      this.heatmapService.defaultProcedureHeatmapChart = this.procedureChart;
+      this.heatmapService.defaultProcedureHeatmapChart = this.procedureChartOptions;
       }
       this.updateDemo2 = true;
   }// end of display method
 
-
-  getConstructsDropdown(): string[] {
-    // console.log('calling assay dropdown');
-    // this.resourceLoaded=false;
-    // if(this.data.length<=1){
-    this.heatmapService.getConstructsResponse().subscribe(resp => {
-      // display its headers
-      const lResponse = { ... resp.body};
-      this.constructTypes = lResponse['types'];
-  });
-  return this.constructTypes;
-  }
 }

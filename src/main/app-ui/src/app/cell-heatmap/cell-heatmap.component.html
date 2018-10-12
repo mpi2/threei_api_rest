@@ -9,8 +9,6 @@
       <mat-form-field >
               <mat-label>Search for gene symbol</mat-label><input matInput type="search" placeholder="Search Gene Symbol" [(ngModel)]="keyword" name="keyword" placeholder="Search for gene symbol">
       </mat-form-field>
-      </mat-card-content>
-      <mat-card-content>
       <mat-form-field>
           <mat-label>Filter by construct</mat-label>
           <mat-select   placeholder="Construct Filter" [(value)]="constructSelected">
@@ -18,8 +16,8 @@
             <mat-option *ngFor="let construct of constructTypes" [value]="construct" (click)="filterMethod()">{{construct}}</mat-option>
           </mat-select>
         </mat-form-field>
-        </mat-card-content>
-        <mat-card-content>
+       
+        
        <mat-form-field>
           <mat-label>Filter by cell type</mat-label>
           <mat-select   placeholder="Cell type Filter" [(value)]="cellSelected">
@@ -27,46 +25,27 @@
             <mat-option *ngFor="let cell of cells" [value]="cell"  (click)="filterMethod()">{{cell}}</mat-option>
           </mat-select>
         </mat-form-field>
-      </mat-card-content>
-      
-       <!-- <mat-form-field>
-          <mat-select   placeholder="Cell subtype" [(value)]="cellSubtypeSelected">
-            <mat-option>None</mat-option>
-            <mat-option *ngFor="let cellSubType of cellSubTypes" [value]="cellSubType">{{cellSubType}}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      
-         
-        <mat-form-field>
-          <mat-select   placeholder="Assay" [(value)]="assaySelected">
-              <mat-option>None</mat-option>
-              <mat-option *ngFor="let assay of assays" [value]="assay">{{assay}}</mat-option>
-          </mat-select>
-        </mat-form-field>  -->
+     
 
+      <mat-form-field>
+        <mat-label>Sort by most significant cell type</mat-label>
+        <mat-select   placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected">
+            <mat-option>None</mat-option>
+            <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
+        </mat-select>
+      </mat-form-field> 
       <div fxLayoutAlign="center center" fxLayoutGap="10px">
         <button mat-raised-button color="primary">
-            Filter
+            Search
           </button>
           <button mat-raised-button type="button" mat-fab (click)="clearFilter()">
-              Clear Filter
+             Reset
           </button>
 
             
         </div>
-    </mat-card> 
-
-    <mat-card>
-      <mat-card-content>
-          <mat-form-field>
-              <mat-label>Sort by most significant cell type</mat-label>
-              <mat-select   placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected">
-                  <mat-option>None</mat-option>
-                  <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
-              </mat-select>
-            </mat-form-field> 
       </mat-card-content>
-    </mat-card>
+    </mat-card> 
 </form>
 <mat-card>
     <mat-card-content>

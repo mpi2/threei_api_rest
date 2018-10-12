@@ -236,7 +236,6 @@ public class DataController {
 	@RequestMapping("/constructs")
 	@ResponseBody
 	public HttpEntity<Types> constructController(Model model, @RequestParam(value = "heatmapType", required = false, defaultValue="procedure") String heatmapType) {
-		System.out.println("calling data controller with heatmapType"+ heatmapType);
 		Types types = cellHeatmapService.getConstructs();
 		return new ResponseEntity<Types>(types, HttpStatus.OK);
 	}
@@ -252,7 +251,7 @@ public class DataController {
 	
 	
 	private Map<String, GeneDTO> getGenesForKeywords(String keyword, Map<String, GeneDTO> genes) {
-		System.out.println("keyword is "+keyword);
+		
     	//now use our gene autosuggest field to get the appropriate gene back
     	//auto_suggest:Adal
     	//http://localhost:8080/data?keyword=4930578F03Rik returns Adal - also need to handle spaces with quotes....!!!

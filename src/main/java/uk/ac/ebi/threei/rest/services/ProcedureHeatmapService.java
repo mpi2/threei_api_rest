@@ -90,7 +90,7 @@ public class ProcedureHeatmapService {
 	
 	
 	public HttpEntity<Data> getProcedureHeatmapData(Filter filter) {
-		System.out.println("calling data controller with heatmapType" + filter.getKeyword() + " construct=" + filter.getConstructFilter()+"  sort field="+filter.getSortField());
+		System.out.println("calling data controller with filter fields= " + filter.getKeyword() + " construct=" + filter.getConstructFilter()+"  sort field="+filter.getSortField());
 		Data data = new Data();//obect that holds all the data for this chart display
 		Sort sort = null;
 		data.setHeatmapType("procedure");
@@ -110,20 +110,7 @@ public class ProcedureHeatmapService {
 		ArrayList<String> rowHeaders = new ArrayList<>();
 		ArrayList<String> constructs = new ArrayList<>();
 		int rowI = 0;
-//		for (ProcedureHeatmapRow row : procedureRows) {
-////System.out.println("row="+row);
-//			rowHeaders.add(row.getGene());
-//			String constructString = row.getConstruct();
-//			constructs.add(constructString);
-//			if (constructString.contains("(")) {
-//				constructString = constructString.substring(0, row.getConstruct().indexOf("("));
-//			}
-//			if (!constructString.equals("")) {
-//				constructs.add(constructString);
-//			}
-
-		
-		
+	
 		for(ProcedureHeatmapRow row:procedureRows) {
 			rowHeaders.add(row.getGene());
 			constructs.add(row.getConstruct());

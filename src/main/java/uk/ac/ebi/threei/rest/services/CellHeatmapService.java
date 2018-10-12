@@ -92,26 +92,11 @@ public class CellHeatmapService {
 			System.out.println("sortVariable=" + sortField);
 			sort = new Sort(Sort.Direction.ASC, sortField);
 		}
-//		 else {
-//			// should extract these into methods in a data service for unit testing purposes
-//			cellRows = cellHeatmapRowsRepository.findAll();// get an easily readable form of the rows for the heatmap
-//		}
-
-		// List<CellHeatmapRow> cellRows = cellHeatmapRowsRepository.findAll(sort);
-
-		
 		
 		//put filter method in here to only return the rows we need
 		cellRows = this.filterCellRows(filter, sort);
 		System.out.println("cellrows size=" + cellRows.size());
-//		for(CellHeatmapRow tmpRow:cellRows) {
-//			if(!cellRowsFiltered.contains(tmpRow)) {
-//				System.out.println("row not in filtered="+tmpRow);
-//			}
-//		}
-		
-		//System.out.println("cellRows after filter size="+cellRows.size());
-		
+
 		
 		// loop through the rows and get the row headers for (gene symbols)
 		ArrayList<String> rowHeaders = new ArrayList<>();
@@ -359,7 +344,7 @@ public class CellHeatmapService {
 			if(!assayToCellTypes.containsKey(assay)) {
 				assayToCellTypes.put(assay, new HashSet<String>());
 			}else {
-				System.out.println("assay adding is "+assay+ " with cellType="+cellP.getCellType());
+				//System.out.println("assay adding is "+assay+ " with cellType="+cellP.getCellType());
 				assayToCellTypes.get(assay).add(cellP.getCellType());
 			}
 			

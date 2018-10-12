@@ -128,15 +128,19 @@ legend: {
         reserveSpace: true,
       },
 
-    yAxis: [{
+    yAxis:
+    // [
+      {
       categories: this.rowHeaders,
       title: 'gene'
-    }, {
-     linkedTo : 0,
-      title: 'construct',
-      lineWidth: 2,
-      categories: this.constructs
-    } ],
+    },
+    // {
+    //  linkedTo : 0,
+    //   title: 'construct',
+    //   lineWidth: 2,
+    //   categories: this.constructs
+    // }
+  // ],
 
     tooltip: {
       // shadow: false,
@@ -334,48 +338,16 @@ displayCellChart() {
   console.log('calling display cell chart method');
   const spaceForHeaders = 350;
   const chartHeight = spaceForHeaders + this.rowHeaders.length * 20;
-  this.cellChartOptions.chart = {
-      type: 'heatmap',
-      marginTop: 200,
-      marginBottom: 80,
-      plotBorderWidth: 1,
-      height: chartHeight,
-      width: 1000
-  };
-  this.cellChartOptions.xAxis = {
-        opposite: true,
-          categories: this.columnHeaders,
-          labels: {
-              // useHTML: true,
-              rotation: 90
-          },
-          reserveSpace: true,
-        };
-
-        this.cellChartOptions.yAxis = [{
-        categories: this.rowHeaders,
-        title: 'gene'
-      }, {
-       linkedTo : 0,
-        title: 'construct',
-        lineWidth: 2,
-        categories: this.constructs
-      } ];
-      this.cellChartOptions.series = [{
-          name: 'Cell types with significant parameters',
-          borderWidth: 1,
-          // data: this.data,
-          data: this.data,
-          dataLabels: {
-              enabled: false,
-              color: '#000000'
-          }
-      }];
-    this.resourceLoaded = true;
-     if (this.heatmapService.defaultCellHeatmapChart === undefined) { // only update the default on first
+  this.cellChartOptions.chart.height = chartHeight;
+  this.cellChartOptions.xAxis.categories = this.columnHeaders;
+  this.cellChartOptions.yAxis.categories = this.rowHeaders,
+  // this.cellChartOptions.series[0].name = 'Cell types with significant parameters',
+  this.cellChartOptions.series[0].data = this.data;
+  this.resourceLoaded = true;
+  if (this.heatmapService.defaultCellHeatmapChart === undefined) { // only update the default on first
     //  // call to the this method - once default is set always default for this user.
     this.heatmapService.defaultCellHeatmapChart = this.cellChartOptions;
-     }
+  }
     // return this.cellChartOptions = this.cellHeatmapChart;
     this.updatechart = true;
   }// end of display metho
