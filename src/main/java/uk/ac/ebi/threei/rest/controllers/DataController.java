@@ -4,6 +4,7 @@ import java.io.IOException;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.SortedSet;
@@ -82,16 +83,18 @@ public class DataController {
 			//CellParameterRepository add method there.
 			List<CellParameter> cellParams = cellParameterRepository.findByCellType(procedure);
 			//search these for the list of parameters
-			List<String> cellParameters=new ArrayList<>();
+			Map<String, String> cellParametersToAssay=new HashMap<>();
 			for(CellParameter cellP:cellParams) {
-				cellParameters.add(cellP.getParameterName());
+				System.out.println("cell parameter="+cellP);
+				cellParametersToAssay.put(cellP.getParameterName(), cellP.getAssay());
 			}
 			//then search for hits for these gene and filter on the parameters will be the quickest way rather than a request per parameter?
 			List<ParameterDetails> parameterDetailsForGene = parameterDetailsServce.getParameterDetailsByGene(gene);
 			//filter
 			for(ParameterDetails detail:parameterDetailsForGene) {
-				if(cellParameters.contains(detail.getParameterName())){
+				if(cellParametersToAssay.containsKey(detail.getParameterName())){
 					//System.out.println("add detail");
+					detail.setAssay(cellParametersToAssay.get(detail.getParameterName()));
 					parameterDetails.add(detail);
 				}
 			}
@@ -110,6 +113,7 @@ public class DataController {
 			DetailsRow row=new DetailsRow();
 			row.setRowHeader(p.getParameterName());
 			row.setParameterStableId(p.getParameterId());
+			row.setAssay(p.getAssay());
 			//loop over the header strings and get the significance score from each
 			for(String header:headerKeys) {
 				//System.out.println("header is "+header);

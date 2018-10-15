@@ -6,8 +6,8 @@
   
 
    <table fxFlex="100%">
-    <th>Parameter Name</th><th *ngFor="let columnHeader of columnHeaders">{{columnHeader}}</th>
-    <ng-container *ngFor="let row of rows"><tr><td>{{row.rowHeader}}</td><td *ngFor="let cell of row.cellData"
+    <th>Parameter Name</th><th *ngIf="rows[0].assay">Assay</th><th *ngFor="let columnHeader of columnHeaders">{{columnHeader}}</th>
+    <ng-container *ngFor="let row of rows"><tr><td>{{row.rowHeader}}</td><td *ngIf="rows[0].assay">{{row.assay}}</td><td *ngFor="let cell of row.cellData"
       [style.background-color]="getStyle(cell)"  style="cursor: pointer" (click)="openChart(geneAccession, row.parameterStableId)"></td></tr></ng-container>
   </table>
 
