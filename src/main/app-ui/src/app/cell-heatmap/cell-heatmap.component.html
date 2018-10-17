@@ -15,7 +15,7 @@
       <mat-form-field>
           <mat-label>Filter by construct</mat-label>
           <mat-select   placeholder="Construct Filter" [(value)]="constructSelected">
-            <mat-option>None</mat-option>
+            <mat-option (click)="filterMethod()">None</mat-option>
             <mat-option *ngFor="let construct of constructTypes" [value]="construct" (click)="filterMethod()">{{construct}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -24,7 +24,7 @@
        <mat-form-field>
           <mat-label>Filter by cell type</mat-label>
           <mat-select   placeholder="Cell type Filter" [(value)]="cellSelected">
-            <mat-option>None</mat-option>
+            <mat-option (click)="filterMethod()">None</mat-option>
             <mat-option *ngFor="let cell of cells" [value]="cell"  (click)="filterMethod()">{{cell}}</mat-option>
           </mat-select>
         </mat-form-field>
@@ -33,7 +33,7 @@
       <mat-form-field>
         <mat-label>Sort by most significant cell type</mat-label>
         <mat-select   placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected">
-            <mat-option>None</mat-option>
+            <mat-option (click)="filterMethod()">None</mat-option>
             <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
         </mat-select>
       </mat-form-field> 
