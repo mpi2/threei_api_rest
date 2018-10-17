@@ -28,6 +28,7 @@ Highcharts.setOptions({
   styleUrls: ['./procedure-heatmap.component.css']
 })
 export class ProcedureHeatmapComponent implements OnInit {
+    showEmtpyResultMessage = false;
     Highcharts = Highcharts;
     @ViewChild('searchBox') searchBox;
     sortFieldSelected: string;
@@ -270,9 +271,19 @@ getConstructsDropdown(): string[] {
 return this.constructTypes;
 }
 
+openImpc() {
+  window.open('https://www.mousephenotype.org/data/search?kw=*', '_blank');
+}
+
   displayProcedureChart() {
   console.log('calling display procedure chart method');
-  const spaceForHeaders = 350;
+  let spaceForHeaders = 350;
+  if (this.data.length === 0) {
+    this.showEmtpyResultMessage = true;
+    spaceForHeaders = 0;
+    } else {
+      this.showEmtpyResultMessage = false;
+    }
   const chartHeight = spaceForHeaders + this.rowHeaders.length * 20;
   this.procedureChartOptions.chart.height = chartHeight;
   this.procedureChartOptions.xAxis.categories = this.columnHeaders;
