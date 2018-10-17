@@ -34,6 +34,7 @@ Highcharts.setOptions({
 })
 export class CellHeatmapComponent implements OnInit {
 
+  showEmtpyResultMessage = false;
   cellHeatmapChart: { chart: { type: string; marginTop: number; marginBottom: number;
     plotBorderWidth: number; height: number; width: number; }; title: { text: string; };
     colorAxis: { dataClasses: { from: number; to: number; color: string; name: string; }[]; min: number; max: number; };
@@ -186,11 +187,6 @@ legend: {
 
   constructor(private activatedRoute: ActivatedRoute, private heatmapService: HeatmapService) {
     console.log('constructor on cell heatmap fired');
-    // this.activatedRoute.queryParams.subscribe(params => {
-          // this.sortFieldSelected = params['sort'];
-          // console.log('sort='+this.sortFieldSelected); // Print the parameter to the console. 
-          // this.filterMethod();
-      // });
   }
 
   filterMethod() {
@@ -232,28 +228,12 @@ legend: {
     this.heatmapService.getCellHeatmapResponse(filter).subscribe(resp => {
       // display its headers
       this.response = { ... resp.body};
-      // console.log('response='+JSON.stringify(resp));
-      // this.data = this.response['response']['docs']
-      // console.log('response from json file here: '+JSON.stringify(this.response['_embedded'].Data[0]['data']));
-    this.data = this.response['data'];
-      // this.columnHeaders=this.addLinksToColumnHeaders(this.response['columnHeaders']);
+      this.data = this.response['data'];
       this.columnHeaders = this.response['columnHeaders'];
-    //   this.columnHeaders=[
-    //     '<[routerLink]="" (click)="onGoToPage2()">Homozygous viability at P14</a>'
       this.rowHeaders = this.response['rowHeaders'];
       // here we need to add a whole column populated with the construct as java has no way of mixing strings and ints in an array
       this.constructs = this.response['constructs'];
-      // console.log('construct='+this.constructs+'||');
-      // console.log('rowheaders='+this.rowHeaders+'||');
-      // if (this.heatmapService.defaultCellHeatmapChart !== undefined && filter.keyword === undefined && filter.construct === undefined
-      //   && this.cellSelected === undefined && filter.cellSubType === undefined &&
-      //   filter.cellSubType === undefined && filter.sort === undefined) {
-      //     this.cellChartOptions = this.heatmapService.defaultCellHeatmapChart;
-      //     console.log('using cached cellheatmap');
-      //     this.resourceLoaded = true;
-      //   } else {
-          this.displayCellChart();
-       // }
+      this.displayCellChart();
     });
   }
 
@@ -322,9 +302,6 @@ this.heatmapService.getCellSubTypeResponse().subscribe(resp => {
 }
 
 getAssaysDropdown() {
-// console.log('calling assay dropdown');
-// this.resourceLoaded=false;
-// if(this.data.length<=1){
 this.heatmapService.getAssaysResponse().subscribe(resp => {
   // display its headers
   const lResponse = { ... resp.body};
@@ -332,23 +309,29 @@ this.heatmapService.getAssaysResponse().subscribe(resp => {
 });
 }
 
+openImpc() {
+  window.open('https://www.mousephenotype.org/data/search?kw=*', '_blank');
+}
+
 
 displayCellChart() {
 
   console.log('calling display cell chart method');
-  const spaceForHeaders = 350;
-  const chartHeight = spaceForHeaders + this.rowHeaders.length * 20;
-  this.cellChartOptions.chart.height = chartHeight;
-  this.cellChartOptions.xAxis.categories = this.columnHeaders;
-  this.cellChartOptions.yAxis.categories = this.rowHeaders,
-  // this.cellChartOptions.series[0].name = 'Cell types with significant parameters',
-  this.cellChartOptions.series[0].data = this.data;
-  this.resourceLoaded = true;
-  // if (this.heatmapService.defaultCellHeatmapChart === undefined) { // only update the default on first
-  //   //  // call to the this method - once default is set always default for this user.
-  //   this.heatmapService.defaultCellHeatmapChart = this.cellChartOptions;
-  // }
-    // return this.cellChartOptions = this.cellHeatmapChart;
-    this.updatechart = true;
-  }// end of display metho
+  let spaceForHeaders = 350;
+  if (this.data.length === 0) {
+    this.showEmtpyResultMessage = true;
+    spaceForHeaders = 0;
+    } else {
+      this.showEmtpyResultMessage = false;
+    }
+      const chartHeight = spaceForHeaders + this.rowHeaders.length * 20;
+      this.cellChartOptions.chart.height = chartHeight;
+      this.cellChartOptions.xAxis.categories = this.columnHeaders;
+      this.cellChartOptions.yAxis.categories = this.rowHeaders,
+      // this.cellChartOptions.series[0].name = 'Cell types with significant parameters',
+      this.cellChartOptions.series[0].data = this.data;
+      this.resourceLoaded = true;
+      this.updatechart = true;
+  }// end of display method
+
 }
