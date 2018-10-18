@@ -19,6 +19,8 @@ public class GeneDTO {
 	
 	public static final String LATEST_PHENOTYPING_CENTER = "latest_phenotyping_center";
 	
+	public static final String ENSEMBL_ID = "ensembl_gene_id";
+	
 	@Field(MARKER_SYMBOL)
 	private String markerSymbol;
 	

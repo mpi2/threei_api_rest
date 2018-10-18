@@ -107,5 +107,28 @@ public class GeneService {
 		}
 		
 	}
+	 public String getGeneSymbolFromEnsemblId(String ensemblId) throws IOException, SolrServerException {
+
+			if (ensemblId == null) {
+				System.err.println("null entered for ensemblId to get gene symbol");
+				return null;
+			}
+
+			SolrQuery query = new SolrQuery();
+			query.setQuery(GeneDTO.ENSEMBL_ID + ":" + ensemblId);
+			query.setRows(Integer.MAX_VALUE);
+			query.setFields(GeneDTO.MARKER_SYMBOL);
+			
+			QueryResponse rsp = solrClient.query(query);
+
+			List<GeneDTO> genes = rsp.getBeans(GeneDTO.class);
+			if(genes.size()>0 && genes.size()<2){
+				return genes.get(0).getMarkerSymbol();
+			}else{
+				System.err.println("too many or too few genes returned from 3i solr service");
+				return "";
+			}
+
+		}
     
 }
