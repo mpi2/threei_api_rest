@@ -49,7 +49,7 @@
 
         <plugins>
 
-             <plugin>
+             <!-- <plugin>
 
                 <groupId>org.codehaus.mojo</groupId>
 
@@ -59,7 +59,7 @@
 
                 <executions>
 
-                   <!--  <execution>
+                    <execution>
 
                         <id>install-dependencies</id>
 
@@ -115,11 +115,11 @@
 
                         </configuration>
 
-                    </execution> -->
+                    </execution>
 
                 </executions>
 
-            </plugin>
+            </plugin> -->
 
             <plugin>
 <!--need this plugin without the repackage and the above plugins for running the loader with all for running the app and api  -->
@@ -127,9 +127,9 @@
 
                 <artifactId>spring-boot-maven-plugin</artifactId>
 
-                <executions>
+                <!-- <executions>
 
-                    <!-- <execution>
+                    <execution>
 
                         <goals>
 
@@ -137,9 +137,9 @@
 
                         </goals>
 
-                    </execution> -->
+                    </execution>
 
-                </executions>
+                </executions> -->
 
             </plugin> 
 

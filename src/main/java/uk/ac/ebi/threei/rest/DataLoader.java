@@ -43,7 +43,7 @@ import uk.ac.ebi.threei.rest.repositories.ProcedureHeatmapRowsRepository;
 import uk.ac.ebi.threei.rest.services.GeneService;
 
 //need this annotation if using the loader - comment out if not...?
-//@SpringBootApplication
+@SpringBootApplication
 public class DataLoader implements CommandLineRunner {
 	
 	//wont run without this but doesn't use it - annoying!!!
