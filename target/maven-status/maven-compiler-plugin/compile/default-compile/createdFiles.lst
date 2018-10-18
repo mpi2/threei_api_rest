@@ -6,6 +6,7 @@ uk/ac/ebi/threei/rest/Data.class
 uk/ac/ebi/threei/rest/repositories/CellParameterRepository.class
 uk/ac/ebi/threei/rest/services/ParameterDetailsService.class
 uk/ac/ebi/threei/rest/procedure/Result.class
+uk/ac/ebi/threei/rest/controllers/RootRedirectController.class
 uk/ac/ebi/threei/rest/controllers/DataController.class
 uk/ac/ebi/threei/rest/SignificanceType.class
 uk/ac/ebi/threei/rest/controllers/Filter.class
