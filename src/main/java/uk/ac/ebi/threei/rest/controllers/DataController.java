@@ -72,7 +72,6 @@ public class DataController {
 			@RequestParam(value = "construct", required = false) String construct, @RequestParam(value = "procedure", required = false) String procedure) throws IOException, SolrServerException {
 		System.out.println("calling get procedure page in controller");
 		// this works http://localhost:8080/procedure_page?gene=Adal&procedure=Homozygous%20viability%20at%20P14&construct=tm1a
-		//but why don't we have a result with Homozygous%20Fertility in our results now????
 		ProcedurePage page=new ProcedurePage();
 		//spring data didn't like spaces in procedure names so doing it old school once filtered on gene
 		List<ParameterDetails> parameterDetails = parameterDetailsServce.getParameterDetailsByGeneAndProcedureAndConstruct(gene, procedure , construct);
@@ -85,7 +84,7 @@ public class DataController {
 			//search these for the list of parameters
 			Map<String, String> cellParametersToAssay=new HashMap<>();
 			for(CellParameter cellP:cellParams) {
-				System.out.println("cell parameter="+cellP);
+				//System.out.println("cell parameter="+cellP);
 				cellParametersToAssay.put(cellP.getParameterName(), cellP.getAssay());
 			}
 			//then search for hits for these gene and filter on the parameters will be the quickest way rather than a request per parameter?
@@ -242,37 +241,6 @@ public class DataController {
 	public HttpEntity<Types> constructController(Model model, @RequestParam(value = "heatmapType", required = false, defaultValue="procedure") String heatmapType) {
 		Types types = cellHeatmapService.getConstructs();
 		return new ResponseEntity<Types>(types, HttpStatus.OK);
-	}
-
-	
-	
-	
-	
-//	@ExceptionHandler()
-//    public void handleException() {
-//        System.out.println("exception thown in DataController");
-//    }
-	
-	
-	private Map<String, GeneDTO> getGenesForKeywords(String keyword, Map<String, GeneDTO> genes) {
-		
-    	//now use our gene autosuggest field to get the appropriate gene back
-    	//auto_suggest:Adal
-    	//http://localhost:8080/data?keyword=4930578F03Rik returns Adal - also need to handle spaces with quotes....!!!
-      try {
-			genes=geneService.getGeneByKeywords(keyword);
-			//use the symbol from the gene returned to request the page with the gene
-			//maybe use a redirect?
-			
-			System.out.println(genes);
-		} catch (SolrServerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return genes;
 	}
 	
 	

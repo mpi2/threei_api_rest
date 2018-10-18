@@ -83,7 +83,7 @@ public class GeneService {
 	
 	
 	//geneQf use this field for gene, synonym and human gene info. Seems to work with lower and upper case mixes
-	public Map<String, GeneDTO> getGeneSymbolOrSynonymOrNameOrHuman(String keyword) throws SolrServerException, IOException {
+	public List<GeneDTO> getGeneSymbolOrSynonymOrNameOrHuman(String keyword) throws SolrServerException, IOException {
 		//all 3i data is from WTSI so filter genes on latest_phenotyping_centre:WTSI
 
 		SolrQuery query = new SolrQuery();
@@ -95,12 +95,9 @@ public class GeneService {
 
 		List<GeneDTO> genes = rsp.getBeans(GeneDTO.class);
 		if(genes.size()>0){
-			Map<String, GeneDTO> geneSymbolToGene=new HashMap<>();
-			for(GeneDTO gene: genes) {
-				geneSymbolToGene.put(gene.getMarkerSymbol(), gene);
-			}
 			
-			return geneSymbolToGene;
+			
+			return genes;
 		}else{
 			System.err.println("too few genes returned from 3i gene solr service for keywords");
 			return null;
