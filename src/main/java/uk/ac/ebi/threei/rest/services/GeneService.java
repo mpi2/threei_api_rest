@@ -2,6 +2,7 @@ package uk.ac.ebi.threei.rest.services;
 
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,7 +101,7 @@ public class GeneService {
 			return genes;
 		}else{
 			System.err.println("too few genes returned from 3i gene solr service for keywords");
-			return null;
+			return Collections.emptyList();
 		}
 		
 	}

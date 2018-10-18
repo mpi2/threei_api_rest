@@ -235,7 +235,7 @@ public class CellHeatmapService {
 	            }
 	            Example<CellHeatmapRow> example = Example.of(exampleRow, exampleMatcher);
 	   		 System.out.println("example="+example);
-	   		List<CellHeatmapRow> rows;
+	   		List<CellHeatmapRow> rows=new ArrayList<>();
 	   		 if(sort!=null) {
 	   			 System.out.println("calling with sort="+sort);
 	   			 rows = cellHeatmapRowsRepository.findAll(example, sort);
