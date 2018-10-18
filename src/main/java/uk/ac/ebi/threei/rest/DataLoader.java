@@ -24,6 +24,7 @@ import java.util.TreeSet;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -39,9 +40,10 @@ import uk.ac.ebi.threei.rest.repositories.CellHeatmapRowsRepository;
 import uk.ac.ebi.threei.rest.repositories.CellParameterRepository;
 import uk.ac.ebi.threei.rest.repositories.ParameterDetailsRepository;
 import uk.ac.ebi.threei.rest.repositories.ProcedureHeatmapRowsRepository;
+import uk.ac.ebi.threei.rest.services.GeneService;
 
 //need this annotation if using the loader - comment out if not...?
-@SpringBootApplication
+//@SpringBootApplication
 public class DataLoader implements CommandLineRunner {
 	
 	//wont run without this but doesn't use it - annoying!!!
@@ -56,6 +58,9 @@ public class DataLoader implements CommandLineRunner {
 	SortedSet<String> geneConstructSymbols = new TreeSet<>(Collections.reverseOrder());//set it up in reverse order so genes are at the top as highcharts row 0 is at the bottom - not what we want!
 
 	private HashMap<String, Integer> geneConstructParameterToSignificance;
+	
+	@Autowired
+	GeneService geneService;
 	
 	@Autowired
 	private CellParameterRepository cellParameterRepository;
@@ -73,6 +78,7 @@ public class DataLoader implements CommandLineRunner {
 	private List<ProcedureHeatmapRow> procedureRowData;
 	private List<CellHeatmapRow> cellHeatmapRows;
 	private List<ParameterDetails> parameterDetails;
+	HashMap<String,String> ensemblToSymbolMap=new HashMap<>();
 	
 
 	public static void main(String[] args) {
@@ -172,7 +178,8 @@ public class DataLoader implements CommandLineRunner {
 		
 				String[] columns = line.split(COMMA);
 				if (!columns[0].equals("Id")) {// if id is headers so want to ignore
-					String geneSymbol = columns[1];
+					String geneSymbol = this.getTrueGeneSymbol(columns[1]);
+					
 					String construct=columns[3];
 					if(columns.length<=4) {
 						System.err.println("not enough columns in row="+line+" skipping!!!!!!!!!!!");
@@ -354,7 +361,7 @@ public class DataLoader implements CommandLineRunner {
 				String procedureName = "";
 				String[] columns = line.split(COMMA);
 				if (!columns[0].equals("Id")) {// if id is headers so want to ignore
-					String geneSymbol = columns[1];
+					String geneSymbol = this.getTrueGeneSymbol(columns[1]);
 					String construct=columns[3];
 					geneConstructSymbols.add(geneSymbol+KEY_DELIMITER+construct);
 					if (columns.length >= 6) {
@@ -597,6 +604,7 @@ public class DataLoader implements CommandLineRunner {
 		//Data procedureData = new Data();
 		//procedureData.setHeatmapType("procedure");
 		HashMap<String, Integer> geneParameterToSigValueMap = new HashMap<>();
+		
 
 		try {
 
@@ -611,7 +619,8 @@ public class DataLoader implements CommandLineRunner {
 				String parameterName = "";
 				String[] columns = line.split(COMMA);
 				if (!columns[0].equals("Id")) {// if id is headers so want to ignore
-					String geneSymbol = columns[1];
+					String geneSymbol =this.getTrueGeneSymbol(columns[1]);
+					
 					//geneSymbols.add(geneSymbol);
 					String construct=columns[3];
 					if (columns.length >= 7) {
@@ -655,6 +664,25 @@ public class DataLoader implements CommandLineRunner {
 		//System.out.println("procedureData=" + procedureData.writeData());
 		return geneParameterToSigValueMap;
 	
+	}
+
+	private String getTrueGeneSymbol(String geneSymbol) throws IOException {
+		if(geneSymbol.startsWith("ENSMUSG")) {
+			String ensId=geneSymbol;
+			if(!ensemblToSymbolMap.containsKey(ensId)) {
+			try {
+				geneSymbol=geneService.getGeneSymbolFromEnsemblId(ensId);
+			System.out.println("getting gene symbol from ensembl id");
+			ensemblToSymbolMap.put(ensId, geneSymbol);
+			} catch (SolrServerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			}else {
+				geneSymbol=ensemblToSymbolMap.get(ensId);
+			}
+		}
+		return geneSymbol;
 	}
 	
 	
@@ -772,5 +800,7 @@ public class DataLoader implements CommandLineRunner {
 		// more initialization goes here
 		return cell;
 	};
+	
+	
 
 }

@@ -6,6 +6,13 @@ import java.util.List;
 public class DetailsRow {
 	private String rowHeader;
 	private String parameterStableId;
+	private String assay;
+	public String getAssay() {
+		return assay;
+	}
+	public void setAssay(String assay) {
+		this.assay = assay;
+	}
 	public String getParameterStableId() {
 		return parameterStableId;
 	}

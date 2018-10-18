@@ -83,7 +83,7 @@ public class GeneService {
 	
 	
 	//geneQf use this field for gene, synonym and human gene info. Seems to work with lower and upper case mixes
-	public Map<String, GeneDTO> getGeneSymbolOrSynonymOrNameOrHuman(String keyword) throws SolrServerException, IOException {
+	public List<GeneDTO> getGeneSymbolOrSynonymOrNameOrHuman(String keyword) throws SolrServerException, IOException {
 		//all 3i data is from WTSI so filter genes on latest_phenotyping_centre:WTSI
 
 		SolrQuery query = new SolrQuery();
@@ -95,17 +95,37 @@ public class GeneService {
 
 		List<GeneDTO> genes = rsp.getBeans(GeneDTO.class);
 		if(genes.size()>0){
-			Map<String, GeneDTO> geneSymbolToGene=new HashMap<>();
-			for(GeneDTO gene: genes) {
-				geneSymbolToGene.put(gene.getMarkerSymbol(), gene);
-			}
 			
-			return geneSymbolToGene;
+			
+			return genes;
 		}else{
 			System.err.println("too few genes returned from 3i gene solr service for keywords");
 			return null;
 		}
 		
 	}
+	 public String getGeneSymbolFromEnsemblId(String ensemblId) throws IOException, SolrServerException {
+
+			if (ensemblId == null) {
+				System.err.println("null entered for ensemblId to get gene symbol");
+				return null;
+			}
+
+			SolrQuery query = new SolrQuery();
+			query.setQuery(GeneDTO.ENSEMBL_ID + ":" + ensemblId);
+			query.setRows(Integer.MAX_VALUE);
+			query.setFields(GeneDTO.MARKER_SYMBOL);
+			
+			QueryResponse rsp = solrClient.query(query);
+
+			List<GeneDTO> genes = rsp.getBeans(GeneDTO.class);
+			if(genes.size()>0 && genes.size()<2){
+				return genes.get(0).getMarkerSymbol();
+			}else{
+				System.err.println("too many or too few genes returned from 3i solr service");
+				return "";
+			}
+
+		}
     
 }

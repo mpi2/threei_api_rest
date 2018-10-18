@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HeatmapService } from '../heatmap.service';
+import { environment } from '../../environments/environment';
+
 @Component({
   selector: 'threei-details-page',
   templateUrl: './details-page.component.html',
@@ -76,6 +78,15 @@ export class DetailsPageComponent implements OnInit {
     //console.log('rows='+this.rows);
     //console.log('columnHeaders='+this.columnHeaders);
   }
+
+
+  //href="https://www.mousephenotype.org/data/charts?phenotyping_center=WTSI&bare=true&accession={{geneAccession}}&parameter_stable_id={{row.parameterStableId}}&chart_only=true"
+  openChart(geneAccession, parameter_stable_id){
+      let url=environment.chartBaseUrl+'charts?phenotyping_center=WTSI&bare=true&accession='+geneAccession+'&parameter_stable_id='+parameter_stable_id+'&chart_only=true';
+     console.log('url for chart='+url);
+     window.open(url,'_blank');
+  }
+
 
   getStyle(sig: number) {
     if(sig==0) {

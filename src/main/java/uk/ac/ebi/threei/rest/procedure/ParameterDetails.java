@@ -9,6 +9,15 @@ public class ParameterDetails {
 	private String id;
 	private String parameterId;
 	private String parameterName;
+	private String assay;//populated by cell_type info to display on procedure page
+	public String getAssay() {
+		return assay;
+	}
+
+	public void setAssay(String assay) {
+		this.assay = assay;
+	}
+
 	private String sex;
 	int significanceValue;
 	

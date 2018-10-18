@@ -27,4 +27,7 @@ static
 hs_err_pid*
 /.DS_Store
 /.project
+<<<<<<< HEAD
 /target/
+=======
+>>>>>>> refs/heads/master
