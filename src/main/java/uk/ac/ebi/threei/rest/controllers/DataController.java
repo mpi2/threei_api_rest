@@ -73,7 +73,6 @@ public class DataController {
 		System.out.println("calling get procedure page in controller");
 		// this works http://localhost:8080/procedure_page?gene=Adal&procedure=Homozygous%20viability%20at%20P14&construct=tm1a
 		ProcedurePage page=new ProcedurePage();
-		//spring data didn't like spaces in procedure names so doing it old school once filtered on gene
 		List<ParameterDetails> parameterDetails = parameterDetailsServce.getParameterDetailsByGeneAndProcedureAndConstruct(gene, procedure , construct);
 		//if nothing then we try the cell type to parameter approach as could come from cell heatmap link
 		if(parameterDetails.size()==0) {
@@ -98,6 +97,15 @@ public class DataController {
 				}
 			}
 		}
+		
+		
+		
+		//look at the parameter details grouped by parameterId and then if male and female the same then put header as both and collapse into one row.
+//		List<ParameterDetails> collapsedParameterDetails=new ArrayList();
+//		for(ParameterDetails detail: parameterDetails) {
+//			System.out.println("detail="+detail);
+//			if()
+//		}
 		
 		//page.setParameterDetails(parameterDetails);//maybe we don't need these in the rest response but useful for debug at the moment
 		SortedSet<String> headerKeys=getHeaderKeys(parameterDetails);//get unique column headers sorted alphabetically
@@ -133,6 +141,7 @@ public class DataController {
 
 	private SortedSet<String> getHeaderKeys(List<ParameterDetails> parameterDetails) {
 		SortedSet<String> headerKeys=new TreeSet<>();//get unique set of headers
+		//We need to collapse these based on if we have the same call for both male and female with the same parameterId into a both header
 		for(ParameterDetails p: parameterDetails) {
 			String header = getHeaderString(p);
 			headerKeys.add(header);	
@@ -244,6 +253,12 @@ public class DataController {
 	}
 	
 	
-	
+//	@CrossOrigin(origins = "*", maxAge = 3600)
+//	@RequestMapping("/")
+//	@ResponseBody
+//	public HttpEntity<ProcedurePage> getProcedurePage() {
+//		
+//		
+//	}
 
 }
