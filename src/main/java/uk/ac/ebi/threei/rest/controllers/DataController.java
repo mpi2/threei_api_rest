@@ -91,7 +91,7 @@ public class DataController {
 		
 		
 		
-		parameterDetails=getCollapsedParameterDetailsList(parameterDetails);
+		Map<String, List<ParameterDetails>> parameterDetailsMap = getCollapsedParameterDetailsList(parameterDetails);
 		
 		
 		//page.setParameterDetails(parameterDetails);//maybe we don't need these in the rest response but useful for debug at the moment
@@ -101,22 +101,28 @@ public class DataController {
 		
 		List<DetailsRow> detailRows=new ArrayList<>();
 		//generate a row for each parameter with blanks where no result for that header
-		for(ParameterDetails p: parameterDetails) {
+		for(Entry<String, List<ParameterDetails>> parameterSet: parameterDetailsMap.entrySet()) {
 			//System.out.println("pDetails in controller="+p);
 			//new row for each parameter with 0-3 added for each state like in heatmap
 			DetailsRow row=new DetailsRow();
-			row.setRowHeader(p.getParameterName());
-			row.setParameterStableId(p.getParameterId());
-			row.setAssay(p.getAssay());
+			row.setRowHeader(parameterSet.getValue().get(0).getParameterName());//first should have same param name as rest
+			row.setParameterStableId(parameterSet.getValue().get(0).getParameterId());
+			row.setAssay(parameterSet.getValue().get(0).getAssay());
 			//loop over the header strings and get the significance score from each
 			for(String header:headerKeys) {
 				//System.out.println("header is "+header);
 				int sig=0;//no data bye default
-				if(this.getHeaderString(p).equals(header)){
-					sig = p.getSignificanceValue();
+				for(ParameterDetails result:parameterSet.getValue()) {
+				
+					if (this.getHeaderString(result).equals(header)) {
+						int tmpSig = result.getSignificanceValue();
+						if(tmpSig>sig)sig=tmpSig;
+
+					}
 					
 				}
 				row.addSignificance(sig);
+				
 			}
 			detailRows.add(row);
 		}
@@ -126,35 +132,37 @@ public class DataController {
 	}
 
 
-	private List<ParameterDetails> getCollapsedParameterDetailsList(List<ParameterDetails> parameterDetails) {
+	private Map<String, List<ParameterDetails>> getCollapsedParameterDetailsList(List<ParameterDetails> parameterDetails) {
 		// look at the parameter details grouped by parameterId and then if male and
 		// female the same then put header as both and collapse into one row.
-		List<ParameterDetails> collapsedParameterDetails = new ArrayList<>();
+		Map<String, List<ParameterDetails>> collapsedParameterDetails = new HashMap<>();
 		Map<String, List<ParameterDetails>> parameterIdToParameterDetails = getMapBasedOnParameterId(parameterDetails);
 		// next collapse the details based on if they are same parameter with same
 		// significance but just different sexes
 		for (Entry<String, List<ParameterDetails>> detailsForParameterId : parameterIdToParameterDetails.entrySet()) {
 			System.out.println(detailsForParameterId.getKey() + " " + detailsForParameterId.getValue().size());
 			boolean collapsed = false;
-			if (detailsForParameterId.getValue().size() != 2) {
-				System.err.println("size of parameter details is not 2 so not collapsing");
-			} else {
-				ParameterDetails details0 = detailsForParameterId.getValue().get(0);
-				ParameterDetails details1 = detailsForParameterId.getValue().get(1);
-				if (details0.getSignificanceValue() == details1.getSignificanceValue()
-						&& details0.getGenotype().equals(details1.getGenotype())) {
-					// now check just one of each sex
-					if (details0.getSex() != details1.getSex()) {
-						System.out.println("rows should be collapsed");
-						details0.setSex("both");
-						collapsedParameterDetails.add(details0);
-						collapsed = true;
-					}
-				}
-			}
+//			if (detailsForParameterId.getValue().size() != 2) {
+//				System.err.println("size of parameter details is not 2 so not collapsing");
+//			} else {
+//				ParameterDetails details0 = detailsForParameterId.getValue().get(0);
+//				ParameterDetails details1 = detailsForParameterId.getValue().get(1);
+//				if (details0.getSignificanceValue() == details1.getSignificanceValue()
+//						&& details0.getGenotype().equals(details1.getGenotype())) {
+//					// now check just one of each sex
+//					if (details0.getSex() != details1.getSex()) {
+//						System.out.println("rows should be collapsed");
+//						details0.setSex("both");
+//						List<ParameterDetails> tmpList=new ArrayList<>();
+//						tmpList.add(details0);
+//						collapsedParameterDetails.put(detailsForParameterId.getKey(),tmpList);
+//						collapsed = true;
+//					}
+//				}
+//			}
 			if (!collapsed) {
 				// if we are not collapsing the details then just add them all seperately for this parameterId
-				collapsedParameterDetails.addAll(detailsForParameterId.getValue());
+				collapsedParameterDetails.put(detailsForParameterId.getKey(), detailsForParameterId.getValue());
 			}
 		}
 		return collapsedParameterDetails;
