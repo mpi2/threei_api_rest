@@ -91,7 +91,7 @@ public class DataController {
 		
 		
 		
-		Map<String, List<ParameterDetails>> parameterDetailsMap = getCollapsedParameterDetailsList(parameterDetails);
+		Map<String, List<ParameterDetails>> parameterDetailsMap = getMapBasedOnParameterId(parameterDetails);
 		
 		
 		//page.setParameterDetails(parameterDetails);//maybe we don't need these in the rest response but useful for debug at the moment
@@ -129,43 +129,6 @@ public class DataController {
 		page.setRows(detailRows);
 		return new ResponseEntity<ProcedurePage>(page, HttpStatus.OK);
 	
-	}
-
-
-	private Map<String, List<ParameterDetails>> getCollapsedParameterDetailsList(List<ParameterDetails> parameterDetails) {
-		// look at the parameter details grouped by parameterId and then if male and
-		// female the same then put header as both and collapse into one row.
-		Map<String, List<ParameterDetails>> collapsedParameterDetails = new HashMap<>();
-		Map<String, List<ParameterDetails>> parameterIdToParameterDetails = getMapBasedOnParameterId(parameterDetails);
-		// next collapse the details based on if they are same parameter with same
-		// significance but just different sexes
-		for (Entry<String, List<ParameterDetails>> detailsForParameterId : parameterIdToParameterDetails.entrySet()) {
-			System.out.println(detailsForParameterId.getKey() + " " + detailsForParameterId.getValue().size());
-			boolean collapsed = false;
-//			if (detailsForParameterId.getValue().size() != 2) {
-//				System.err.println("size of parameter details is not 2 so not collapsing");
-//			} else {
-//				ParameterDetails details0 = detailsForParameterId.getValue().get(0);
-//				ParameterDetails details1 = detailsForParameterId.getValue().get(1);
-//				if (details0.getSignificanceValue() == details1.getSignificanceValue()
-//						&& details0.getGenotype().equals(details1.getGenotype())) {
-//					// now check just one of each sex
-//					if (details0.getSex() != details1.getSex()) {
-//						System.out.println("rows should be collapsed");
-//						details0.setSex("both");
-//						List<ParameterDetails> tmpList=new ArrayList<>();
-//						tmpList.add(details0);
-//						collapsedParameterDetails.put(detailsForParameterId.getKey(),tmpList);
-//						collapsed = true;
-//					}
-//				}
-//			}
-			if (!collapsed) {
-				// if we are not collapsing the details then just add them all seperately for this parameterId
-				collapsedParameterDetails.put(detailsForParameterId.getKey(), detailsForParameterId.getValue());
-			}
-		}
-		return collapsedParameterDetails;
 	}
 
 
