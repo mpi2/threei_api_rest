@@ -158,11 +158,8 @@ public class DataController {
 	private Map<String, List<ParameterDetails>> getMapBasedOnParameterId(List<ParameterDetails> parameterDetails) {
 		Map<String, List<ParameterDetails>> paramIdToParameterDetails=new HashMap<>();
 		for(ParameterDetails detail: parameterDetails) {
-			System.out.println("detail="+detail);
 			if(paramIdToParameterDetails.containsKey(detail.getParameterId())) {
-				System.out.println("param details in map");
 				paramIdToParameterDetails.get(detail.getParameterId()).add(detail);
-				
 			}else {
 				List<ParameterDetails> detailListForEntry=new ArrayList<>();
 				detailListForEntry.add(detail);

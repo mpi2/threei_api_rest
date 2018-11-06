@@ -11,6 +11,7 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,7 @@ public class GeneService {
 		}
 
 		SolrQuery query = new SolrQuery();
-		query.setQuery(GeneDTO.MARKER_SYMBOL + ":" + geneSymbol);
+		query.setQuery(GeneDTO.MARKER_SYMBOL + ":" + geneSymbol+"  OR "+ GeneDTO.MARKER_SYNONYM+":"+geneSymbol);
 		query.setRows(Integer.MAX_VALUE);
 		query.setFields(GeneDTO.MARKER_SYMBOL, GeneDTO.MGI_ACCESSION_ID);
 		
