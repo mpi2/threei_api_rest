@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -81,31 +82,17 @@ public class DataController {
 			//CellParameterRepository add method there.
 			List<CellParameter> cellParams = cellParameterRepository.findByCellType(procedure);
 			//search these for the list of parameters
-			Map<String, String> cellParametersToAssay=new HashMap<>();
-			for(CellParameter cellP:cellParams) {
-				//System.out.println("cell parameter="+cellP);
-				cellParametersToAssay.put(cellP.getParameterName(), cellP.getAssay());
-			}
+			Map<String, String> cellParametersToAssay = getCellParametersToAssayMap(cellParams);
 			//then search for hits for these gene and filter on the parameters will be the quickest way rather than a request per parameter?
 			List<ParameterDetails> parameterDetailsForGene = parameterDetailsServce.getParameterDetailsByGene(gene);
 			//filter
-			for(ParameterDetails detail:parameterDetailsForGene) {
-				if(cellParametersToAssay.containsKey(detail.getParameterName())){
-					//System.out.println("add detail");
-					detail.setAssay(cellParametersToAssay.get(detail.getParameterName()));
-					parameterDetails.add(detail);
-				}
-			}
+			parameterDetails=addAssayToDetails(parameterDetails, cellParametersToAssay, parameterDetailsForGene);
 		}
 		
 		
 		
-		//look at the parameter details grouped by parameterId and then if male and female the same then put header as both and collapse into one row.
-//		List<ParameterDetails> collapsedParameterDetails=new ArrayList();
-//		for(ParameterDetails detail: parameterDetails) {
-//			System.out.println("detail="+detail);
-//			if()
-//		}
+		parameterDetails=getCollapsedParameterDetailsList(parameterDetails);
+		
 		
 		//page.setParameterDetails(parameterDetails);//maybe we don't need these in the rest response but useful for debug at the moment
 		SortedSet<String> headerKeys=getHeaderKeys(parameterDetails);//get unique column headers sorted alphabetically
@@ -136,6 +123,82 @@ public class DataController {
 		page.setRows(detailRows);
 		return new ResponseEntity<ProcedurePage>(page, HttpStatus.OK);
 	
+	}
+
+
+	private List<ParameterDetails> getCollapsedParameterDetailsList(List<ParameterDetails> parameterDetails) {
+		// look at the parameter details grouped by parameterId and then if male and
+		// female the same then put header as both and collapse into one row.
+		List<ParameterDetails> collapsedParameterDetails = new ArrayList<>();
+		Map<String, List<ParameterDetails>> parameterIdToParameterDetails = getMapBasedOnParameterId(parameterDetails);
+		// next collapse the details based on if they are same parameter with same
+		// significance but just different sexes
+		for (Entry<String, List<ParameterDetails>> detailsForParameterId : parameterIdToParameterDetails.entrySet()) {
+			System.out.println(detailsForParameterId.getKey() + " " + detailsForParameterId.getValue().size());
+			boolean collapsed = false;
+			if (detailsForParameterId.getValue().size() != 2) {
+				System.err.println("size of parameter details is not 2 so not collapsing");
+			} else {
+				ParameterDetails details0 = detailsForParameterId.getValue().get(0);
+				ParameterDetails details1 = detailsForParameterId.getValue().get(1);
+				if (details0.getSignificanceValue() == details1.getSignificanceValue()
+						&& details0.getGenotype().equals(details1.getGenotype())) {
+					// now check just one of each sex
+					if (details0.getSex() != details1.getSex()) {
+						System.out.println("rows should be collapsed");
+						details0.setSex("both");
+						collapsedParameterDetails.add(details0);
+						collapsed = true;
+					}
+				}
+			}
+			if (!collapsed) {
+				// if we are not collapsing the details then just add them all seperately for this parameterId
+				collapsedParameterDetails.addAll(detailsForParameterId.getValue());
+			}
+		}
+		return collapsedParameterDetails;
+	}
+
+
+	private Map<String, String> getCellParametersToAssayMap(List<CellParameter> cellParams) {
+		Map<String, String> cellParametersToAssay=new HashMap<>();
+		for(CellParameter cellP:cellParams) {
+			//System.out.println("cell parameter="+cellP);
+			cellParametersToAssay.put(cellP.getParameterName(), cellP.getAssay());
+		}
+		return cellParametersToAssay;
+	}
+
+
+	private List<ParameterDetails> addAssayToDetails(List<ParameterDetails> parameterDetails, Map<String, String> cellParametersToAssay,
+			List<ParameterDetails> parameterDetailsForGene) {
+		for(ParameterDetails detail:parameterDetailsForGene) {
+			if(cellParametersToAssay.containsKey(detail.getParameterName())){
+				//System.out.println("add detail");
+				detail.setAssay(cellParametersToAssay.get(detail.getParameterName()));
+				parameterDetails.add(detail);
+			}
+		}
+		return parameterDetails;
+	}
+
+
+	private Map<String, List<ParameterDetails>> getMapBasedOnParameterId(List<ParameterDetails> parameterDetails) {
+		Map<String, List<ParameterDetails>> paramIdToParameterDetails=new HashMap<>();
+		for(ParameterDetails detail: parameterDetails) {
+			System.out.println("detail="+detail);
+			if(paramIdToParameterDetails.containsKey(detail.getParameterId())) {
+				System.out.println("param details in map");
+				paramIdToParameterDetails.get(detail.getParameterId()).add(detail);
+				
+			}else {
+				List<ParameterDetails> detailListForEntry=new ArrayList<>();
+				detailListForEntry.add(detail);
+				paramIdToParameterDetails.put(detail.getParameterId(), detailListForEntry);
+			}
+		}
+		return paramIdToParameterDetails;
 	}
 
 
