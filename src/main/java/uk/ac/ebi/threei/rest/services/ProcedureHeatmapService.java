@@ -1,5 +1,6 @@
 package uk.ac.ebi.threei.rest.services;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -11,6 +12,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.solr.client.solrj.SolrServerException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -33,6 +35,8 @@ public class ProcedureHeatmapService {
 	
 	@Autowired
 	ProcedureHeatmapRowsRepository procedureHeatmapRowsRepository;
+	@Autowired
+	GeneService geneService;
 	
 	static final Map<String, String> procedureHeaderToFieldMap;
 	
@@ -62,10 +66,10 @@ public class ProcedureHeatmapService {
 		System.out.println("filter in filter function="+filter);
 		ProcedureHeatmapRow exampleRow = new ProcedureHeatmapRow();
 		ExampleMatcher exampleMatcher = ExampleMatcher.matchingAll().withIgnoreCase();
-				if(filter.getKeyword()!=null) {
-					exampleMatcher.withMatcher("gene", GenericPropertyMatcher::ignoreCase);
-					exampleRow.setGene(filter.getKeyword());
-				}
+//				if(filter.getKeyword()!=null) {
+//					exampleMatcher.withMatcher("gene", GenericPropertyMatcher::ignoreCase);
+//					exampleRow.setGene(filter.getKeyword());
+//				}
 				if(filter.getConstructFilter()!=null) {
 					exampleMatcher.withMatcher("construct", GenericPropertyMatcher::startsWith);
 					exampleRow.setConstruct(filter.getConstructFilter());
@@ -77,15 +81,19 @@ public class ProcedureHeatmapService {
 	            
 	            Example<ProcedureHeatmapRow> example = Example.of(exampleRow, exampleMatcher);
 	   		 System.out.println("example="+example);
-	   		 if(sort!=null) {
+	   		 List<ProcedureHeatmapRow> rows=new ArrayList<>();
+			if(sort!=null) {
 	   			 System.out.println("calling with sort="+sort);
-	   		 return procedureHeatmapRowsRepository.findAll(example, sort);
+	   		 rows= procedureHeatmapRowsRepository.findAll(example, sort);
 	   		 }
 	   		 else {
-	   			 return procedureHeatmapRowsRepository.findAll(example);
+	   			 rows= procedureHeatmapRowsRepository.findAll(example);
 	   		 }
 
-
+			if(filter.getKeyword()!=null) {
+				rows=this.getRowsForKeywords(filter.getKeyword(),rows);
+			}
+			return rows;
 	}
 	
 	
@@ -159,6 +167,32 @@ public class ProcedureHeatmapService {
 		data.setRowHeaders(rowHeaders);
 		data.setConstructs(constructs);
 		return new ResponseEntity<Data>(data, HttpStatus.OK);
+	}
+	
+	private List<ProcedureHeatmapRow> getRowsForKeywords(String keyword,List<ProcedureHeatmapRow> rows) {
+		List<ProcedureHeatmapRow>filteredRows=new ArrayList<>();
+		// now use our gene autosuggest field to get the appropriate gene back
+		// auto_suggest:Adal
+		// http://localhost:8080/data?keyword=4930578F03Rik returns Adal - also need to
+		// handle spaces with quotes....!!!
+		try {
+			List<GeneDTO> genes = geneService.getGeneSymbolOrSynonymOrNameOrHuman(keyword);
+			System.out.println(genes);
+			for(GeneDTO gene: genes) {
+				for(ProcedureHeatmapRow row: rows) {
+					if(row.getGene().equalsIgnoreCase(gene.getMarkerSymbol())) {
+						filteredRows.add(row);
+					}
+				}
+			}
+		} catch (SolrServerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return filteredRows;
 	}
 
 

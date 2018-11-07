@@ -2,6 +2,7 @@ package uk.ac.ebi.threei.rest.services;
 
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.apache.solr.client.solrj.SolrQuery;
 import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.apache.solr.client.solrj.response.QueryResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -34,7 +36,7 @@ public class GeneService {
 		}
 
 		SolrQuery query = new SolrQuery();
-		query.setQuery(GeneDTO.MARKER_SYMBOL + ":" + geneSymbol);
+		query.setQuery(GeneDTO.MARKER_SYMBOL + ":" + geneSymbol+"  OR "+ GeneDTO.MARKER_SYNONYM+":"+geneSymbol);
 		query.setRows(Integer.MAX_VALUE);
 		query.setFields(GeneDTO.MARKER_SYMBOL, GeneDTO.MGI_ACCESSION_ID);
 		
@@ -100,7 +102,7 @@ public class GeneService {
 			return genes;
 		}else{
 			System.err.println("too few genes returned from 3i gene solr service for keywords");
-			return null;
+			return Collections.emptyList();
 		}
 		
 	}

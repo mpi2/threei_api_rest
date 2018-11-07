@@ -14,7 +14,7 @@ import { environment } from '../environments/environment';
 export class HeatmapService {
 
   procedureHeatmapResponse: any;
-  cellHeatmapResponse: Observable<HttpResponse<Response>>;// cache the normal response here os if filters are empty 
+  cellHeatmapResponse: Observable<HttpResponse<Response>>; // cache the normal response here os if filters are empty 
   // just return this without making a request to the rest api
   procedureBusy: boolean;
   cellBusy: boolean;
@@ -41,7 +41,7 @@ export class HeatmapService {
   getCellHeatmapResponse(filter: CellFilter):
       Observable<HttpResponse<Response>> {
       console.log('calling heatmap service method');
-      if (this.defaultCellHeatmapChart !== undefined && filter.keyword === undefined && filter.construct === undefined
+      if (this.defaultCellHeatmapChart !== undefined && filter.keyword === undefined
         && filter.cellType === undefined && filter.cellSubType === undefined &&
         filter.cellSubType === undefined && filter.sort === undefined) {
         // && filter.cellSubType==undefined && filter.cellSubType== undefine
@@ -88,7 +88,7 @@ export class HeatmapService {
   getFilterString(filter: CellFilter) {
     let filterQuery = '';
     if (filter) {
-      console.log('query button clicked with CellFilter search=' + filter.keyword + ' constructSeleted ' + filter.construct +
+      console.log('query button clicked with CellFilter search=' + filter.keyword + ' constructSeleted ' +
       ' cell selected=' + filter.cellType + ' cellSubtypeSelected=' + filter.cellSubType + 'sortField=' + filter.sort);
       filterQuery += '?';
       if (filter.sort) {
@@ -96,9 +96,6 @@ export class HeatmapService {
       }
       if (filter.keyword) {
         filterQuery += '&keyword=' + filter.keyword;
-      }
-      if (filter.construct) {
-        filterQuery += '&construct=' + filter.construct;
       }
       if (filter.cellType) {
         filterQuery += '&cellType=' + filter.cellType;
@@ -155,14 +152,6 @@ export class HeatmapService {
 
     return this.http.get<Response>(
       this.restBaseUrl + '/assays', { observe: 'response' });
-  }
-
-  getConstructsResponse():
-    Observable<HttpResponse<Response>> {
-    console.log('calling constrcts method');
-
-    return this.http.get<Response>(
-      this.restBaseUrl + '/constructs', { observe: 'response' });
   }
 
 

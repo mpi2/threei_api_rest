@@ -82,7 +82,7 @@ export class DetailsPageComponent implements OnInit {
 
   //href="https://www.mousephenotype.org/data/charts?phenotyping_center=WTSI&bare=true&accession={{geneAccession}}&parameter_stable_id={{row.parameterStableId}}&chart_only=true"
   openChart(geneAccession, parameter_stable_id){
-      let url=environment.chartBaseUrl+'charts?phenotyping_center=WTSI&bare=true&accession='+geneAccession+'&parameter_stable_id='+parameter_stable_id+'&chart_only=true';
+      let url=environment.chartBaseUrl+'charts?phenotyping_center=WTSI&accession='+geneAccession+'&parameter_stable_id='+parameter_stable_id;
      console.log('url for chart='+url);
      window.open(url,'_blank');
   }

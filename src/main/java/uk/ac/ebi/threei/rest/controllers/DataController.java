@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
@@ -73,7 +74,6 @@ public class DataController {
 		System.out.println("calling get procedure page in controller");
 		// this works http://localhost:8080/procedure_page?gene=Adal&procedure=Homozygous%20viability%20at%20P14&construct=tm1a
 		ProcedurePage page=new ProcedurePage();
-		//spring data didn't like spaces in procedure names so doing it old school once filtered on gene
 		List<ParameterDetails> parameterDetails = parameterDetailsServce.getParameterDetailsByGeneAndProcedureAndConstruct(gene, procedure , construct);
 		//if nothing then we try the cell type to parameter approach as could come from cell heatmap link
 		if(parameterDetails.size()==0) {
@@ -82,22 +82,17 @@ public class DataController {
 			//CellParameterRepository add method there.
 			List<CellParameter> cellParams = cellParameterRepository.findByCellType(procedure);
 			//search these for the list of parameters
-			Map<String, String> cellParametersToAssay=new HashMap<>();
-			for(CellParameter cellP:cellParams) {
-				//System.out.println("cell parameter="+cellP);
-				cellParametersToAssay.put(cellP.getParameterName(), cellP.getAssay());
-			}
+			Map<String, String> cellParametersToAssay = getCellParametersToAssayMap(cellParams);
 			//then search for hits for these gene and filter on the parameters will be the quickest way rather than a request per parameter?
 			List<ParameterDetails> parameterDetailsForGene = parameterDetailsServce.getParameterDetailsByGene(gene);
 			//filter
-			for(ParameterDetails detail:parameterDetailsForGene) {
-				if(cellParametersToAssay.containsKey(detail.getParameterName())){
-					//System.out.println("add detail");
-					detail.setAssay(cellParametersToAssay.get(detail.getParameterName()));
-					parameterDetails.add(detail);
-				}
-			}
+			parameterDetails=addAssayToDetails(parameterDetails, cellParametersToAssay, parameterDetailsForGene);
 		}
+		
+		
+		
+		Map<String, List<ParameterDetails>> parameterDetailsMap = getMapBasedOnParameterId(parameterDetails);
+		
 		
 		//page.setParameterDetails(parameterDetails);//maybe we don't need these in the rest response but useful for debug at the moment
 		SortedSet<String> headerKeys=getHeaderKeys(parameterDetails);//get unique column headers sorted alphabetically
@@ -106,22 +101,28 @@ public class DataController {
 		
 		List<DetailsRow> detailRows=new ArrayList<>();
 		//generate a row for each parameter with blanks where no result for that header
-		for(ParameterDetails p: parameterDetails) {
+		for(Entry<String, List<ParameterDetails>> parameterSet: parameterDetailsMap.entrySet()) {
 			//System.out.println("pDetails in controller="+p);
 			//new row for each parameter with 0-3 added for each state like in heatmap
 			DetailsRow row=new DetailsRow();
-			row.setRowHeader(p.getParameterName());
-			row.setParameterStableId(p.getParameterId());
-			row.setAssay(p.getAssay());
+			row.setRowHeader(parameterSet.getValue().get(0).getParameterName());//first should have same param name as rest
+			row.setParameterStableId(parameterSet.getValue().get(0).getParameterId());
+			row.setAssay(parameterSet.getValue().get(0).getAssay());
 			//loop over the header strings and get the significance score from each
 			for(String header:headerKeys) {
 				//System.out.println("header is "+header);
 				int sig=0;//no data bye default
-				if(this.getHeaderString(p).equals(header)){
-					sig = p.getSignificanceValue();
+				for(ParameterDetails result:parameterSet.getValue()) {
+				
+					if (this.getHeaderString(result).equals(header)) {
+						int tmpSig = result.getSignificanceValue();
+						if(tmpSig>sig)sig=tmpSig;
+
+					}
 					
 				}
 				row.addSignificance(sig);
+				
 			}
 			detailRows.add(row);
 		}
@@ -131,8 +132,47 @@ public class DataController {
 	}
 
 
+	private Map<String, String> getCellParametersToAssayMap(List<CellParameter> cellParams) {
+		Map<String, String> cellParametersToAssay=new HashMap<>();
+		for(CellParameter cellP:cellParams) {
+			//System.out.println("cell parameter="+cellP);
+			cellParametersToAssay.put(cellP.getParameterName(), cellP.getAssay());
+		}
+		return cellParametersToAssay;
+	}
+
+
+	private List<ParameterDetails> addAssayToDetails(List<ParameterDetails> parameterDetails, Map<String, String> cellParametersToAssay,
+			List<ParameterDetails> parameterDetailsForGene) {
+		for(ParameterDetails detail:parameterDetailsForGene) {
+			if(cellParametersToAssay.containsKey(detail.getParameterName())){
+				//System.out.println("add detail");
+				detail.setAssay(cellParametersToAssay.get(detail.getParameterName()));
+				parameterDetails.add(detail);
+			}
+		}
+		return parameterDetails;
+	}
+
+
+	private Map<String, List<ParameterDetails>> getMapBasedOnParameterId(List<ParameterDetails> parameterDetails) {
+		Map<String, List<ParameterDetails>> paramIdToParameterDetails=new HashMap<>();
+		for(ParameterDetails detail: parameterDetails) {
+			if(paramIdToParameterDetails.containsKey(detail.getParameterId())) {
+				paramIdToParameterDetails.get(detail.getParameterId()).add(detail);
+			}else {
+				List<ParameterDetails> detailListForEntry=new ArrayList<>();
+				detailListForEntry.add(detail);
+				paramIdToParameterDetails.put(detail.getParameterId(), detailListForEntry);
+			}
+		}
+		return paramIdToParameterDetails;
+	}
+
+
 	private SortedSet<String> getHeaderKeys(List<ParameterDetails> parameterDetails) {
 		SortedSet<String> headerKeys=new TreeSet<>();//get unique set of headers
+		//We need to collapse these based on if we have the same call for both male and female with the same parameterId into a both header
 		for(ParameterDetails p: parameterDetails) {
 			String header = getHeaderString(p);
 			headerKeys.add(header);	
@@ -244,6 +284,12 @@ public class DataController {
 	}
 	
 	
-	
+//	@CrossOrigin(origins = "*", maxAge = 3600)
+//	@RequestMapping("/")
+//	@ResponseBody
+//	public HttpEntity<ProcedurePage> getProcedurePage() {
+//		
+//		
+//	}
 
 }

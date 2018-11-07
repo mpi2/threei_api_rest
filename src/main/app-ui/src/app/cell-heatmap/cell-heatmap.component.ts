@@ -50,8 +50,6 @@ export class CellHeatmapComponent implements OnInit {
   Highcharts = Highcharts;
     keyword: '';
     constructs: string[]; // all constructs available including the brackets
-    constructTypes: string[]; // for menu dropdown just conatains unique set with brackets part removed
-    constructSelected: string;
     cells: string[];
     cellSelected: string;
     cellSubTypes: string[];
@@ -190,9 +188,9 @@ legend: {
   }
 
   filterMethod() {
-    console.log( 'query button clicked with constructSeleted ' + this.constructSelected +
+    console.log( 'query button clicked with ' +
     ' cell selected=' + this.cellSelected + ' cellSubtypeSelected=' + this.cellSubtypeSelected );
-      const filter = new CellFilter(this.keyword, this.constructSelected, this.cellSelected,
+      const filter = new CellFilter(this.keyword, this.cellSelected,
         this.cellSubtypeSelected, this.assaySelected, this.sortFieldSelected);
     this.getHeatmapData(filter);
   }
@@ -200,9 +198,9 @@ legend: {
   clearFilter() {
     // console.log('query button clicked with constructSeleted '+this.constructSelected+'
     // cell selected='+this.cellSelected+' cellSubtypeSelected='+this.cellSubtypeSelected);
-      this.keyword = null, this.constructSelected = null, this.cellSelected = null,
+      this.keyword = null, this.cellSelected = null,
       this.cellSubtypeSelected = null, this.assaySelected = null, this.sortFieldSelected = null;
-      const filter = new CellFilter(this.keyword, this.constructSelected, this.cellSelected,
+      const filter = new CellFilter(this.keyword, this.cellSelected,
         this.cellSubtypeSelected, this.assaySelected, this.sortFieldSelected);
       this.getHeatmapData(filter);
   }
@@ -213,7 +211,6 @@ legend: {
     this.getCellTypesDropdown();
     this.getCellSubTypesDropdown();
     this.getAssaysDropdown();
-    this.getConstructsDropdown();
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
@@ -261,25 +258,6 @@ titleChange = function(event) {
   // trigger ngOnChanges
   this.updateDemo2 = true;
 };
-
-getConstructsDropdown(): string[] {
-  // console.log('calling assay dropdown');
-  // this.resourceLoaded=false;
-  // if(this.data.length<=1){
-  this.heatmapService.getConstructsResponse().subscribe(resp => {
-    // display its headers
-    const lResponse = { ... resp.body};
-    // console.log('response='+JSON.stringify(resp));
-    // this.data = this.response['response']['docs']
-    // console.log('response from json file here: '+JSON.stringify(this.response['_embedded'].Data[0]['data']));
-
-    this.constructTypes = lResponse['types'];
-
-    // console.log("assays being returned="+this.assays);
-    // let headerData=this.response['_embedded'].Data[0]['columnHeaders'];
-});
-return this.constructTypes;
-}
 
 
 getCellTypesDropdown() {

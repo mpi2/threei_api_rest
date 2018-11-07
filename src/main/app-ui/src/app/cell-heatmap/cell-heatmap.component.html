@@ -12,13 +12,6 @@
       <button mat-raised-button color="primary">
         Search
       </button>
-      <mat-form-field>
-          <mat-label>Filter by construct</mat-label>
-          <mat-select   placeholder="Construct Filter" [(value)]="constructSelected">
-            <mat-option (click)="filterMethod()">None</mat-option>
-            <mat-option *ngFor="let construct of constructTypes" [value]="construct" (click)="filterMethod()">{{construct}}</mat-option>
-          </mat-select>
-        </mat-form-field>
        
         
        <mat-form-field>

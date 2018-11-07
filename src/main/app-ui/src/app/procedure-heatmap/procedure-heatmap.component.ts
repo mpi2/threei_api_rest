@@ -167,17 +167,6 @@ chart: {
         color: '#000000'
     }
   }],
-
-   // this.procedureChartOptions.series = [{
-    //     name: 'Procedures with significant parameters',
-    //     borderWidth: 1,
-    //     data: this.data,
-    //     dataLabels: {
-    //         enabled: false,
-    //         color: '#000000'
-    //     }
-    // }];
-
 };
 
   constructor(private heatmapService: HeatmapService) {
@@ -186,7 +175,6 @@ chart: {
 
   ngOnInit() {
     this.filterMethod();
-    this.getConstructsDropdown();
   }
 
 
@@ -258,18 +246,6 @@ titleChange = function(event) {
   this.updateDemo2 = true;
 };
 
-
-getConstructsDropdown(): string[] {
-  // console.log('calling assay dropdown');
-  // this.resourceLoaded=false;
-  // if(this.data.length<=1){
-  this.heatmapService.getConstructsResponse().subscribe(resp => {
-    // display its headers
-    const lResponse = { ... resp.body};
-    this.constructTypes = lResponse['types'];
-});
-return this.constructTypes;
-}
 
 openImpc() {
   window.open('https://www.mousephenotype.org/data/search?kw=*', '_blank');
