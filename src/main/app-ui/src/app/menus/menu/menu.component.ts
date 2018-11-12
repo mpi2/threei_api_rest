@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewEncapsulation } from '@angular/core';
 import { MatMenuModule, MatToolbarModule,
   MatTooltipModule,} from '@angular/material';
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./menu.component.css']
 })
 export class MenuComponent implements OnInit {
-
+  // encapsulation: ViewEncapsulation.None;
   @Input()
   topMenu: boolean;
   // constructor(private router: Router) { }

@@ -3,14 +3,14 @@
 
 
 <!-- <div id="wholepage-container" fxLayout="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="0.5%" fxLayoutAlign="center" style="background-color:purple"> -->
-<div class="mat-app-background basic-container">
+<div class="mat-app-background basic-container" fxLayout="column">
              
    
             <!-- <form id="home-search-form" action="/data" method="get">
               <input id="home-search-box" name="gene" style="width: 300px;" type="text" placeholder="Search by gene or phenotype..."/>
               <input id="home-search-submit" class="btn" style="width: 200px;" type="submit" value="Advanced Search"/>
             </form> -->
-            <threei-menu  [topMenu]="true"></threei-menu>
+            <threei-menu fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="center" style="min-height: 100px !important; min-height: 100px !important;" [topMenu]="true"></threei-menu>
   <mat-sidenav-container id="middle-of-verticle" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="center" style="background-color:white" fxLayoutGap="100px">
     
       <!-- <mat-sidenav mode="side" opened color="primary">Sidenav left</mat-sidenav> -->
