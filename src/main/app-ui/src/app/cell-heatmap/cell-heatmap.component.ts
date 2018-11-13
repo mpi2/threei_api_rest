@@ -202,7 +202,7 @@ legend: {
       this.keyword = null, this.cellSelected = null,
       this.cellSubtypeSelected = null, this.assaySelected = null, this.sortFieldSelected = null;
       const filter = new CellFilter(this.keyword, this.cellSelected,
-        this.cellSubtypeSelected, this.assaySelected, this.sortFieldSelected);
+        this.cellSubtypeSelected, this.assaySelected, this.defaultSortField);
       this.getHeatmapData(filter);
   }
 

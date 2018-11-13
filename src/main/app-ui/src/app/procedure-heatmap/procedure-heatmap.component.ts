@@ -182,7 +182,7 @@ chart: {
 
   clearFilter() {
       this.keyword = null, this.constructSelected = null, this.sortFieldSelected = null;
-      const filter = new ProcedureFilter(this.keyword, this.constructSelected, this.sortFieldSelected);
+      const filter = new ProcedureFilter(this.keyword, this.constructSelected, this.defaultSortField);
     this.getHeatmapData(filter);
   }
 
