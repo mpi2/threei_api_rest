@@ -24,8 +24,8 @@
      
 
       <mat-form-field>
-        <mat-label>Sort by most significant cell type</mat-label>
-        <mat-select   placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected">
+        <mat-label>Sort by most significant for cell type</mat-label>
+        <mat-select   placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected" name="sort">
             <mat-option (click)="filterMethod()">None</mat-option>
             <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
         </mat-select>

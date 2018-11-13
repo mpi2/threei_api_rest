@@ -47,6 +47,7 @@ export class CellHeatmapComponent implements OnInit {
 
 
   sortFieldSelected: string;
+  defaultSortField = 'γδ T cells';
   Highcharts = Highcharts;
     keyword: '';
     constructs: string[]; // all constructs available including the brackets
@@ -207,6 +208,7 @@ legend: {
 
   ngOnInit() {
     console.log('calling cell heatmap init method');
+    this.sortFieldSelected = this.defaultSortField;
     this.filterMethod();
     this.getCellTypesDropdown();
     this.getCellSubTypesDropdown();
@@ -215,8 +217,6 @@ legend: {
 
   // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
-
-     // this.getHeatmapData(this.CELL_TYPE)
   }
 
   getHeatmapData(filter: CellFilter) {
@@ -276,6 +276,7 @@ this.heatmapService.getCellSubTypeResponse().subscribe(resp => {
   // display its headers
   const lResponse = { ... resp.body};
   this.cellSubTypes = lResponse['types'];
+  this.defaultSortField = this.cellSubTypes[1];
 });
 }
 
