@@ -32,6 +32,7 @@ export class ProcedureHeatmapComponent implements OnInit {
     Highcharts = Highcharts;
     @ViewChild('searchBox') searchBox;
     sortFieldSelected: string;
+    defaultSortField = 'Homozygous viability at P14';
     keyword: '';
     constructs: string[]; // all constructs available including the brackets
     constructTypes: string[]; // for menu dropdown just conatains unique set with brackets part removed
@@ -174,6 +175,7 @@ chart: {
   }
 
   ngOnInit() {
+    this.sortFieldSelected = this.defaultSortField;
     this.filterMethod();
   }
 

@@ -9,19 +9,35 @@
 
             <!-- <nav><a routerLink="/home" >HOME</a></nav> -->
             <!-- <div id="menu-text-container" style="height: 100%;" fxFlex="70%"> -->
-                <button fxFlex="40%" mat-button routerLinkActive="active">HOME</button>
-                <button fxFlex="20%" mat-button>PROJECT</button>
+                <button fxFlex="40%" mat-button [routerLink]="['./home']">HOME</button>
+                <button fxFlex="20%" mat-button [matMenuTriggerFor]="projectMenu">PROJECT</button>
+                <mat-menu #projectMenu="matMenu">
+                        <button mat-menu-item [routerLink]="['./about']">About 3i</button>
+                        <button mat-menu-item [routerLink]="['./publications']">Publications</button>
+                        <button mat-menu-item [routerLink]="['./consortium']">Consortium</button>
+                        <button mat-menu-item [routerLink]="['./contact']">Contact</button>
+                </mat-menu>
                 <!-- <a  routerLink="analysis" routerLinkActive="active"><button mat-button>ANALYSIS</button></a> -->
-                <button fxFlex="20%" mat-button>METHODS</button>
+                <button  fxFlex="20%" mat-button [matMenuTriggerFor]="methodsMenu">METHODS</button>
+                <mat-menu #methodsMenu="matMenu">
+                        <button mat-menu-item [routerLink]="['./methods']">Strengths and Limitaions</button>
+                        <button mat-menu-item>Experimental Design and Protocols</button>
+                        <button mat-menu-item>Statistical Design</button>
+                </mat-menu>
                 <!-- <a  routerLink="contact" routerLinkActive="active" ><button mat-button>CONTACT</button></a> -->
 
-                <button fxFlex="20%" mat-button [matMenuTriggerFor]="menu2">DATA</button>
-                <mat-menu #menu2="matMenu">
-                    <a routerLink="faq" routerLinkActive="active"><button mat-menu-item>FAQ</button></a>
-                    <a routerLink="glossary" routerLinkActive="active" ><button mat-menu-item>Glossary</button></a>
-                    <a routerLink="publications" routerLinkActive="active"><button mat-menu-item>Publications</button></a>
-                    <a routerLink="privacy" routerLinkActive="active"><button mat-menu-item>Privacy Policy</button></a>
+                <button fxFlex="20%" mat-button [matMenuTriggerFor]="dataMenu">MORE DATA</button>
+                <mat-menu #dataMenu="matMenu">
+                    <button mat-menu-item>Flow Files</button>
+                   <button mat-menu-item>Images</button>
+                    <button mat-menu-item>Data Downloads</button>
+                    <button mat-menu-item>Map of the Immune System</button>
+                   <button mat-menu-item>Semi Supervised Flow Analysis</button>
                 </mat-menu>
+
+                <button fxFlex="20%" mat-button>SEMI SUPERVISED FLOW ANALYSIS</button>
+                <button fxFlex="20%" mat-button>WHAT'S NEW</button>
+                
                 <span class="software" *ngIf="!topMenu">Software v2.1</span>
 
             <!-- </span> -->
