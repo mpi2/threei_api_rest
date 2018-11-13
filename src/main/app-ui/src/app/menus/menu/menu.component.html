@@ -29,7 +29,7 @@
                 <button fxFlex="20%" mat-button [matMenuTriggerFor]="dataMenu">MORE DATA</button>
                 <mat-menu #dataMenu="matMenu">
                     <button mat-menu-item>Flow Files</button>
-                   <button mat-menu-item>Images</button>
+                   <button mat-menu-item (click)="openImagesSearch()">Images</button>
                     <button mat-menu-item>Data Downloads</button>
                     <button mat-menu-item>Map of the Immune System</button>
                    <button mat-menu-item>Semi Supervised Flow Analysis</button>
