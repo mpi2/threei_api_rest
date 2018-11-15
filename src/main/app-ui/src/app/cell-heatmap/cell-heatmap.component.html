@@ -1,5 +1,7 @@
-
-
+<!-- <div><button mat-fab color="accent">
+    Search
+  </button>
+</div> -->
 <form (ngSubmit)="filterMethod()" #loginForm="ngForm">
 
     <mat-card fxLayout="row" fxLayoutGap="20px">
@@ -9,7 +11,7 @@
       <mat-form-field >
               <mat-label>Search for gene symbol</mat-label><input matInput type="search" placeholder="Search Gene Symbol" [(ngModel)]="keyword" name="keyword" placeholder="Search for gene symbol">
       </mat-form-field>
-      <button mat-raised-button color="accent">
+      <button mat-fab color="accent">
         Search
       </button>
        
