@@ -9,8 +9,8 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue.
-$impc-app-primary: mat-palette($mat-grey, 200);
-$impc-app-secondary: mat-palette($mat-light-blue, 800);
+$impc-app-primary: mat-palette($mat-orange, 600);
+$impc-app-secondary: mat-palette($mat-orange, 600);
 $impc-app-accent:  mat-palette($mat-orange, 600);
 
 // The warn palette is optional (defaults to red).

@@ -47,7 +47,7 @@ export class CellHeatmapComponent implements OnInit {
 
 
   sortFieldSelected: string;
-  defaultSortField = 'γδ T cells';
+  defaultSortField = 'NK cells';
   Highcharts = Highcharts;
     keyword: '';
     constructs: string[]; // all constructs available including the brackets
@@ -203,6 +203,7 @@ legend: {
       this.cellSubtypeSelected = null, this.assaySelected = null, this.sortFieldSelected = null;
       const filter = new CellFilter(this.keyword, this.cellSelected,
         this.cellSubtypeSelected, this.assaySelected, this.defaultSortField);
+        this.sortFieldSelected = this.defaultSortField;
       this.getHeatmapData(filter);
   }
 
@@ -276,7 +277,6 @@ this.heatmapService.getCellSubTypeResponse().subscribe(resp => {
   // display its headers
   const lResponse = { ... resp.body};
   this.cellSubTypes = lResponse['types'];
-  this.defaultSortField = this.cellSubTypes[1];
 });
 }
 
