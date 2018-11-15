@@ -40,7 +40,8 @@
 </form>
 <mat-card>
     <mat-card-content>
-<mat-spinner *ngIf="!resourceLoaded"></mat-spinner>
+<!-- <mat-progress-bar *ngIf="!resourceLoaded"></mat-progress-bar> -->
+<mat-progress-bar *ngIf="!resourceLoaded" mode="indeterminate"></mat-progress-bar>
 
     <div *ngIf="!showEmtpyResultMessage"><highcharts-chart
       [Highcharts]="Highcharts"

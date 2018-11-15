@@ -95,7 +95,7 @@ import { TemplateComponent } from './template/template.component';
   ],
   imports: [
     MatSidenavModule, BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule,
-    HttpClientModule, MatRadioModule, MatProgressSpinnerModule, MatSelectModule, MatInputModule, MatCardModule,
+    HttpClientModule, MatRadioModule, MatProgressBarModule, MatSelectModule, MatInputModule, MatCardModule,
      MatTabsModule,  FlexLayoutModule
   ],
   exports: [
