@@ -8,7 +8,7 @@
    <table fxFlex="100%">
     <th>Parameter Name</th><th *ngIf="rows[0].assay">Assay</th><th *ngFor="let columnHeader of columnHeaders">{{columnHeader}}</th>
     <ng-container *ngFor="let row of rows"><tr><td>{{row.rowHeader}}</td><td *ngIf="rows[0].assay">{{row.assay}}</td><td *ngFor="let cell of row.cellData"
-      [style.background-color]="getStyle(cell)"  [ngClass]="{'pointer': row.parameterStableId !== 'INF_BWT_001_001'}" (click)="openChart(geneAccession, row.parameterStableId)"></td></tr></ng-container>
+      [style.background-color]="getStyle(cell)"  [ngClass]="{'pointer': row.parameterStableId !== 'INF_BWT_001_001' && row.parameterStableId !== ''}" (click)="openChart(geneAccession, row.parameterStableId)"></td></tr></ng-container>
   </table>
 
   <!-- <aside id="right-sidebar" fxFlex="20%"  >
