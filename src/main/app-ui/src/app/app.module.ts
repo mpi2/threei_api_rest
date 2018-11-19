@@ -62,7 +62,7 @@ import { MethodsPageComponent } from './methods-page/methods-page.component';
 import { ContactPageComponent } from './contact-page/contact-page.component';
 import { GlossaryPageComponent } from './glossary-page/glossary-page.component';
 import { PublicationsPageComponent } from './publications-page/publications-page.component';
-import { ConsortiumPageComponent } from './consortium-page/consortium-page.component';
+import { ProjectPageComponent } from './project-page/project-page.component';
 import { PhenotypeofthemonthPageComponent } from './phenotypeofthemonth-page/phenotypeofthemonth-page.component';
 import { ImageacknowledgementsPageComponent } from './imageacknowledgements-page/imageacknowledgements-page.component';
 import { CellHeatmapComponent } from './cell-heatmap/cell-heatmap.component';
@@ -86,7 +86,7 @@ import { TemplateComponent } from './template/template.component';
     FaqPageComponent, DataPageComponent, AnalysisPageComponent, MethodsPageComponent, ContactPageComponent, GlossaryPageComponent,
     PublicationsPageComponent, PrivacyPageComponent, LearnMorePageComponent,
     HighchartsChartComponent,
-    ConsortiumPageComponent,
+    ProjectPageComponent,
     PhenotypeofthemonthPageComponent,
     ImageacknowledgementsPageComponent,
     CellHeatmapComponent,
