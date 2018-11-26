@@ -249,20 +249,6 @@ legend: {
   }
 
 
-
-
-// change in all places
-titleChange = function(event) {
-  const v = event;
-  this.chartTitle = v;
-  this.charts.forEach((el) => {
-    el.hcOptions.title.text = v;
-  });
-  // trigger ngOnChanges
-  this.updateDemo2 = true;
-};
-
-
 getCellTypesDropdown() {
   this.heatmapService.getCellTypeResponse().subscribe(resp => {
     const lResponse = { ... resp.body};

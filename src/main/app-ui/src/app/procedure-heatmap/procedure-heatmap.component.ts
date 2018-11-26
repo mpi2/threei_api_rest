@@ -237,25 +237,13 @@ chart: {
     });
   }
 
-// change in all places
-titleChange = function(event) {
-  const v = event;
-  this.chartTitle = v;
-  this.charts.forEach((el) => {
-    el.hcOptions.title.text = v;
-  });
-  // trigger ngOnChanges
-  this.updateDemo2 = true;
-};
-
-
 openImpc() {
   window.open('https://www.mousephenotype.org/data/search?kw=*', '_blank');
 }
 
   displayProcedureChart() {
   console.log('calling display procedure chart method');
-  let spaceForHeaders = 350;
+  let spaceForHeaders = 550;
   if (this.data.length === 0) {
     this.showEmtpyResultMessage = true;
     spaceForHeaders = 0;
@@ -270,12 +258,7 @@ openImpc() {
   this.procedureChartOptions.yAxis.categories = this.rowHeaders;
   this.procedureChartOptions.series[0].data = this.data;
   this.resourceLoaded = true;
-      // this.Highcharts.setOptions(this.cellChartOptions);
-      // if (this.heatmapService.defaultProcedureHeatmapChart === undefined) { // only update the default on first
-      //  // call to the this method - once default is set always default for this user.
-      // this.heatmapService.defaultProcedureHeatmapChart = this.procedureChartOptions;
-      // }
-      this.updateDemo2 = true;
+  this.updateDemo2 = true;
   }// end of display method
 
 }

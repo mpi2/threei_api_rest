@@ -18,16 +18,16 @@
                 </mat-card>
 
                 <mat-card>
-                    <mat-tab-group   (selectedTabChange)="tabChanged($event)">
+                    <mat-tab-group   [color]="warn" mat-stretch-tabs   (selectedTabChange)="tabChanged($event)" dynamicHeight>
                       <mat-tab  label="Cell View Heatmap">                   
                           <threei-cell-heatmap></threei-cell-heatmap>
                           <!-- <threei-procedure-heatmap></threei-procedure-heatmap> -->
                       </mat-tab>            
                       <mat-tab label="Procedure View Heatmap">
-                        <ng-template matTabContent>
+                        <ng-template matTabContent> 
                                 <threei-procedure-heatmap></threei-procedure-heatmap>
-                        </ng-template>
-                  </mat-tab> 
+                         </ng-template> 
+                      </mat-tab> 
                     </mat-tab-group>
                   </mat-card>    
 
