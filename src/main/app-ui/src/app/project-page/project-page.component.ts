@@ -17,10 +17,10 @@ export class ProjectPageComponent  {
             const tree = router.parseUrl(router.url);
             if (tree.fragment) {
               console.log('is a fragment=' + tree.fragment);
-                const element = document.getElementById(tree.fragment);
-                console.log('element found=' + element);
+                const element = document.getElementById(tree.fragment.valueOf());
+                console.log('element found=' + element.getAttribute('name'));
                 if (element) {
-                    element.scrollIntoView();
+                    element.scrollIntoView(true);
                 }
             }
          }

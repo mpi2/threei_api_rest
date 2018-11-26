@@ -7,7 +7,7 @@
                  <!--  -->
                  <mat-card >
                     <mat-card-content fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="space-around center" >
-                       <div fxFlex="30%"> Over 500 Mouse KO Lines</div><div fxFlex="30%"> Over 300 Immunological Phenotypes</div><div fxFlex="30%">Graphs – Images – Raw Data</div>
+                       <div color="accent" fxFlex="50%"> Over 500 Mouse KO Lines</div><div fxFlex="50%"> Over 300 Immunological Phenotypes</div>
                     </mat-card-content>
                   </mat-card>
                 
@@ -19,14 +19,14 @@
 
                 <mat-card>
                     <mat-tab-group   (selectedTabChange)="tabChanged($event)">
-                      <mat-tab color="primary" label="Cell View">                   
+                      <mat-tab color="primary" label="Cell View Heatmap">                   
                           <threei-cell-heatmap></threei-cell-heatmap>
                           <!-- <threei-procedure-heatmap></threei-procedure-heatmap> -->
                       </mat-tab>            
-                      <mat-tab label="Procedure View">
-                        <ng-template matTabContent>
+                      <mat-tab label="Procedure View Heatmap">
+                        <!-- <ng-template matTabContent> -->
                                 <threei-procedure-heatmap></threei-procedure-heatmap>
-                       </ng-template>
+                       <!-- </ng-template> -->
                   </mat-tab> 
                     </mat-tab-group>
                   </mat-card>    

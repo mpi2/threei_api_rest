@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatCard, MatButtonModule, MatButtonToggleAppearance, MatProgressBar  } from '@angular/material';
+import { MatCard, MatButtonModule, MatButtonToggleBase, MatButtonToggleChange, 
+  MatButtonToggleDefaultOptions, MatButtonToggleAppearance, MatProgressBar,
+    MatRadioModule, MatSelectModule, MatTabChangeEvent } from '@angular/material';
 import * as Highcharts from 'highcharts/highcharts';
 import * as HC_map from 'highcharts/modules/map';
 import * as HC_exporting from 'highcharts/modules/exporting';
 // import * as HC_CustomEvents from 'highcharts-custom-events';
-import { MatRadioModule, MatSelectModule, MatTabChangeEvent } from '@angular/material';
 
 import { HeatmapService } from '../heatmap.service';
 import { CellFilter } from './cell-filter';
@@ -79,7 +80,7 @@ cellChartOptions =  {
     width: 1000
 },
 title: {
-  text: 'Cell Type Heatmap'
+  text: ''
 },
 colorAxis: {
 
@@ -154,6 +155,7 @@ legend: {
 
     plotOptions: {
       series: {
+        cursor: 'pointer',
           events: {
               click: function (e) {
                 const gene = e.point.series.yAxis.categories[e.point.y];

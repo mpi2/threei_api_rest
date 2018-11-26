@@ -108,8 +108,8 @@
                             <arguments>
 
                                 <argument>build</argument>
-                                <argument>--prod</argument>
-                                <argument>--base-href "/mi/impc/threei/dev/webapp/"</argument>
+					              <argument>--prod</argument>
+            
                                 
                                
 

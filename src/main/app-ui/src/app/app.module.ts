@@ -11,7 +11,7 @@ import { HighchartsChartComponent } from './highcharts-chart.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule} from '@angular/forms';
-import {MatAutocompleteModule,
+import { MatAutocompleteModule,
   MatBadgeModule,
   MatBottomSheetModule,
   MatButtonModule,
@@ -96,7 +96,7 @@ import { TemplateComponent } from './template/template.component';
   imports: [
     MatSidenavModule, BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule,
     HttpClientModule, MatRadioModule, MatProgressBarModule, MatSelectModule, MatInputModule, MatCardModule,
-     MatTabsModule,  FlexLayoutModule
+     MatTabsModule,  FlexLayoutModule, MatButtonModule, MatTabsModule
   ],
   exports: [
     CdkTableModule,

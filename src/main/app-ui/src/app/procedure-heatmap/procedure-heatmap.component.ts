@@ -70,14 +70,12 @@ chart: {
       width: 1000
   },
   title: {
-      text: 'Procedure Type Heatmap'
+      text: ''
   },
 
   xAxis: {
     opposite: true,
-      categories: [
-            'Data loading...',
-                 ],
+    categories: this.columnHeaders,
       labels: {
           rotation: 90
       },
@@ -86,7 +84,7 @@ chart: {
     yAxis:
     // [
       {
-     categories: ['gene blah1, gene blah2'],
+        categories: this.rowHeaders,
      title: 'gene'
   },
   //  {
@@ -160,6 +158,7 @@ chart: {
 },
 
   series: [{
+    cursor: 'pointer',
     name: 'Data Loading....',
     borderWidth: 1,
     data: [[0, 1, 1]],
@@ -260,6 +259,7 @@ openImpc() {
   if (this.data.length === 0) {
     this.showEmtpyResultMessage = true;
     spaceForHeaders = 0;
+    console.log('space for headers=' + spaceForHeaders);
     } else {
       this.showEmtpyResultMessage = false;
     }
@@ -271,7 +271,6 @@ openImpc() {
   this.procedureChartOptions.series[0].data = this.data;
   this.resourceLoaded = true;
       // this.Highcharts.setOptions(this.cellChartOptions);
-      this.resourceLoaded = true;
       // if (this.heatmapService.defaultProcedureHeatmapChart === undefined) { // only update the default on first
       //  // call to the this method - once default is set always default for this user.
       // this.heatmapService.defaultProcedureHeatmapChart = this.procedureChartOptions;

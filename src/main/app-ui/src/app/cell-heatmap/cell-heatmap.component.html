@@ -7,11 +7,18 @@
     <mat-card fxLayout="row" fxLayoutGap="20px">
         <mat-card-content>
          
+            <mat-form-field>
+                <mat-label>Sort by most significant for cell type</mat-label>
+                <mat-select   placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected" name="sort">
+                    <mat-option (click)="filterMethod()">None</mat-option>
+                    <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
+                </mat-select>
+              </mat-form-field> 
           
       <mat-form-field >
               <mat-label>Search for gene symbol</mat-label><input matInput type="search" placeholder="Search Gene Symbol" [(ngModel)]="keyword" name="keyword" placeholder="Search for gene symbol">
       </mat-form-field>
-      <button mat-fab color="accent">
+      <button mat-raised-button color="accent">
         Search
       </button>
        
@@ -24,15 +31,7 @@
           </mat-select>
         </mat-form-field>
      
-
-      <mat-form-field>
-        <mat-label>Sort by most significant for cell type</mat-label>
-        <mat-select   placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected" name="sort">
-            <mat-option (click)="filterMethod()">None</mat-option>
-            <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
-        </mat-select>
-      </mat-form-field> 
-          <button mat-raised-button type="button" mat-fab (click)="clearFilter()">
+          <button mat-raised-button color="accent" type="button" (click)="clearFilter()">
              Reset
           </button>
       </mat-card-content>
