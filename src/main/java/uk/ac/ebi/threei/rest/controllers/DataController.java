@@ -102,12 +102,13 @@ public class DataController {
 		List<DetailsRow> detailRows=new ArrayList<>();
 		//generate a row for each parameter with blanks where no result for that header
 		for(Entry<String, List<ParameterDetails>> parameterSet: parameterDetailsMap.entrySet()) {
-			//System.out.println("pDetails in controller="+p);
+			//System.out.println("parameterSet in controller="+parameterSet);
 			//new row for each parameter with 0-3 added for each state like in heatmap
 			DetailsRow row=new DetailsRow();
 			row.setRowHeader(parameterSet.getValue().get(0).getParameterName());//first should have same param name as rest
 			row.setParameterStableId(parameterSet.getValue().get(0).getParameterId());
 			row.setAssay(parameterSet.getValue().get(0).getAssay());
+			//System.out.println("setting assay to "+parameterSet.getValue().get(0).getAssay());
 			//loop over the header strings and get the significance score from each
 			for(String header:headerKeys) {
 				//System.out.println("header is "+header);
@@ -135,8 +136,8 @@ public class DataController {
 	private Map<String, String> getCellParametersToAssayMap(List<CellParameter> cellParams) {
 		Map<String, String> cellParametersToAssay=new HashMap<>();
 		for(CellParameter cellP:cellParams) {
-			//System.out.println("cell parameter="+cellP);
-			cellParametersToAssay.put(cellP.getParameterName(), cellP.getAssay());
+			//System.out.println("cell parameter in cell parameters to assay="+cellP);
+			cellParametersToAssay.put(cellP.getParameterId(), cellP.getAssay());
 		}
 		return cellParametersToAssay;
 	}
@@ -145,9 +146,9 @@ public class DataController {
 	private List<ParameterDetails> addAssayToDetails(List<ParameterDetails> parameterDetails, Map<String, String> cellParametersToAssay,
 			List<ParameterDetails> parameterDetailsForGene) {
 		for(ParameterDetails detail:parameterDetailsForGene) {
-			if(cellParametersToAssay.containsKey(detail.getParameterName())){
-				//System.out.println("add detail");
-				detail.setAssay(cellParametersToAssay.get(detail.getParameterName()));
+			if(cellParametersToAssay.containsKey(detail.getParameterId())){
+				//System.out.println("add detail assay to detail "+cellParametersToAssay.get(detail.getParameterId()));
+				detail.setAssay(cellParametersToAssay.get(detail.getParameterId()));
 				parameterDetails.add(detail);
 			}
 		}
@@ -158,6 +159,7 @@ public class DataController {
 	private Map<String, List<ParameterDetails>> getMapBasedOnParameterId(List<ParameterDetails> parameterDetails) {
 		Map<String, List<ParameterDetails>> paramIdToParameterDetails=new HashMap<>();
 		for(ParameterDetails detail: parameterDetails) {
+			//System.out.println("parameter detail="+detail);
 			if(paramIdToParameterDetails.containsKey(detail.getParameterId())) {
 				paramIdToParameterDetails.get(detail.getParameterId()).add(detail);
 			}else {

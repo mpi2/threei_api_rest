@@ -48,7 +48,7 @@ export class CellHeatmapComponent implements OnInit {
 
 
   sortFieldSelected: string;
-  defaultSortField = 'NK cells';
+  defaultSortField = 'γδ T cells';
   Highcharts = Highcharts;
     keyword: '';
     constructs: string[]; // all constructs available including the brackets
