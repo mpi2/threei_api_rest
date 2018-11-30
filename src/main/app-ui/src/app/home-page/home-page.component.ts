@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit , ViewEncapsulation} from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material';
 
 @Component({
@@ -7,6 +7,8 @@ import { MatTabChangeEvent } from '@angular/material';
   styleUrls: ['./home-page.component.css']
 })
 export class HomePageComponent implements OnInit {
+
+  encapsulation: ViewEncapsulation.None
 
   constructor() { }
 
