@@ -42,7 +42,11 @@
 <!-- <mat-progress-bar *ngIf="!resourceLoaded"></mat-progress-bar> -->
 <mat-progress-bar *ngIf="!resourceLoaded" mode="indeterminate"></mat-progress-bar>
 
-    <div *ngIf="!showEmtpyResultMessage"><highcharts-chart
+    <div *ngIf="!showEmtpyResultMessage">
+      <div fxLayout="row">
+      <div fxFlex="60%" >Cell Types</div><div fxFlex="10%">Challenges</div>
+    </div>
+      <highcharts-chart
       [Highcharts]="Highcharts"
       [options]="cellChartOptions"
       [(update)]="updatechart"
