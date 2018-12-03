@@ -15,21 +15,21 @@
       <button mat-raised-button color="accent">
         Search
       </button>
-      <mat-form-field appearance="outline" fxFlex="30%">
+      <!-- <mat-form-field appearance="outline" fxFlex="30%">
           <mat-label>Sort by most significant for cell type</mat-label>
           <mat-select   placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected" name="sort">
               <mat-option (click)="filterMethod()">None</mat-option>
               <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
           </mat-select>
-        </mat-form-field> 
+        </mat-form-field>  -->
         
-       <!-- <mat-form-field>
+       <mat-form-field appearance="outline" fxFlex="30%">
           <mat-label>Filter by cell type</mat-label>
           <mat-select   placeholder="Cell type Filter" [(value)]="cellSelected">
             <mat-option (click)="filterMethod()">None</mat-option>
             <mat-option *ngFor="let cell of cells" [value]="cell"  (click)="filterMethod()">{{cell}}</mat-option>
           </mat-select>
-        </mat-form-field> -->
+        </mat-form-field>
      
           <button mat-raised-button color="accent" type="button" (click)="clearFilter()">
              Reset
@@ -43,9 +43,7 @@
 <mat-progress-bar *ngIf="!resourceLoaded" mode="indeterminate"></mat-progress-bar>
 
     <div *ngIf="!showEmtpyResultMessage">
-      <div fxLayout="row">
-      <div fxFlex="60%" >Cell Types</div><div fxFlex="10%">Challenges</div>
-    </div>
+      
       <highcharts-chart
       [Highcharts]="Highcharts"
       [options]="cellChartOptions"

@@ -204,12 +204,13 @@ public class DataController {
 	@RequestMapping("/procedure_heatmap")
 	@ResponseBody
 	public HttpEntity<Data> procedureHeatmap(Model model, @RequestParam(value = "keyword", required = false) String keyword,
-			@RequestParam(value = "construct", required = false) String constructFilter, @RequestParam(value = "sort", required = false) String sortField) {
+			@RequestParam(value = "construct", required = false) String constructFilter, @RequestParam(value = "sort", required = false) String sortField, @RequestParam(value = "procedure", required = false) String procedure) {
 		
 		Filter filter=new Filter();
 		filter.setKeyword(keyword);
 		filter.setConstructFilter(constructFilter);
 		filter.setSortField(sortField);
+		filter.setProcedure(procedure);
 		return procedureHeatmapservice.getProcedureHeatmapData(filter);
 	}
 

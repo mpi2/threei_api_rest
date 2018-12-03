@@ -41,37 +41,38 @@ export class HeatmapService {
   getCellHeatmapResponse(filter: CellFilter):
       Observable<HttpResponse<Response>> {
       console.log('calling heatmap service method');
-      if (this.defaultCellHeatmapChart !== undefined && filter.keyword === undefined
-        && filter.cellType === undefined && filter.cellSubType === undefined &&
-        filter.cellSubType === undefined && filter.sort === undefined) {
-        // && filter.cellSubType==undefined && filter.cellSubType== undefine
-        console.log('using cached cellheatmapResponse');
-        return this.cellHeatmapResponse;
+      // if (this.defaultCellHeatmapChart !== undefined && filter.keyword === undefined
+      //   && filter.cellType === undefined && filter.cellSubType === undefined &&
+      //   filter.cellSubType === undefined && filter.sort === undefined) {
+      //   // && filter.cellSubType==undefined && filter.cellSubType== undefine
+      //   console.log('using cached cellheatmapResponse');
+      //   return this.cellHeatmapResponse;
 
-      } else {// if response not been made already or filters are not default then make a request to the api
+      // } else {
+        // if response not been made already or filters are not default then make a request to the api
       const filterString = this.getFilterString(filter);
       const urlstring = this.restBaseUrl + '/cell_heatmap' + filterString;
         this.cellHeatmapResponse = this.http.get<Response>(
           urlstring, { observe: 'response' });
           return this.cellHeatmapResponse;
-        }
     }
 
     getProcedureHeatmapResponse(filter: ProcedureFilter):
       Observable<HttpResponse<Response>> {
       console.log('calling procedure heatmap service method');
-      if ( this.procedureHeatmapResponse !== undefined && filter === undefined ) {
-        // && filter.cellSubType==undefined && filter.cellSubType== undefine
-        console.log('using cached procedureheatmapResponse');
-        return this.procedureHeatmapResponse;
+      // if ( this.procedureHeatmapResponse !== undefined && filter.keyword === undefined && filter.procedure === undefined ) {
+      //   // && filter.cellSubType==undefined && filter.cellSubType== undefine
+      //   console.log('using cached procedureheatmapResponse');
+      //   return this.procedureHeatmapResponse;
 
-      } else {
+      // } else {
         const filterString = this.getProcedureFilterString(filter);
         const urlstring = this.restBaseUrl + '/procedure_heatmap' + filterString;
+        console.log('urlsting for procedure=' + urlstring);
         this.procedureHeatmapResponse = this.http.get<Response>(
           urlstring, { observe: 'response' });
         return this.procedureHeatmapResponse;
-      }
+      // }
       }
 
     getDetailsPageResponse(gene: string, procedure: string, construct: string):
@@ -122,8 +123,8 @@ export class HeatmapService {
         if (filter.keyword) {
           filterQuery += '&keyword=' + filter.keyword;
         }
-        if (filter.construct) {
-          filterQuery += '&construct=' + filter.construct;
+        if (filter.procedure) {
+          filterQuery += '&procedure=' + filter.procedure;
         }
 
       }

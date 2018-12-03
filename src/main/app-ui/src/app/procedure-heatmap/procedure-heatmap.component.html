@@ -13,9 +13,17 @@
                 Search
             </button>
 
-            <mat-form-field appearance="outline" fxFlex="30%">
+            <!-- <mat-form-field appearance="outline" fxFlex="30%">
                 <mat-label>Sort by most significant procedure</mat-label>
                 <mat-select placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected">
+                    <mat-option (click)="filterMethod()">None</mat-option>
+                    <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
+                </mat-select>
+            </mat-form-field> -->
+
+            <mat-form-field appearance="outline" fxFlex="30%">
+                <mat-label>Filter by procedure with significant result</mat-label>
+                <mat-select placeholder="Filter by procedure" [(value)]="procedureFieldSelected">
                     <mat-option (click)="filterMethod()">None</mat-option>
                     <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
                 </mat-select>

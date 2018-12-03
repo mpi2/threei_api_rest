@@ -74,10 +74,10 @@ public class ProcedureHeatmapService {
 					exampleMatcher.withMatcher("construct", GenericPropertyMatcher::startsWith);
 					exampleRow.setConstruct(filter.getConstructFilter());
 				}
-//	            if(filter.getCellTypeFilter()!=null) {
-//	            	exampleMatcher.withMatcher(filter.getCellTypeFilter(), GenericPropertyMatcher::ignoreCase);
-//	            	exampleRow.setVariableFromKey(filter.getCellTypeFilter(), 3);//has to be significant so filter on significant
-//	            }
+	            if(filter.getProcedure()!=null) {
+	            	exampleMatcher.withMatcher(filter.getProcedure(), GenericPropertyMatcher::ignoreCase);
+	            	exampleRow.setVariableFromKey(filter.getProcedure(), 3);//has to be significant so filter on significant
+	            }
 	            
 	            Example<ProcedureHeatmapRow> example = Example.of(exampleRow, exampleMatcher);
 	   		 System.out.println("example="+example);
@@ -98,7 +98,7 @@ public class ProcedureHeatmapService {
 	
 	
 	public HttpEntity<Data> getProcedureHeatmapData(Filter filter) {
-		System.out.println("calling data controller with filter fields= " + filter.getKeyword() + " construct=" + filter.getConstructFilter()+"  sort field="+filter.getSortField());
+		System.out.println("calling data controller with filter fields= " + filter.getKeyword() + " construct=" + filter.getConstructFilter()+"  sort field="+filter.getSortField()+ " filter by procedure="+filter.getProcedure());
 		Data data = new Data();//obect that holds all the data for this chart display
 		Sort sort = null;
 		data.setHeatmapType("procedure");

@@ -32,7 +32,9 @@ export class ProcedureHeatmapComponent implements OnInit {
     Highcharts = Highcharts;
     @ViewChild('searchBox') searchBox;
     sortFieldSelected: string;
+    procedureFieldSelected: string;
     defaultSortField = 'Homozygous viability at P14';
+    defaultProcedureField = '';
     keyword: '';
     constructs: string[]; // all constructs available including the brackets
     constructTypes: string[]; // for menu dropdown just conatains unique set with brackets part removed
@@ -66,7 +68,7 @@ chart: {
       marginTop: 200,
       marginBottom: 80,
       plotBorderWidth: 1,
-      height: 17000,
+      height: 111110,
       width: 1000
   },
   title: {
@@ -175,19 +177,21 @@ chart: {
 
   ngOnInit() {
     this.sortFieldSelected = this.defaultSortField;
+    this.procedureFieldSelected = this.defaultProcedureField;
     this.filterMethod();
   }
 
 
   clearFilter() {
-      this.keyword = null, this.constructSelected = null, this.sortFieldSelected = null;
-      const filter = new ProcedureFilter(this.keyword, this.constructSelected, this.defaultSortField);
+      this.keyword = null, this.constructSelected = null, this.sortFieldSelected = null,  this.procedureFieldSelected = null;
+      const filter = new ProcedureFilter(this.keyword, this.constructSelected, this.defaultSortField, this.defaultProcedureField);
       this.sortFieldSelected = this.defaultSortField;
+      this.procedureFieldSelected = this.defaultProcedureField;
     this.getHeatmapData(filter);
   }
 
   filterMethod() {
-    const filter = new ProcedureFilter(this.keyword, this.constructSelected,  this.sortFieldSelected);
+    const filter = new ProcedureFilter(this.keyword, this.constructSelected,  this.sortFieldSelected, this.procedureFieldSelected);
     this.getHeatmapData(filter);
   }
 
