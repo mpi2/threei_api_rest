@@ -1,20 +1,29 @@
-
-
+<!-- <div><button mat-fab color="accent">
+    Search
+  </button>
+</div> -->
 <form (ngSubmit)="filterMethod()" #loginForm="ngForm">
 
-    <mat-card fxLayout="row" fxLayoutGap="20px">
-        <mat-card-content>
+    <mat-card>
+        <mat-card-content fxLayout="row" fxLayoutGap="20px">
          
+            
           
-      <mat-form-field >
+      <mat-form-field appearance="outline" fxFlex="30%">
               <mat-label>Search for gene symbol</mat-label><input matInput type="search" placeholder="Search Gene Symbol" [(ngModel)]="keyword" name="keyword" placeholder="Search for gene symbol">
       </mat-form-field>
-      <button mat-raised-button color="primary">
+      <button mat-raised-button color="accent">
         Search
       </button>
-       
+      <!-- <mat-form-field appearance="outline" fxFlex="30%">
+          <mat-label>Sort by most significant for cell type</mat-label>
+          <mat-select   placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected" name="sort">
+              <mat-option (click)="filterMethod()">None</mat-option>
+              <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
+          </mat-select>
+        </mat-form-field>  -->
         
-       <mat-form-field>
+       <mat-form-field appearance="outline" fxFlex="30%">
           <mat-label>Filter by cell type</mat-label>
           <mat-select   placeholder="Cell type Filter" [(value)]="cellSelected">
             <mat-option (click)="filterMethod()">None</mat-option>
@@ -22,15 +31,7 @@
           </mat-select>
         </mat-form-field>
      
-
-      <mat-form-field>
-        <mat-label>Sort by most significant cell type</mat-label>
-        <mat-select   placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected">
-            <mat-option (click)="filterMethod()">None</mat-option>
-            <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
-        </mat-select>
-      </mat-form-field> 
-          <button mat-raised-button type="button" mat-fab (click)="clearFilter()">
+          <button mat-raised-button color="accent" type="button" (click)="clearFilter()">
              Reset
           </button>
       </mat-card-content>
@@ -38,9 +39,12 @@
 </form>
 <mat-card>
     <mat-card-content>
-<mat-spinner *ngIf="!resourceLoaded"></mat-spinner>
+<!-- <mat-progress-bar *ngIf="!resourceLoaded"></mat-progress-bar> -->
+<mat-progress-bar *ngIf="!resourceLoaded" mode="indeterminate"></mat-progress-bar>
 
-    <div *ngIf="!showEmtpyResultMessage"><highcharts-chart
+    <div *ngIf="!showEmtpyResultMessage">
+      
+      <highcharts-chart
       [Highcharts]="Highcharts"
       [options]="cellChartOptions"
       [(update)]="updatechart"

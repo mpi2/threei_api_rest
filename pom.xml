@@ -108,7 +108,9 @@
                             <arguments>
 
                                 <argument>build</argument>
-                                <argument>--prod</argument>
+					              <argument>--prod</argument>
+            
+                                
                                
 
                             </arguments>

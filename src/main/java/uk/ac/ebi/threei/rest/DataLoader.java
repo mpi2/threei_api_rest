@@ -113,15 +113,20 @@ public class DataLoader implements CommandLineRunner {
 				System.err.println("hits data file doesn't exist here:" + hitsDataFileLocation);
 			}
 
-			String dataFileLocation = args[1];
-			System.out.println("data file presented as " + dataFileLocation.trim());
+			String cellFileLocation = args[1];
+			System.out.println("data file presented as " + cellFileLocation.trim());
 			// get parameter to cell information here
-			File csvFile = new File(dataFileLocation);
-			if (csvFile.exists()) {
-				System.out.println("file exists! We can now get the data");
-				cellParameters = this.getData(csvFile);
+			File cellFile = new File(cellFileLocation);
+			if (cellFile.exists()) {
+				System.out.println("Cell file exists! We can now get the data");
+				cellParameters = this.getData(cellFile);
 				uniqueCellTypesForHeaders=this.getUniqueCellTypesForHeaders(cellParameters);
-				
+				int i=0;
+				for(String key: uniqueCellTypesForHeaders) {
+					System.out.println("uniqueCellTypesForHeaders="+key);
+					i++;
+					if(i>10)break;
+				}
 				//now we need to construct the cell type map by looping though the headers for celltype and then allocating if
 				//any of the parameters associated to that header for that gene are significant using the prev loaded hit file
 				//cellTypeData=createCellTypeHeatmap(uniqueCellTypesForHeaders, cellParameters, geneConstructParameterToSignificance );
@@ -161,7 +166,7 @@ public class DataLoader implements CommandLineRunner {
 		// mongodb
 		
 		List<ParameterDetails> parameterDetails=new ArrayList<>();
-		HashMap<String, ParameterDetails> geneConstructProcedureParameterNameSexGenotypeToValueMap = new HashMap<>();//these are the unique result and we just want
+		HashMap<String, ParameterDetails> geneConstructProcedureParameterIdSexGenotypeToValueMap = new HashMap<>();//these are the unique result and we just want
 		//the most significant of these combinations?
 
 		try {
@@ -220,15 +225,15 @@ public class DataLoader implements CommandLineRunner {
 					//we could empty the map after this to save space and loading time from rest service- but can keep for debugging?
 					//parameterDetails.add(pDetails);
 					//int significanceScore = SignificanceType.getRankFromSignificanceName(significanceScore).intValue();
-					String key = geneSymbol + KEY_DELIMITER + construct+KEY_DELIMITER+displayProcedureName+KEY_DELIMITER+parameterName+KEY_DELIMITER+sex+KEY_DELIMITER+genotype;
-					if (geneConstructProcedureParameterNameSexGenotypeToValueMap.containsKey(key)) {
-						 ParameterDetails tmpPDetails = geneConstructProcedureParameterNameSexGenotypeToValueMap.get(key);
+					String key = geneSymbol + KEY_DELIMITER + construct+KEY_DELIMITER+displayProcedureName+KEY_DELIMITER+parameterId+KEY_DELIMITER+sex+KEY_DELIMITER+genotype;
+					if (geneConstructProcedureParameterIdSexGenotypeToValueMap.containsKey(key)) {
+						 ParameterDetails tmpPDetails = geneConstructProcedureParameterIdSexGenotypeToValueMap.get(key);
 						 int oldScore=tmpPDetails.getSignificanceValue();
 						if (oldScore < significanceScore) {
-							geneConstructProcedureParameterNameSexGenotypeToValueMap.put(key, pDetails);
+							geneConstructProcedureParameterIdSexGenotypeToValueMap.put(key, pDetails);
 						} 
 					} else {
-						geneConstructProcedureParameterNameSexGenotypeToValueMap.put(key, pDetails);
+						geneConstructProcedureParameterIdSexGenotypeToValueMap.put(key, pDetails);
 					}
 					linesRead++;
 					// System.out.println(linesRead);
@@ -255,7 +260,7 @@ public class DataLoader implements CommandLineRunner {
 		
 
 		//System.out.println("procedureData=" + procedureData.writeData());
-		parameterDetails.addAll(geneConstructProcedureParameterNameSexGenotypeToValueMap.values());
+		parameterDetails.addAll(geneConstructProcedureParameterIdSexGenotypeToValueMap.values());
 		return parameterDetails;
 	}
 
@@ -279,10 +284,10 @@ public class DataLoader implements CommandLineRunner {
 	private Integer getHighestSignificanceForCellTypeHeadeer(
 			HashMap<String, Integer> geneConstructParameterToSignificance2, String header, String gene, String construct) {
 		int highestSignficance = 0;
-		List<String> parameterNamesForHeader = this.getParametersForCellType(header, cellParameters);
+		List<String> parameterIdsForHeader = this.getParametersForCellType(header, cellParameters);
 
-		for (String paramName : parameterNamesForHeader) {
-			String key=gene + KEY_DELIMITER +construct+KEY_DELIMITER+ paramName;
+		for (String paramId : parameterIdsForHeader) {
+			String key=gene + KEY_DELIMITER +construct+KEY_DELIMITER+ paramId;//parameter name isn't enough here as they belong to multiple cellt types but parameter ids don't, need procedure name as well to match cell file and hits file unique row.
 			if (geneConstructParameterToSignificance2.containsKey(key)) {
 
 				// add the cell with data here
@@ -303,7 +308,7 @@ public class DataLoader implements CommandLineRunner {
 		List<String> cellParameterNames=new ArrayList<>();
 		for(CellParameter cParam:cellParameters2) {
 			if(cParam.getCellType().equals(header)){
-				cellParameterNames.add(cParam.getParameterName());
+				cellParameterNames.add(cParam.getParameterId());
 			};
 		}
 		return cellParameterNames;
@@ -468,11 +473,11 @@ public class DataLoader implements CommandLineRunner {
 				
 				Integer value = 0;// default is zero for each cell meaning no data.
 				
-				//System.out.println("looking for |"+gene + "_" + header+"|");
+				System.out.println("looking for |"+gene + "_" + header+"|");
 				//need to look at header and get the parameter names for that cell type, then look get the highest significance from that list and return it
 				
 				value = getHighestSignificanceForCellTypeHeadeer(geneConstructParameterToSignificance2, header, gene, construct);
-				//System.out.println("value="+value);
+				System.out.println("value="+value);
 				row.getProcedureSignificance().put(header,value);
 				
 				//cell
@@ -617,20 +622,24 @@ public class DataLoader implements CommandLineRunner {
 
 				// System.out.println(line);
 				String parameterName = "";
+				String parameterId="";
 				String[] columns = line.split(COMMA);
 				if (!columns[0].equals("Id")) {// if id is headers so want to ignore
 					String geneSymbol =this.getTrueGeneSymbol(columns[1]);
 					
 					//geneSymbols.add(geneSymbol);
 					String construct=columns[3];
+					if (columns.length >= 6) {
+						parameterId= columns[6];
+					}
 					if (columns.length >= 7) {
 						parameterName = columns[7];
 					} else {
 						System.out.println("columns size is not 6 so can't get procedureName for line=" + line);
 					}
-					String significance = columns[11];
+					//String significance = columns[11];
 					int significanceScore = SignificanceType.getRankFromSignificanceName(columns[11]).intValue();
-					String key = geneSymbol + KEY_DELIMITER +construct+KEY_DELIMITER+ parameterName;
+					String key = geneSymbol + KEY_DELIMITER +construct+KEY_DELIMITER+ parameterId;
 					if (geneParameterToSigValueMap.containsKey(key)) {
 						int oldScore = geneParameterToSigValueMap.get(key);
 						if (oldScore < significanceScore) {
@@ -764,13 +773,13 @@ public class DataLoader implements CommandLineRunner {
 
 	}
 
-	private List<CellParameter> getData(File csvFile) {
+	private List<CellParameter> getData(File cellFile) {
 		// read in file line by line and add to CellParameter objects for loading into
 		// mongodb
 		List<CellParameter> inputList = new ArrayList<CellParameter>();
 		try {
 
-			InputStream inputFS = new FileInputStream(csvFile);
+			InputStream inputFS = new FileInputStream(cellFile);
 			BufferedReader br = new BufferedReader(new InputStreamReader(inputFS));
 			// skip the header of the csv
 			// String line;

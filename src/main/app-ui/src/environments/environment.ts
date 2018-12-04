@@ -4,8 +4,10 @@
 
 export const environment = {
   production: false,
-  restBaseUrl: 'http://localhost:8080/api', // this one for local dev
-  chartBaseUrl: 'https://dev.mousephenotype.org/data/',
+   restBaseUrl: 'http://localhost:8080/api', // this one for local dev
+  // restBaseUrl: 'api',
+   chartBaseUrl: 'https://dev.mousephenotype.org/data/',
+  // chartBaseUrl: 'http://localhost:8090/phenotype-archive/'
 };
 
 /*

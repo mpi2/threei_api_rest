@@ -1,33 +1,25 @@
-      <mat-sidenav-content id="page-content"  fxFlex="70%">
-          
-          <h1 class="welcome">Analysis</h1>
-        
           <div id="slider-and-main" fxLayout="column " fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
-              <threei-slideshow></threei-slideshow> 
-              <article >
-                  <h1><div class="intro">Dig deeper into the data by looking at it from different angles.</div></h1>
-                  <p>Hi there and welcome to our analysis section. This is a new addition to our website and we are hoping to add new features over the coming months.</p><br/>
-            
-                  Why this new space? We realised that we are producing a lot of data but it is actually not easy to figure out quickly what it is in there. With the graphics in this section we are hoping to give you the opportunity to browse our  data without looking through it gene by gene or assay by assay.We hope you will enjoy this page. Please let us know if there is anything in particular that you would like to see appear in this space by using the contact button on the CONTACT page.
-                  <p>Story 1: A map of the immune system</p><br/>
-               <p>The first thing that struck us when we were starting to dig deeper into the data was the fact that we had data for hundreds of wild type control mice and that we could use this data to build a map of the mouse immune system. The map below was built using data from more than 400 C57BL/6N wild type mice.</p>
-               
-               </article>
-              
+            <h1>More Data</h1>
+              <p>Intro text to be written</p>
+            <h1>Flow Files</h1>
+            <p>
+                We generated xxxx flow files that can be found in FlowRepository (https://flowrepository.org). If you are interested in fancy flow analysis, also have a look at our semisupervised analysis section at the bottom of this page.
+            </p>
+            <h1>Images</h1>
+            <p>
+                We generated xxx images of DSS colitis gut sections, antinuclear antibody stainings and confocal sections of mouse ear epidermis. These can be found at the <a href="http://www.mousephenotype.org/data/search/impc_images?kw=*">IMPC image repository</a>. 
+            </p>
+            <h1>Raw Data Downloads</h1>
+            <p>
+                Download all results of a given assay here:
+                List of tests, links to spreadsheets
+            </p>
+            <h1>Map of the Immune System</h1>
+            <p>
+                How common is your favourite subset? This map was built from data of over 400 C57BL/6N wild type mice.
+            </p>
           </div>
               <!-- X-Frame-Options: DENY  where did this come from?? on our dev site this is now the option set for https://dev.mousephenotype.org/data/threeIAnalysis-->
               <iframe width="420" height="345" [src]="video | safe" style='width: 850px; height: 700px;'></iframe>
           
           
-          
-    </mat-sidenav-content>
-    
-    <mat-sidenav mode="side" opened fxFlex="28%"  position="end" fxLayout="column " fxLayout.xs="column" fxLayoutGap="10px">
-          
-            <threei-phenotype-of-the-month></threei-phenotype-of-the-month>
-              
-            <threei-logos></threei-logos>
-            
-          
-          
-    </mat-sidenav>

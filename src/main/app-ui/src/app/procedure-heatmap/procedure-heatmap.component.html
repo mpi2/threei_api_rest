@@ -1,44 +1,57 @@
+<form (ngSubmit)="filterMethod()" #loginForm="ngForm">
 
-       <form (ngSubmit)="filterMethod()" #loginForm="ngForm">
+    <mat-card >
+        <mat-card-content fxLayout="row" fxLayoutGap="20px">
 
-        <mat-card fxLayout="row" fxLayoutGap="20px">
-          <mat-card-content>
-           
-            
-        <mat-form-field >
-            <mat-label>Search for gene symbol</mat-label><input matInput type="search" placeholder="Search Gene Symbol" [(ngModel)]="keyword" name="keyword">
-        </mat-form-field>
-        <button mat-fab>
-          Search
-        </button>
-      
-              <mat-form-field>
-                  <mat-label>Sort by most significant procedure</mat-label>
-                  <mat-select   placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected">
-                      <mat-option (click)="filterMethod()">None</mat-option>
-                      <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
-                  </mat-select>
-                </mat-form-field> 
-               
-                <button type="button" mat-fab (click)="clearFilter()">
-                    Reset
+
+            <mat-form-field appearance="outline" fxFlex="30%">
+                <mat-label>Search for gene symbol</mat-label>
+                <input matInput type="search" placeholder="Search Gene Symbol" [(ngModel)]="keyword"
+                    name="keyword">
+            </mat-form-field>
+            <button mat-raised-button color="accent">
+                Search
+            </button>
+
+            <!-- <mat-form-field appearance="outline" fxFlex="30%">
+                <mat-label>Sort by most significant procedure</mat-label>
+                <mat-select placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected">
+                    <mat-option (click)="filterMethod()">None</mat-option>
+                    <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
+                </mat-select>
+            </mat-form-field> -->
+
+            <mat-form-field appearance="outline" fxFlex="30%">
+                <mat-label>Filter by procedure with significant result</mat-label>
+                <mat-select placeholder="Filter by procedure" [(value)]="procedureFieldSelected">
+                    <mat-option (click)="filterMethod()">None</mat-option>
+                    <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+
+
+            <button mat-raised-button color="accent" type="button" (click)="clearFilter()">
+                Reset
+            </button>
+        </mat-card-content>
+    </mat-card>
+
+            <!-- <mat-progress-bar *ngIf="!resourceLoaded" mode="indeterminate"></mat-progress-bar> -->
+            <mat-card>
+            <mat-card-content>
+    
+            <div *ngIf="!showEmtpyResultMessage">
+                <highcharts-chart [Highcharts]="Highcharts" [options]="procedureChartOptions" [(update)]="updateDemo2"></highcharts-chart>
+            </div>
+            <div *ngIf='showEmtpyResultMessage'>
+                A knockout mouse for this gene and filter combination has currently not been phenotyped by the 3i consortium. To see if ES
+                cells or a knockout mouse exist and whether it has been phenotyped by another member institute of the International
+                Mouse Phenotyping Consortium (IMPC), please click on this button
+                <button mat-raised-button color="primary" (click)="openImpc()">
+                    Go to IMPC website search
                 </button>
-       
-                <mat-spinner *ngIf="!resourceLoaded"></mat-spinner>
-
-                <div *ngIf="!showEmtpyResultMessage"><highcharts-chart
-                      [Highcharts]="Highcharts"
-                      [options]="procedureChartOptions"
-                      [(update)]="updateDemo2"  
-                    ></highcharts-chart>
-                    </div>
-                    <div *ngIf='showEmtpyResultMessage'>
-                        A knockout mouse for this gene and filter combination has currently not been phenotyped by the 3i consortium.
-                        To see if ES cells or a knockout mouse exist and whether it has been phenotyped by another member institute of the International Mouse Phenotyping Consortium (IMPC), please click on this button 
-                        <button mat-raised-button color="primary" (click)="openImpc()">
-                          Go to IMPC website search
-                          </button>
-                      </div> 
-            </mat-card-content>
-        </mat-card>
-      </form>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</form>

@@ -1,4 +1,6 @@
+/* @import '~@angular/material/prebuilt-themes/deeppurple-amber.css'; */
 /* apply font to whole website */
+
 *{ 
     font-family: "source sans pro" ,"Euphemia UCAS","Kannada Sangam MN";
     color: #666;
@@ -25,8 +27,6 @@ a {
     background: #fff;
     position: absolute;
     top: 180px;
-
-    z-index: 1;
     font-size: 30px;
     padding: 10px;
     

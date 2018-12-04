@@ -13,9 +13,9 @@ import { GlossaryPageComponent } from './glossary-page/glossary-page.component';
 import { PublicationsPageComponent } from './publications-page/publications-page.component';
 import { PrivacyPageComponent } from './privacy-page/privacy-page.component';
 import { LearnMorePageComponent } from './learn-more-page/learn-more-page.component';
-import { ConsortiumPageComponent } from './consortium-page/consortium-page.component';
+import { ProjectPageComponent } from './project-page/project-page.component';
 import { PhenotypeofthemonthPageComponent } from './phenotypeofthemonth-page/phenotypeofthemonth-page.component';
-import {ImageacknowledgementsPageComponent} from "./imageacknowledgements-page/imageacknowledgements-page.component";
+import {ImageacknowledgementsPageComponent} from './imageacknowledgements-page/imageacknowledgements-page.component';
 import { DetailsPageComponent } from './details-page/details-page.component';
 
 
@@ -30,7 +30,7 @@ const appRoutes: Routes = [
     // outlet: 'popup'
   },
   {
-    path: 'analysis',
+    path: 'more_data',
     component: AnalysisPageComponent,
     // outlet: 'popup'
   },
@@ -45,7 +45,7 @@ const appRoutes: Routes = [
     // outlet: 'popup'
   },
   {
-    path: 'faq',
+    path: 'new_cell_types',
     component: FaqPageComponent,
     // outlet: 'popup'
   },
@@ -65,24 +65,24 @@ const appRoutes: Routes = [
     // outlet: 'popup'
   },
   {
-    path: 'consortium-meeting',
-    component: ConsortiumPageComponent,
-    //outlet: 'popup'
+    path: 'project',
+    component: ProjectPageComponent,
+    // outlet: 'popup'
   },
   {
     path: 'phenotypeofthemonth',
     component: PhenotypeofthemonthPageComponent,
-    //outlet: 'popup'
+    // outlet: 'popup'
   },
 
   {
     path: 'image-acknowledgements',
     component: ImageacknowledgementsPageComponent,
-    //outlet: 'popup'
+    // outlet: 'popup'
   },
 
   {
-    path: 'learn_more',
+    path: 'whats_new',
     component: LearnMorePageComponent,
     // outlet: 'popup'
   },
@@ -103,6 +103,7 @@ const appRoutes: Routes = [
       appRoutes,
       {
         enableTracing: false, // <-- debugging purposes only
+        anchorScrolling: 'enabled'
 
       }
     )

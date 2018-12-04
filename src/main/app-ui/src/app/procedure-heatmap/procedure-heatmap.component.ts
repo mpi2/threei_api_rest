@@ -32,6 +32,9 @@ export class ProcedureHeatmapComponent implements OnInit {
     Highcharts = Highcharts;
     @ViewChild('searchBox') searchBox;
     sortFieldSelected: string;
+    procedureFieldSelected: string;
+    defaultSortField = 'Homozygous viability at P14';
+    defaultProcedureField = '';
     keyword: '';
     constructs: string[]; // all constructs available including the brackets
     constructTypes: string[]; // for menu dropdown just conatains unique set with brackets part removed
@@ -65,18 +68,16 @@ chart: {
       marginTop: 200,
       marginBottom: 80,
       plotBorderWidth: 1,
-      height: 17000,
+      height: 111110,
       width: 1000
   },
   title: {
-      text: 'Procedure Type Heatmap'
+      text: ''
   },
 
   xAxis: {
     opposite: true,
-      categories: [
-            'Data loading...',
-                 ],
+    categories: this.columnHeaders,
       labels: {
           rotation: 90
       },
@@ -85,7 +86,7 @@ chart: {
     yAxis:
     // [
       {
-     categories: ['gene blah1, gene blah2'],
+        categories: this.rowHeaders,
      title: 'gene'
   },
   //  {
@@ -159,6 +160,7 @@ chart: {
 },
 
   series: [{
+    cursor: 'pointer',
     name: 'Data Loading....',
     borderWidth: 1,
     data: [[0, 1, 1]],
@@ -174,18 +176,22 @@ chart: {
   }
 
   ngOnInit() {
+    this.sortFieldSelected = this.defaultSortField;
+    this.procedureFieldSelected = this.defaultProcedureField;
     this.filterMethod();
   }
 
 
   clearFilter() {
-      this.keyword = null, this.constructSelected = null, this.sortFieldSelected = null;
-      const filter = new ProcedureFilter(this.keyword, this.constructSelected, this.sortFieldSelected);
+      this.keyword = null, this.constructSelected = null, this.sortFieldSelected = null,  this.procedureFieldSelected = null;
+      const filter = new ProcedureFilter(this.keyword, this.constructSelected, this.defaultSortField, this.defaultProcedureField);
+      this.sortFieldSelected = this.defaultSortField;
+      this.procedureFieldSelected = this.defaultProcedureField;
     this.getHeatmapData(filter);
   }
 
   filterMethod() {
-    const filter = new ProcedureFilter(this.keyword, this.constructSelected,  this.sortFieldSelected);
+    const filter = new ProcedureFilter(this.keyword, this.constructSelected,  this.sortFieldSelected, this.procedureFieldSelected);
     this.getHeatmapData(filter);
   }
 
@@ -235,28 +241,17 @@ chart: {
     });
   }
 
-// change in all places
-titleChange = function(event) {
-  const v = event;
-  this.chartTitle = v;
-  this.charts.forEach((el) => {
-    el.hcOptions.title.text = v;
-  });
-  // trigger ngOnChanges
-  this.updateDemo2 = true;
-};
-
-
 openImpc() {
   window.open('https://www.mousephenotype.org/data/search?kw=*', '_blank');
 }
 
   displayProcedureChart() {
   console.log('calling display procedure chart method');
-  let spaceForHeaders = 350;
+  let spaceForHeaders = 550;
   if (this.data.length === 0) {
     this.showEmtpyResultMessage = true;
     spaceForHeaders = 0;
+    console.log('space for headers=' + spaceForHeaders);
     } else {
       this.showEmtpyResultMessage = false;
     }
@@ -267,13 +262,7 @@ openImpc() {
   this.procedureChartOptions.yAxis.categories = this.rowHeaders;
   this.procedureChartOptions.series[0].data = this.data;
   this.resourceLoaded = true;
-      // this.Highcharts.setOptions(this.cellChartOptions);
-      this.resourceLoaded = true;
-      // if (this.heatmapService.defaultProcedureHeatmapChart === undefined) { // only update the default on first
-      //  // call to the this method - once default is set always default for this user.
-      // this.heatmapService.defaultProcedureHeatmapChart = this.procedureChartOptions;
-      // }
-      this.updateDemo2 = true;
+  this.updateDemo2 = true;
   }// end of display method
 
 }

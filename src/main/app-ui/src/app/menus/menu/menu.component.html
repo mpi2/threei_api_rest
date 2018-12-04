@@ -1,29 +1,47 @@
-    <mat-toolbar  role="heading" style="height:100px;" [ngClass]="{'bottom': !topMenu}">
+    <mat-toolbar  style="min-height: 100px !important; min-height: 100px !important;" role="toolbar"  [ngClass]="{'bottom': !topMenu}" >
     <!-- <mat-toolbar-row> -->
                     <!-- <div id="menu-padding-left"  fxFlex="10%" style="background-color:green">menu padding should be here
                     </div> -->
-        <div class="menu-center-container" style="align-content: center">
-                        <a  *ngIf="topMenu"href="/"><img src="assets/images/impc.png" alt="IMPC Logo"/></a>
+            <!-- <span fxLayout="row" fxLayout.xs="row" fxLayoutWrap   fxLayoutAlign="space-evenly center"> -->
+                      <img *ngIf="topMenu" fxFlex="40%" src="assets/images/impc.png" alt="IMPC Logo"/>
                     
 
 
             <!-- <nav><a routerLink="/home" >HOME</a></nav> -->
             <!-- <div id="menu-text-container" style="height: 100%;" fxFlex="70%"> -->
-                <a  routerLink="home" routerLinkActive="active" ><button  mat-button routerLinkActive="mat-accent" class="no-hover-effect" >HOME</button></a>
-                <a  routerLink="data" routerLinkActive="active" ><button mat-button>DATA</button></a>
-                <a  routerLink="analysis" routerLinkActive="active"><button mat-button>ANALYSIS</button></a>
-                <a  routerLink="methods" routerLinkActive="active"><button mat-button>METHODS</button></a>
-                <a  routerLink="contact" routerLinkActive="active" ><button mat-button>CONTACT</button></a>
-
-                <a  routerLink="learn_more" routerLinkActive="active" ><button mat-button [matMenuTriggerFor]="menu2">LEARN MORE</button></a>
-                <mat-menu #menu2="matMenu">
-                    <a routerLink="faq" routerLinkActive="active"><button mat-menu-item>FAQ</button></a>
-                    <a routerLink="glossary" routerLinkActive="active" ><button mat-menu-item>Glossary</button></a>
-                    <a routerLink="publications" routerLinkActive="active"><button mat-menu-item>Publications</button></a>
-                    <a routerLink="privacy" routerLinkActive="active"><button mat-menu-item>Privacy Policy</button></a>
+                <button fxFlex="40%" mat-button  [routerLink]="['./home']" routerLinkActive="active">HOME</button>
+                <button fxFlex="20%" mat-button routerLinkActive="active" [matMenuTriggerFor]="projectMenu">PROJECT</button>
+                <mat-menu #projectMenu="matMenu" routerLinkActive="active">
+                        <button mat-menu-item [routerLink]="['./project']" routerLinkActive="active">About 3i</button>
+                        <button mat-menu-item [routerLink]="['./project']" fragment="publications">Publications</button>
+                        <button mat-menu-item [routerLink]="['./project']" fragment="consortium">Consortium</button>
+                        <button mat-menu-item [routerLink]="['./project']" fragment="contact">Contact</button>
                 </mat-menu>
+                <!-- <a  routerLink="analysis" routerLinkActive="active"><button mat-button>ANALYSIS</button></a> -->
+                <button  fxFlex="20%" mat-button routerLinkActive="active" [matMenuTriggerFor]="methodsMenu">METHODS</button>
+                <mat-menu #methodsMenu="matMenu" routerLinkActive="active">
+                        <button mat-menu-item [routerLink]="['./methods']" >Strengths and Limitations</button>
+                        <button mat-menu-item [routerLink]="['./methods']" >Experimental Design and Protocols</button>
+                        <button mat-menu-item [routerLink]="['./methods']" >Statistical Design</button>
+                </mat-menu>
+                <!-- <a  routerLink="contact" routerLinkActive="active" ><button mat-button>CONTACT</button></a> -->
+
+                <button fxFlex="20%" mat-button [matMenuTriggerFor]="dataMenu">MORE DATA</button>
+                <mat-menu #dataMenu="matMenu" routerLinkActive="active">
+                    <button mat-menu-item [routerLink]="['./more_data']">Flow Files</button>
+                   <button mat-menu-item (click)="openImagesSearch()">Images</button>
+                    <button mat-menu-item [routerLink]="['./more_data']">Data Downloads</button>
+                    <button mat-menu-item [routerLink]="['./more_data']">Map of the Immune System</button>
+                   <button mat-menu-item [routerLink]="['./new_cell_types']">New Cell Types</button>
+                </mat-menu>
+
+                <button fxFlex="20%"  routerLinkActive="active" [routerLink]="['./new_cell_types']" mat-button>NEW CELL TYPES</button>
+                <button fxFlex="20%" routerLinkActive="active" [routerLink]="['./whats_new']" mat-button>WHAT'S NEW</button>
+                
                 <span class="software" *ngIf="!topMenu">Software v2.1</span>
-        </div>
+
+            <!-- </span> -->
+    
 
     <!-- <div id="menu-padding-right" fxFlex="10%">Padding right</div> -->
     <!-- </mat-toolbar-row> -->

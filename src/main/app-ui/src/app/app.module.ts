@@ -1,14 +1,51 @@
+import {DragDropModule} from '@angular/cdk/drag-drop';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {CdkTableModule} from '@angular/cdk/table';
+import {CdkTreeModule} from '@angular/cdk/tree';
+import {NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
 import {SlideshowModule} from 'ng-simple-slideshow';
-import { MatSidenavModule,MatExpansionModule, MatRadioModule } from '@angular/material';
 import { PrivacyPageComponent } from './privacy-page/privacy-page.component';
 import { LearnMorePageComponent } from './learn-more-page/learn-more-page.component';
 import { HighchartsChartComponent } from './highcharts-chart.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule} from '@angular/forms';
-import { MatCheckboxModule, MatProgressSpinnerModule, MatCardModule, MatSliderModule, MatGridListModule, MatInputModule, MatSelectModule, MatCheckbox, MatButtonModule, MatTabsModule} from '@angular/material';
+import { MatAutocompleteModule,
+  MatBadgeModule,
+  MatBottomSheetModule,
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDatepickerModule,
+  MatDialogModule,
+  MatDividerModule,
+  MatExpansionModule,
+  MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatRadioModule,
+  MatRippleModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSliderModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatSortModule,
+  MatStepperModule,
+  MatTableModule,
+  MatTabsModule,
+  MatToolbarModule,
+  MatTooltipModule,
+  MatTreeModule} from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
@@ -25,7 +62,7 @@ import { MethodsPageComponent } from './methods-page/methods-page.component';
 import { ContactPageComponent } from './contact-page/contact-page.component';
 import { GlossaryPageComponent } from './glossary-page/glossary-page.component';
 import { PublicationsPageComponent } from './publications-page/publications-page.component';
-import { ConsortiumPageComponent } from './consortium-page/consortium-page.component';
+import { ProjectPageComponent } from './project-page/project-page.component';
 import { PhenotypeofthemonthPageComponent } from './phenotypeofthemonth-page/phenotypeofthemonth-page.component';
 import { ImageacknowledgementsPageComponent } from './imageacknowledgements-page/imageacknowledgements-page.component';
 import { CellHeatmapComponent } from './cell-heatmap/cell-heatmap.component';
@@ -49,14 +86,58 @@ import { TemplateComponent } from './template/template.component';
     FaqPageComponent, DataPageComponent, AnalysisPageComponent, MethodsPageComponent, ContactPageComponent, GlossaryPageComponent,
     PublicationsPageComponent, PrivacyPageComponent, LearnMorePageComponent,
     HighchartsChartComponent,
-    ConsortiumPageComponent,
+    ProjectPageComponent,
     PhenotypeofthemonthPageComponent,
     ImageacknowledgementsPageComponent,
     CellHeatmapComponent,
-    ProcedureHeatmapComponent, ProcedureHeatmapComponent, DetailsPageComponent, PhenotypeOfTheMonthComponent, SlideshowComponent, StatsBlocksComponent, LogosComponent, TemplateComponent,
+    ProcedureHeatmapComponent, ProcedureHeatmapComponent, DetailsPageComponent, PhenotypeOfTheMonthComponent,
+    SlideshowComponent, StatsBlocksComponent, LogosComponent, TemplateComponent,
   ],
   imports: [
-    MatSidenavModule,BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule, HttpClientModule, MatRadioModule, MatProgressSpinnerModule, MatSelectModule, MatInputModule, MatCardModule, MatTabsModule,  FlexLayoutModule
+    MatSidenavModule, BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule,
+    HttpClientModule, MatRadioModule, MatProgressBarModule, MatSelectModule, MatInputModule, MatCardModule,
+     MatTabsModule,  FlexLayoutModule, MatButtonModule, MatTabsModule
+  ],
+  exports: [
+    CdkTableModule,
+    CdkTreeModule,
+    DragDropModule,
+    MatAutocompleteModule,
+    MatBadgeModule,
+    MatBottomSheetModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatDividerModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatRippleModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    MatSortModule,
+    MatTableModule,
+    MatTabsModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatTreeModule,
+    ScrollingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
@@ -64,7 +145,7 @@ import { TemplateComponent } from './template/template.component';
 export class AppModule {
   // Diagnostic only: inspect router configuration
   constructor(router: Router) {
-    //console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
+    // console.log('Routes: ', JSON.stringify(router.config, undefined, 2));
   }
 
  }

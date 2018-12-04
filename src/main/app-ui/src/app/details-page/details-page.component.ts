@@ -33,7 +33,7 @@ export class DetailsPageComponent implements OnInit {
   ngOnInit() {
     this.getDetailsPageData();
   }
-  getDetailsPageData(){
+  getDetailsPageData() {
     console.log('calling details page data method');
     this.resourceLoaded=false;
     //if(this.data.length<=1){
@@ -67,26 +67,28 @@ export class DetailsPageComponent implements OnInit {
       //this.constructs=this.response['constructs'];
       //console.log('construct='+this.constructs+'||');
       //console.log('rowheaders='+this.rowHeaders+'||');
-      this.displayTable();
-    
-      
     });
   }
 
-  displayTable(): any {
 
-    //console.log('rows='+this.rows);
-    //console.log('columnHeaders='+this.columnHeaders);
+  // href="https://www.mousephenotype.org/data/charts?phenotyping_center=WTSI&bare=true&
+  // accession={{geneAccession}}&parameter_stable_id={{row.parameterStableId}}&chart_only=true"
+  openChart(geneAccession, parameter_stable_id) {
+    if (parameter_stable_id !== 'INF_BWT_001_001' && parameter_stable_id !== '') {
+      const url = environment.chartBaseUrl + 'charts?phenotyping_center=WTSI&accession='
+      + geneAccession + '&parameter_stable_id=' + parameter_stable_id;
+     console.log('url for chart=' + url);
+     window.open(url, '_blank');
+    }
   }
 
-
-  //href="https://www.mousephenotype.org/data/charts?phenotyping_center=WTSI&bare=true&accession={{geneAccession}}&parameter_stable_id={{row.parameterStableId}}&chart_only=true"
-  openChart(geneAccession, parameter_stable_id){
-      let url=environment.chartBaseUrl+'charts?phenotyping_center=WTSI&accession='+geneAccession+'&parameter_stable_id='+parameter_stable_id;
-     console.log('url for chart='+url);
-     window.open(url,'_blank');
+  clickable ( parameter_stable_id: string): string  {
+    // 'cursor: pointer';
+    if ( parameter_stable_id === 'INF_BWT_001_001') {
+      return '';
+    }
+    return 'pointer';
   }
-
 
   getStyle(sig: number) {
     if(sig==0) {

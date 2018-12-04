@@ -1,11 +1,12 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatCard, MatButtonModule  } from '@angular/material';
+import { MatCard, MatButtonModule, MatButtonToggleBase, MatButtonToggleChange, 
+  MatButtonToggleDefaultOptions, MatButtonToggleAppearance, MatProgressBar,
+    MatRadioModule, MatSelectModule, MatTabChangeEvent } from '@angular/material';
 import * as Highcharts from 'highcharts/highcharts';
 import * as HC_map from 'highcharts/modules/map';
 import * as HC_exporting from 'highcharts/modules/exporting';
 // import * as HC_CustomEvents from 'highcharts-custom-events';
-import { MatRadioModule, MatSelectModule, MatTabChangeEvent } from '@angular/material';
 
 import { HeatmapService } from '../heatmap.service';
 import { CellFilter } from './cell-filter';
@@ -47,6 +48,7 @@ export class CellHeatmapComponent implements OnInit {
 
 
   sortFieldSelected: string;
+  defaultSortField = 'γδ T cells';
   Highcharts = Highcharts;
     keyword: '';
     constructs: string[]; // all constructs available including the brackets
@@ -78,7 +80,7 @@ cellChartOptions =  {
     width: 1000
 },
 title: {
-  text: 'Cell Type Heatmap'
+  text: ''
 },
 colorAxis: {
 
@@ -153,6 +155,7 @@ legend: {
 
     plotOptions: {
       series: {
+        cursor: 'pointer',
           events: {
               click: function (e) {
                 const gene = e.point.series.yAxis.categories[e.point.y];
@@ -201,12 +204,14 @@ legend: {
       this.keyword = null, this.cellSelected = null,
       this.cellSubtypeSelected = null, this.assaySelected = null, this.sortFieldSelected = null;
       const filter = new CellFilter(this.keyword, this.cellSelected,
-        this.cellSubtypeSelected, this.assaySelected, this.sortFieldSelected);
+        this.cellSubtypeSelected, this.assaySelected, this.defaultSortField);
+        this.sortFieldSelected = this.defaultSortField;
       this.getHeatmapData(filter);
   }
 
   ngOnInit() {
     console.log('calling cell heatmap init method');
+    this.sortFieldSelected = this.defaultSortField;
     this.filterMethod();
     this.getCellTypesDropdown();
     this.getCellSubTypesDropdown();
@@ -215,8 +220,6 @@ legend: {
 
   // tslint:disable-next-line:use-life-cycle-interface
   ngAfterViewInit() {
-
-     // this.getHeatmapData(this.CELL_TYPE)
   }
 
   getHeatmapData(filter: CellFilter) {
@@ -244,20 +247,6 @@ legend: {
       }
       return tempHeaders;
   }
-
-
-
-
-// change in all places
-titleChange = function(event) {
-  const v = event;
-  this.chartTitle = v;
-  this.charts.forEach((el) => {
-    el.hcOptions.title.text = v;
-  });
-  // trigger ngOnChanges
-  this.updateDemo2 = true;
-};
 
 
 getCellTypesDropdown() {
