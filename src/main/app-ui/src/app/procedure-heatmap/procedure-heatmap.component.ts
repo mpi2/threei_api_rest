@@ -69,7 +69,7 @@ chart: {
       marginBottom: 80,
       plotBorderWidth: 1,
       height: 111110,
-      width: 1000
+      width: 1200
   },
   title: {
       text: ''
@@ -111,24 +111,28 @@ chart: {
       from: 2,
       to: 3,
       color: '#0000ff',
-      name: 'Not Significantly Different'
+      name: 'Not Significantly Different WT vs KO'
   }, {
       from: 3,
       to: 4,
       color: '#c4463a',
-      name: 'Significantly Different'
+      name: 'Significantly Different WT vs KO'
   }
   ],
   min: 0,
   max: 4,
   },
   legend: {
-      align: 'right',
-      layout: 'vertical',
-      // margin: 0,
-      verticalAlign: 'top',
-      backgroundColor: 'whitesmoke'
-      // symbolHeight: 280
+    align: 'right',
+    layout: 'vertical',
+    margin: 30,
+    verticalAlign: 'top',
+    backgroundColor: 'whitesmoke',
+    itemStyle: {
+      fontSize: '16px',
+      // font: '20pt Trebuchet MS, Verdana, sans-serif',
+      // color: '#A0A0A0'
+   },
   },
   tooltip: {
     // shadow: false,
@@ -241,9 +245,9 @@ chart: {
     });
   }
 
-openImpc() {
-  window.open('https://www.mousephenotype.org/data/search?kw=*', '_blank');
-}
+  openImpc() {
+    window.open('https://www.mousephenotype.org/data/search/gene?kw=' + this.keyword, '_blank');
+  }
 
   displayProcedureChart() {
   console.log('calling display procedure chart method');

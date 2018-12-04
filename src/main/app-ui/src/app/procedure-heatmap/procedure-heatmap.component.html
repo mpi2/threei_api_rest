@@ -45,12 +45,12 @@
                 <highcharts-chart [Highcharts]="Highcharts" [options]="procedureChartOptions" [(update)]="updateDemo2"></highcharts-chart>
             </div>
             <div *ngIf='showEmtpyResultMessage'>
+                    <button mat-raised-button color="primary" (click)="openImpc()">
+                            Search IMPC website for {{keyword}}
+                        </button>
                 A knockout mouse for this gene and filter combination has currently not been phenotyped by the 3i consortium. To see if ES
                 cells or a knockout mouse exist and whether it has been phenotyped by another member institute of the International
-                Mouse Phenotyping Consortium (IMPC), please click on this button
-                <button mat-raised-button color="primary" (click)="openImpc()">
-                    Go to IMPC website search
-                </button>
+                Mouse Phenotyping Consortium (IMPC), please click on this button.
             </div>
         </mat-card-content>
     </mat-card>

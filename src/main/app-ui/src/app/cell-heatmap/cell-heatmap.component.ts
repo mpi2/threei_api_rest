@@ -77,7 +77,7 @@ cellChartOptions =  {
     marginBottom: 80,
     plotBorderWidth: 1,
     height: 1000,
-    width: 1000
+    width: 1200,
 },
 title: {
   text: ''
@@ -98,12 +98,12 @@ colorAxis: {
     from: 2,
     to: 3,
     color: '#0000ff',
-    name: 'Not Significantly Different'
+    name: 'Not Significantly Different WT vs KO'
 }, {
     from: 3,
     to: 4,
     color: '#c4463a',
-    name: 'Significantly Different'
+    name: 'Significantly Different WT vs KO'
 }
 ],
 min: 0,
@@ -112,11 +112,15 @@ max: 4,
 legend: {
   align: 'right',
   layout: 'vertical',
-  // margin: 0,
+  margin: 30,
   verticalAlign: 'top',
-  backgroundColor: 'whitesmoke'
-  // y: 25,
-  // symbolHeight: 280
+  backgroundColor: 'whitesmoke',
+  itemStyle: {
+    fontSize: '16px',
+    // font: '20pt Trebuchet MS, Verdana, sans-serif',
+    // color: '#A0A0A0'
+ },
+
 },
 
     xAxis: {
@@ -277,7 +281,7 @@ this.heatmapService.getAssaysResponse().subscribe(resp => {
 }
 
 openImpc() {
-  window.open('https://www.mousephenotype.org/data/search?kw=*', '_blank');
+  window.open('https://www.mousephenotype.org/data/search/gene?kw=' + this.keyword, '_blank');
 }
 
 

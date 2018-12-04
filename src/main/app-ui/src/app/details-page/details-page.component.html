@@ -1,14 +1,17 @@
-<div id="main-center" fxFlex="80%">
-    Gene: {{gene}}
-    Gene Accession: {{geneAccession}}
+<div id="main-center" fxFlex="80%" fxLayoutGap="20px">
+  <p>
+      <button mat-raised-button color="accent" (click)="openOrderSection(geneAccession)"><h3><mat-icon color="primary" >add_shopping_cart</mat-icon> Order/View Mice with gene KO {{gene}}</h3></button>
     Procedure: {{procedure}}
+    </p>
   <div id="slider-and-main" fxLayout="column" fxLayout.xs="column" fxLayoutWrap fxLayoutGap="1.5%" fxLayoutAlign="center">
   
 
    <table fxFlex="100%">
     <th>Parameter Name</th><th *ngIf="rows[0].assay">Assay</th><th *ngFor="let columnHeader of columnHeaders">{{columnHeader}}</th>
-    <ng-container *ngFor="let row of rows"><tr><td>{{row.rowHeader}}</td><td *ngIf="rows[0].assay">{{row.assay}}</td><td *ngFor="let cell of row.cellData"
-      [style.background-color]="getStyle(cell)"  [ngClass]="{'pointer': row.parameterStableId !== 'INF_BWT_001_001' && row.parameterStableId !== ''}" (click)="openChart(geneAccession, row.parameterStableId)"></td></tr></ng-container>
+    <ng-container *ngFor="let row of rows">
+      <tr [ngClass]="{'pointer': row.parameterStableId !== 'INF_BWT_001_001' && row.parameterStableId !== ''}" (click)="openChart(geneAccession, row.parameterStableId)"><td>{{row.rowHeader}}</td><td *ngIf="rows[0].assay">{{row.assay}}</td><td *ngFor="let cell of row.cellData"
+      [style.background-color]="getStyle(cell)"></td></tr>
+    </ng-container>
   </table>
 
   <!-- <aside id="right-sidebar" fxFlex="20%"  >

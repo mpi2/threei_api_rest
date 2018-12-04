@@ -45,7 +45,8 @@ import { MatAutocompleteModule,
   MatTabsModule,
   MatToolbarModule,
   MatTooltipModule,
-  MatTreeModule} from '@angular/material';
+  MatTreeModule,
+  MatIcon} from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 
@@ -96,7 +97,7 @@ import { TemplateComponent } from './template/template.component';
   imports: [
     MatSidenavModule, BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule,
     HttpClientModule, MatRadioModule, MatProgressBarModule, MatSelectModule, MatInputModule, MatCardModule,
-     MatTabsModule,  FlexLayoutModule, MatButtonModule, MatTabsModule
+     MatTabsModule,  FlexLayoutModule, MatButtonModule, MatTabsModule, MatIconModule
   ],
   exports: [
     CdkTableModule,
