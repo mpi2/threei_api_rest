@@ -74,6 +74,10 @@ import { SlideshowComponent } from './slideshow/slideshow.component';
 import { StatsBlocksComponent } from './stats-blocks/stats-blocks.component';
 import { LogosComponent } from './logos/logos.component';
 import { TemplateComponent } from './template/template.component';
+import { StrengthNLimitationsComponent } from './strength-n-limitations/strength-n-limitations.component';
+import { AboutComponent } from './about/about.component';
+import { ConsortiumComponent } from './consortium/consortium.component';
+import { StatisticalDesignComponent } from './statistical-design/statistical-design.component';
 
 
 
@@ -92,7 +96,8 @@ import { TemplateComponent } from './template/template.component';
     ImageacknowledgementsPageComponent,
     CellHeatmapComponent,
     ProcedureHeatmapComponent, ProcedureHeatmapComponent, DetailsPageComponent, PhenotypeOfTheMonthComponent,
-    SlideshowComponent, StatsBlocksComponent, LogosComponent, TemplateComponent,
+    SlideshowComponent, StatsBlocksComponent, LogosComponent, TemplateComponent, StrengthNLimitationsComponent,
+    AboutComponent, ConsortiumComponent, StatisticalDesignComponent
   ],
   imports: [
     MatSidenavModule, BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule,

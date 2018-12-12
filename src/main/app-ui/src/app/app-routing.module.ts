@@ -17,6 +17,10 @@ import { ProjectPageComponent } from './project-page/project-page.component';
 import { PhenotypeofthemonthPageComponent } from './phenotypeofthemonth-page/phenotypeofthemonth-page.component';
 import {ImageacknowledgementsPageComponent} from './imageacknowledgements-page/imageacknowledgements-page.component';
 import { DetailsPageComponent } from './details-page/details-page.component';
+import { StrengthNLimitationsComponent } from './strength-n-limitations/strength-n-limitations.component';
+import { AboutComponent } from './about/about.component';
+import { ConsortiumComponent } from './consortium/consortium.component';
+import { StatisticalDesignComponent } from './statistical-design/statistical-design.component';
 
 
 const appRoutes: Routes = [
@@ -90,6 +94,26 @@ const appRoutes: Routes = [
   {
     path: 'details',
     component: DetailsPageComponent,
+    // outlet: 'popup'
+  },
+  {
+    path: 'strengths',
+    component: StrengthNLimitationsComponent,
+    // outlet: 'popup'
+  },
+  {
+    path: 'about',
+    component: AboutComponent,
+    // outlet: 'popup'
+  },
+  {
+    path: 'consortium',
+    component: ConsortiumComponent,
+    // outlet: 'popup'
+  },
+  {
+    path: 'statistical',
+    component: StatisticalDesignComponent,
     // outlet: 'popup'
   },
 

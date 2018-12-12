@@ -12,17 +12,17 @@
                 <button fxFlex="40%" mat-button  [routerLink]="['./home']" routerLinkActive="active">HOME</button>
                 <button fxFlex="20%" mat-button routerLinkActive="active" [matMenuTriggerFor]="projectMenu">PROJECT</button>
                 <mat-menu #projectMenu="matMenu" routerLinkActive="active">
-                        <button mat-menu-item [routerLink]="['./project']" routerLinkActive="active">About 3i</button>
-                        <button mat-menu-item [routerLink]="['./project']" fragment="publications">Publications</button>
-                        <button mat-menu-item [routerLink]="['./project']" fragment="consortium">Consortium</button>
-                        <button mat-menu-item [routerLink]="['./project']" fragment="contact">Contact</button>
+                        <button mat-menu-item [routerLink]="['./about']" routerLinkActive="active">About 3i</button>
+                        <button mat-menu-item [routerLink]="['./publications']" fragment="publications">Publications</button>
+                        <button mat-menu-item [routerLink]="['./consortium']" fragment="consortium">Consortium</button>
+                        <button mat-menu-item [routerLink]="['./contact']" fragment="contact">Contact</button>
                 </mat-menu>
                 <!-- <a  routerLink="analysis" routerLinkActive="active"><button mat-button>ANALYSIS</button></a> -->
                 <button  fxFlex="20%" mat-button routerLinkActive="active" [matMenuTriggerFor]="methodsMenu">METHODS</button>
                 <mat-menu #methodsMenu="matMenu" routerLinkActive="active">
-                        <button mat-menu-item [routerLink]="['./methods']" >Strengths and Limitations</button>
+                        <button mat-menu-item [routerLink]="['./strengths']" >Strengths and Limitations</button>
                         <button mat-menu-item [routerLink]="['./methods']" >Experimental Design and Protocols</button>
-                        <button mat-menu-item [routerLink]="['./methods']" >Statistical Design</button>
+                        <button mat-menu-item [routerLink]="['./statistical']" >Statistical Design</button>
                 </mat-menu>
                 <!-- <a  routerLink="contact" routerLinkActive="active" ><button mat-button>CONTACT</button></a> -->
 
