@@ -90,7 +90,7 @@ public class GeneService {
 
 		SolrQuery query = new SolrQuery();
 		query.setQuery("geneQf"+":"+"\""+keyword+"\"");
-		query.addFilterQuery("latest_phenotyping_centre" + ":" + "WTSI");//all 3i are WTSI phenotyping center??
+		//query.addFilterQuery("latest_phenotyping_centre" + ":" + "WTSI");//all 3i are WTSI phenotyping center??
 		query.setRows(Integer.MAX_VALUE);
 		
 		QueryResponse rsp = solrClient.query(query);

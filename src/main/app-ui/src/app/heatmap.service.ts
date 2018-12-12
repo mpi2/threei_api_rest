@@ -90,11 +90,11 @@ export class HeatmapService {
     let filterQuery = '';
     if (filter) {
       console.log('query button clicked with CellFilter search=' + filter.keyword + ' constructSeleted ' +
-      ' cell selected=' + filter.cellType + ' cellSubtypeSelected=' + filter.cellSubType + 'sortField=' + filter.sort);
+      ' cell selected=' + filter.cellType + ' cellSubtypeSelected=' + filter.cellSubType);
       filterQuery += '?';
-      if (filter.sort) {
-        filterQuery += '&sort=' + filter.sort;
-      }
+      // if (filter.sort) {
+      //   filterQuery += '&sort=' + filter.sort;
+      // }
       if (filter.keyword) {
         filterQuery += '&keyword=' + filter.keyword;
       }
@@ -115,11 +115,11 @@ export class HeatmapService {
       let filterQuery = '';
       if (filter) {
         console.log('query button clicked with Procedure search=' + filter.keyword + ' constructSeleted ' +
-        filter.construct + 'sortField=' + filter.sort);
+        filter.construct);
         filterQuery += '?';
-        if (filter.sort) {
-          filterQuery += '&sort=' + filter.sort;
-        }
+        // if (filter.sort) {
+        //   filterQuery += '&sort=' + filter.sort;
+        // }
         if (filter.keyword) {
           filterQuery += '&keyword=' + filter.keyword;
         }

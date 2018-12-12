@@ -188,14 +188,14 @@ chart: {
 
   clearFilter() {
       this.keyword = null, this.constructSelected = null, this.sortFieldSelected = null,  this.procedureFieldSelected = null;
-      const filter = new ProcedureFilter(this.keyword, this.constructSelected, this.defaultSortField, this.defaultProcedureField);
+      const filter = new ProcedureFilter(this.keyword, this.constructSelected,  this.defaultProcedureField);
       this.sortFieldSelected = this.defaultSortField;
       this.procedureFieldSelected = this.defaultProcedureField;
     this.getHeatmapData(filter);
   }
 
   filterMethod() {
-    const filter = new ProcedureFilter(this.keyword, this.constructSelected,  this.sortFieldSelected, this.procedureFieldSelected);
+    const filter = new ProcedureFilter(this.keyword, this.constructSelected,  this.procedureFieldSelected);
     this.getHeatmapData(filter);
   }
 
