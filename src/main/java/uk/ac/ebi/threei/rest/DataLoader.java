@@ -133,10 +133,16 @@ public class DataLoader implements CommandLineRunner {
 				cellHeatmapRows=getCellHeatmapRowsFromCsv(uniqueCellTypesForHeaders, cellParameters, geneConstructParameterToSignificance );
 				//we need to add some of the procedure data to the cell rows as requested by Lucie
 				cellHeatmapRows=addSomeProceduresToCellRows(cellHeatmapRows, procedureRowData);
+				//need to add significance score after adding the extra procedure rows otherwise can't order based on significance for whole row
+				
+				for(CellHeatmapRow row: cellHeatmapRows) {
+					row.calculateTotalSignificantScore();
+					row.procedureSignificance=Collections.emptyMap();
+				}
 				//System.out.println("celltypeData="+cellTypeData);
 
 			} else {
-				System.err.println("file not found!!!");
+				System.err.println("cell file not found!!!");
 			}
 
 			// get the hits information here (from the original csv file that Lucie gave
@@ -443,7 +449,9 @@ public class DataLoader implements CommandLineRunner {
 				}
 				//System.out.println("adding hRow ="+hRow);
 				hRow.setFieldsFromMap();//set the variables from the map so we can use repo sorting on fields
+				hRow.calculateTotalSignificantScore();
 				//we could empty the map after this to save space and loading time from rest service- but can keep for debugging?
+				hRow.procedureSignificance=Collections.emptyMap();
 				heatmapRows.add(hRow);
 			}
 
@@ -491,7 +499,6 @@ public class DataLoader implements CommandLineRunner {
 			for(Entry<String, CellHeatmapRow> entry : cellHeatmapRowsMap.entrySet()) {
 			CellHeatmapRow row=entry.getValue();
 			row.setFieldsFromMap();
-			row.procedureSignificance=Collections.emptyMap();
 			//System.out.println("adding row to cellHeatmapRows="+row);
 			cellHeatmapRows.add(row);
 			}

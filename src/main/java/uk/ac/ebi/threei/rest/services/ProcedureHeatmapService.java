@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -104,15 +105,23 @@ public class ProcedureHeatmapService {
 		data.setHeatmapType("procedure");
 		//should extract these into methods in a data service for unit testing purposes
 		
-		if (!StringUtils.isEmpty(filter.getSortField())) {
-			String sortField = procedureHeaderToFieldMap.get(filter.getSortField());
-			System.out.println("sortVariable=" + sortField);
-			sort = new Sort(Sort.Direction.ASC, sortField);
-		}
-		
+//		if (!StringUtils.isEmpty(filter.getSortField())) {
+//			String sortField = procedureHeaderToFieldMap.get(filter.getSortField());
+//			System.out.println("sortVariable=" + sortField);
+//			sort = new Sort(Sort.Direction.ASC, sortField);
+//		}
+		sort=new Sort(Sort.Direction.ASC, "totalSignificanceScore");
 		List<ProcedureHeatmapRow> procedureRows = this.filterCellRows(filter, sort);//get an easily readable form of the rows for the heatmap
 		System.out.println("procedure rows size="+procedureRows.size());
-		
+//		procedureRows.sort(new Comparator<ProcedureHeatmapRow>() {
+//		    @Override
+//		    public int compare(ProcedureHeatmapRow r1, ProcedureHeatmapRow r2) {
+//		        if(r1.getTotalSignificanceScore() == r2.getTotalSignificanceScore()){
+//		            return 0;
+//		        }
+//		        return r1.getTotalSignificanceScore()< r2.getTotalSignificanceScore() ? -1 : 1;
+//		     }
+//		});
 
 		// loop through the rows and get the row headers for (gene symbols)
 		ArrayList<String> rowHeaders = new ArrayList<>();

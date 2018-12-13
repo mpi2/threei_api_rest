@@ -204,7 +204,7 @@ public class DataController {
 		Filter filter=new Filter();
 		filter.setKeyword(keyword);
 		filter.setConstructFilter(constructFilter);
-		filter.setSortField(sortField);
+		//filter.setSortField(sortField);
 		filter.setProcedure(procedure);
 		return procedureHeatmapservice.getProcedureHeatmapData(filter);
 	}

@@ -3,6 +3,7 @@ package uk.ac.ebi.threei.rest;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.data.annotation.Id;
 
@@ -41,6 +42,15 @@ public class CellHeatmapRow {
 	private Integer influenza;// = 0;
 	private Integer trichurisChallenge;// = 0;
 	private Integer salmonellaChallenge;// = 0;
+	private Integer totalSignificanceScore;
+
+	public Integer getTotalSignificanceScore() {
+		return totalSignificanceScore;
+	}
+
+	public void setTotalSignificanceScore(Integer totalSignificanceScore) {
+		this.totalSignificanceScore = totalSignificanceScore;
+	}
 
 	public Integer getdSSChallenge() {
 		return dSSChallenge;
@@ -300,6 +310,29 @@ public class CellHeatmapRow {
 
 		}
 
+	}
+
+	public void calculateTotalSignificantScore() {
+		Integer score=0;
+		for( Entry<String, Integer> entry: this.procedureSignificance.entrySet()) {
+			if(entry.getValue()>2) {
+				score+=entry.getValue();
+			}
+		}
+		//if the challenge procedures have been added count these for the order
+		if(this.dSSChallenge>2) { score+=this.dSSChallenge;
+		}
+		if(this.influenza>2) {
+			score+=this.influenza;
+		}
+		if(this.trichurisChallenge >2) {
+				score+=this.trichurisChallenge;
+		}
+		if(this.salmonellaChallenge>2) {
+			score+=this.salmonellaChallenge;
+		}
+		System.out.println("score for this row="+score);
+		this.totalSignificanceScore=score;
 	}
 
 	

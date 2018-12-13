@@ -2,6 +2,7 @@ package uk.ac.ebi.threei.rest;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.data.annotation.Id;
 
@@ -33,6 +34,15 @@ public class ProcedureHeatmapRow {
 	private Integer influenza;
 	private Integer trichurisChallenge;
 	private Integer salmonellaChallenge;
+	private Integer totalSignificanceScore;
+
+	public Integer getTotalSignificanceScore() {
+		return totalSignificanceScore;
+	}
+
+	public void setTotalSignificanceScore(Integer totalSignificanceScore) {
+		this.totalSignificanceScore = totalSignificanceScore;
+	}
 
 	public String getId() {
 		return id;
@@ -267,4 +277,18 @@ public class ProcedureHeatmapRow {
 	         "Influenza",
 	        "Trichuris Challenge",
 	        "Salmonella Challenge"};
+
+
+
+public void calculateTotalSignificantScore() {
+	Integer score=0;
+	for( Entry<String, Integer> entry: this.procedureSignificance.entrySet()) {
+		if(entry.getValue()>2) {//limit it to red boxes as we don't care if less or more grey ones???
+		score+=entry.getValue();
+		}
+	}
+	System.out.println("score for this row="+score);
+	this.totalSignificanceScore=score;
+}
+
 }

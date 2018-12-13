@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -91,18 +92,26 @@ public class CellHeatmapService {
 		// System.out.println("filter="+filter);
 		Data data = new Data();// obect that holds all the data for this chart display
 		Sort sort = null;
-		if (!StringUtils.isEmpty(filter.getSortField())) {
-			String sortField = cellHeaderToFieldMap.get(filter.getSortField());
-			System.out.println("sortVariable=" + sortField);
-			sort = new Sort(Sort.Direction.ASC, sortField);
-		}
-		
+//		if (!StringUtils.isEmpty(filter.getSortField())) {
+//			String sortField = cellHeaderToFieldMap.get(filter.getSortField());
+//			System.out.println("sortVariable=" + sortField);
+//			sort = new Sort(Sort.Direction.ASC, sortField);
+//		}
+		sort=new Sort(Sort.Direction.ASC, "totalSignificanceScore");
 		//put filter method in here to only return the rows we need
 		cellRows = this.filterCellRows(filter, sort);
 		System.out.println("cellrows size=" + cellRows.size());
 
 		//by default we need to sort the rows by ones with most significant hits at the top
-		
+//		cellRows.sort(new Comparator<CellHeatmapRow>() {
+//		    @Override
+//		    public int compare(CellHeatmapRow r1, CellHeatmapRow r2) {
+//		        if(r1.getTotalSignificanceScore() == r2.getTotalSignificanceScore()){
+//		            return 0;
+//		        }
+//		        return r1.getTotalSignificanceScore()< r2.getTotalSignificanceScore() ? -1 : 1;
+//		     }
+//		});
 		
 		// loop through the rows and get the row headers for (gene symbols)
 		ArrayList<String> rowHeaders = new ArrayList<>();
