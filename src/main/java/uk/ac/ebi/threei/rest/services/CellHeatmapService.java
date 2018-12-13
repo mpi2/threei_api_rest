@@ -101,6 +101,8 @@ public class CellHeatmapService {
 		cellRows = this.filterCellRows(filter, sort);
 		System.out.println("cellrows size=" + cellRows.size());
 
+		//by default we need to sort the rows by ones with most significant hits at the top
+		
 		
 		// loop through the rows and get the row headers for (gene symbols)
 		ArrayList<String> rowHeaders = new ArrayList<>();

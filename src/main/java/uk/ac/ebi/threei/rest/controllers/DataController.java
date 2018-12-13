@@ -57,11 +57,6 @@ public class DataController {
 	@Autowired
 	CellParameterRepository cellParameterRepository;
 	
-	
-	
-	
-	
-	
 	List<CellHeatmapRow> cellRows;
 	@Autowired
 	private ParameterDetailsService parameterDetailsServce;
