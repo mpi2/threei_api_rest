@@ -11,32 +11,32 @@
             <!-- <div id="menu-text-container" style="height: 100%;" fxFlex="70%"> -->
                 <button fxFlex="40%" mat-button  [routerLink]="['./home']" routerLinkActive="active">HOME</button>
                 <button fxFlex="20%" mat-button routerLinkActive="active" [matMenuTriggerFor]="projectMenu">PROJECT</button>
-                <mat-menu #projectMenu="matMenu" routerLinkActive="active">
+                <mat-menu #projectMenu="matMenu" >
                         <button mat-menu-item [routerLink]="['./about']" routerLinkActive="active">About 3i</button>
-                        <button mat-menu-item [routerLink]="['./publications']" fragment="publications">Publications</button>
-                        <button mat-menu-item [routerLink]="['./consortium']" fragment="consortium">Consortium</button>
-                        <button mat-menu-item [routerLink]="['./contact']" fragment="contact">Contact</button>
+                        <button mat-menu-item [routerLink]="['./publications']" routerLinkActive="active" fragment="publications">Publications</button>
+                        <button mat-menu-item [routerLink]="['./consortium']" routerLinkActive="active" fragment="consortium">Consortium</button>
+                        <button mat-menu-item [routerLink]="['./contact']" routerLinkActive="active" fragment="contact">Contact</button>
                 </mat-menu>
                 <!-- <a  routerLink="analysis" routerLinkActive="active"><button mat-button>ANALYSIS</button></a> -->
                 <button  fxFlex="20%" mat-button routerLinkActive="active" [matMenuTriggerFor]="methodsMenu">METHODS</button>
-                <mat-menu #methodsMenu="matMenu" routerLinkActive="active">
-                        <button mat-menu-item [routerLink]="['./strengths']" >Strengths and Limitations</button>
-                        <button mat-menu-item [routerLink]="['./methods']" >Experimental Design and Protocols</button>
-                        <button mat-menu-item [routerLink]="['./statistical']" >Statistical Design</button>
+                <mat-menu #methodsMenu="matMenu">
+                        <button mat-menu-item [routerLink]="['./strengths']" routerLinkActive="active">Strengths and Limitations</button>
+                        <button mat-menu-item [routerLink]="['./methods']" routerLinkActive="active">Experimental Design and Protocols</button>
+                        <button mat-menu-item [routerLink]="['./statistical']" routerLinkActive="active">Statistical Design</button>
                 </mat-menu>
                 <!-- <a  routerLink="contact" routerLinkActive="active" ><button mat-button>CONTACT</button></a> -->
 
-                <button fxFlex="20%" mat-button [matMenuTriggerFor]="dataMenu">MORE DATA</button>
-                <mat-menu #dataMenu="matMenu" routerLinkActive="active">
-                    <button mat-menu-item [routerLink]="['./more_data']">Flow Files</button>
-                   <button mat-menu-item (click)="openImagesSearch()">Images</button>
-                    <button mat-menu-item [routerLink]="['./more_data']">Data Downloads</button>
-                    <button mat-menu-item [routerLink]="['./more_data']">Map of the Immune System</button>
-                   <button mat-menu-item [routerLink]="['./new_cell_types']">New Cell Types</button>
+                <button fxFlex="20%" mat-button [matMenuTriggerFor]="dataMenu" routerLinkActive="active">MORE DATA</button>
+                <mat-menu #dataMenu="matMenu">
+                    <button mat-menu-item [routerLink]="['./flow']" routerLinkActive="active">Flow Files</button>
+                   <button mat-menu-item (click)="openImagesSearch()" routerLinkActive="active">Images</button>
+                    <button mat-menu-item [routerLink]="['./downloads']" routerLinkActive="active">Data Downloads</button>
+                    <button mat-menu-item [routerLink]="['./map']" routerLinkActive="active">Map of the Immune System</button>
+                   <button mat-menu-item [routerLink]="['./new_cell_types']" routerLinkActive="active">New Cell Types</button>
                 </mat-menu>
 
-                <button fxFlex="20%"  routerLinkActive="active" [routerLink]="['./new_cell_types']" mat-button>NEW CELL TYPES</button>
-                <button fxFlex="20%" routerLinkActive="active" [routerLink]="['./whats_new']" mat-button>WHAT'S NEW</button>
+                <button fxFlex="20%"  routerLinkActive="active" [routerLink]="['./new_cell_types']" routerLinkActive="active" mat-button>NEW CELL TYPES</button>
+                <button fxFlex="20%" routerLinkActive="active" [routerLink]="['./whats_new']"  routerLinkActive="active" mat-button>WHAT'S NEW</button>
                 
                 <span class="software" *ngIf="!topMenu">Software v2.1</span>
 

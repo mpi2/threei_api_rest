@@ -21,6 +21,9 @@ import { StrengthNLimitationsComponent } from './strength-n-limitations/strength
 import { AboutComponent } from './about/about.component';
 import { ConsortiumComponent } from './consortium/consortium.component';
 import { StatisticalDesignComponent } from './statistical-design/statistical-design.component';
+import { FlowFilesComponent } from './flow-files/flow-files.component';
+import { DataDownloadsComponent } from './data-downloads/data-downloads.component';
+import { MapOfImmuneComponent } from './map-of-immune/map-of-immune.component';
 
 
 const appRoutes: Routes = [
@@ -116,6 +119,22 @@ const appRoutes: Routes = [
     component: StatisticalDesignComponent,
     // outlet: 'popup'
   },
+  {
+    path: 'flow',
+    component: FlowFilesComponent,
+    // outlet: 'popup'
+  },
+  {
+    path: 'downloads',
+    component: DataDownloadsComponent,
+    // outlet: 'popup'
+  },
+  {
+    path: 'map',
+    component: MapOfImmuneComponent,
+    // outlet: 'popup'
+  },
+
 
    { path: '',   redirectTo: 'home', pathMatch: 'full' }
 //   { path: '**', component: PageNotFoundComponent }

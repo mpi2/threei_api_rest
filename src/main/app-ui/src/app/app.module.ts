@@ -78,6 +78,9 @@ import { StrengthNLimitationsComponent } from './strength-n-limitations/strength
 import { AboutComponent } from './about/about.component';
 import { ConsortiumComponent } from './consortium/consortium.component';
 import { StatisticalDesignComponent } from './statistical-design/statistical-design.component';
+import { FlowFilesComponent } from './flow-files/flow-files.component';
+import { DataDownloadsComponent } from './data-downloads/data-downloads.component';
+import { MapOfImmuneComponent } from './map-of-immune/map-of-immune.component';
 
 
 
@@ -97,7 +100,7 @@ import { StatisticalDesignComponent } from './statistical-design/statistical-des
     CellHeatmapComponent,
     ProcedureHeatmapComponent, ProcedureHeatmapComponent, DetailsPageComponent, PhenotypeOfTheMonthComponent,
     SlideshowComponent, StatsBlocksComponent, LogosComponent, TemplateComponent, StrengthNLimitationsComponent,
-    AboutComponent, ConsortiumComponent, StatisticalDesignComponent
+    AboutComponent, ConsortiumComponent, StatisticalDesignComponent, FlowFilesComponent, DataDownloadsComponent, MapOfImmuneComponent
   ],
   imports: [
     MatSidenavModule, BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule,
