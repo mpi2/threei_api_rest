@@ -25,4 +25,29 @@ th{
     border-bottom:#777 1px solid;
     font-family:"source sans pro" ,"Euphemia UCAS","Kannada Sangam MN";
 }
+
+.dot {
+    margin-right: 10px;
+    margin-left: 10px;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    display: inline-block;
+  }
+
+  .no_data{
+    background-color: white;
+  }
+  .not_enough_data{
+    background-color: grey;
+  }
+  .not_significant{
+    background-color: blue;
+  }
+  .significant{
+    background-color: red;
+  }
+  .key{
+      background-color: whitesmoke;
+  }
   
