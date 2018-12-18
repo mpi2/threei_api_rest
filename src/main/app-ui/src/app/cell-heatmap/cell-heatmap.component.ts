@@ -1,8 +1,12 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatCard, MatButtonModule, MatButtonToggleBase, MatButtonToggleChange, 
+import { MatCard, MatButtonModule, MatButtonToggleBase, MatButtonToggleChange,
   MatButtonToggleDefaultOptions, MatButtonToggleAppearance, MatProgressBar,
     MatRadioModule, MatSelectModule, MatTabChangeEvent } from '@angular/material';
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+
 import * as Highcharts from 'highcharts/highcharts';
 import * as HC_map from 'highcharts/modules/map';
 import * as HC_exporting from 'highcharts/modules/exporting';
@@ -34,7 +38,7 @@ Highcharts.setOptions({
   styleUrls: ['./cell-heatmap.component.css']
 })
 export class CellHeatmapComponent implements OnInit {
-
+  selectControl = new FormControl(true);
   showEmtpyResultMessage = false;
   cellHeatmapChart: { chart: { type: string; marginTop: number; marginBottom: number;
     plotBorderWidth: number; height: number; width: number; }; title: { text: string; };
@@ -50,7 +54,6 @@ export class CellHeatmapComponent implements OnInit {
   sortFieldSelected: string;
   defaultSortField = 'γδ T cells';
   Highcharts = Highcharts;
-    keyword: '';
     constructs: string[]; // all constructs available including the brackets
     cells: string[];
     cellSelected: string;
@@ -63,6 +66,7 @@ export class CellHeatmapComponent implements OnInit {
     headers: string[]; // http response headers
     columnHeaders: string[];
     rowHeaders: string[];
+    geneSymbols: string[] = [];
     response: Response;
     chartTitle = 'Procedure Heatmap'; // for init - change through titleChange
     updatechart = false;
@@ -190,27 +194,12 @@ legend: {
   };
 
 
+  searchControl = new FormControl();
+  options: string[] = ['One', 'Two', 'Three'];
+  filteredOptions: Observable<string[]>;
+
   constructor(private activatedRoute: ActivatedRoute, private heatmapService: HeatmapService) {
     console.log('constructor on cell heatmap fired');
-  }
-
-  filterMethod() {
-    console.log( 'query button clicked with ' +
-    ' cell selected=' + this.cellSelected + ' cellSubtypeSelected=' + this.cellSubtypeSelected );
-      const filter = new CellFilter(this.keyword, this.cellSelected,
-        this.cellSubtypeSelected, this.assaySelected, this.sortFieldSelected);
-    this.getHeatmapData(filter);
-  }
-
-  clearFilter() {
-    // console.log('query button clicked with constructSeleted '+this.constructSelected+'
-    // cell selected='+this.cellSelected+' cellSubtypeSelected='+this.cellSubtypeSelected);
-      this.keyword = null, this.cellSelected = null,
-      this.cellSubtypeSelected = null, this.assaySelected = null, this.sortFieldSelected = null;
-      const filter = new CellFilter(this.keyword, this.cellSelected,
-        this.cellSubtypeSelected, this.assaySelected, this.defaultSortField);
-        this.sortFieldSelected = this.defaultSortField;
-      this.getHeatmapData(filter);
   }
 
   ngOnInit() {
@@ -220,6 +209,31 @@ legend: {
     this.getCellTypesDropdown();
     this.getCellSubTypesDropdown();
     this.getAssaysDropdown();
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.geneSymbols.sort().filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  filterMethod() {
+    console.log( 'query button clicked with ' +
+    ' cell selected=' + this.cellSelected + ' cellSubtypeSelected=' + this.cellSubtypeSelected );
+      const filter = new CellFilter(this.searchControl.value, this.cellSelected,
+        this.cellSubtypeSelected, this.assaySelected, this.sortFieldSelected);
+    this.getHeatmapData(filter);
+  }
+
+  clearFilter() {
+    // console.log('query button clicked with constructSeleted '+this.constructSelected+'
+    // cell selected='+this.cellSelected+' cellSubtypeSelected='+this.cellSubtypeSelected);
+      this.searchControl.reset('');
+      this.cellSelected = null,
+      this.cellSubtypeSelected = null, this.assaySelected = null, this.sortFieldSelected = null;
+      const filter = new CellFilter(this.searchControl.value, this.cellSelected,
+        this.cellSubtypeSelected, this.assaySelected, this.defaultSortField);
+        this.sortFieldSelected = this.defaultSortField;
+      this.getHeatmapData(filter);
   }
 
   // tslint:disable-next-line:use-life-cycle-interface
@@ -238,6 +252,15 @@ legend: {
       // here we need to add a whole column populated with the construct as java has no way of mixing strings and ints in an array
       this.constructs = this.response['constructs'];
       this.displayCellChart();
+      // only do this once on load so we have full gene list all the time for autosuggest
+      if (this.rowHeaders.length > 0 && this.geneSymbols.length === 0 ) {
+        console.log('setting symbols');
+        this.geneSymbols = this.rowHeaders;
+        this.filteredOptions = this.searchControl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+    }
     });
   }
 
@@ -281,7 +304,7 @@ this.heatmapService.getAssaysResponse().subscribe(resp => {
 }
 
 openImpc() {
-  window.open('https://www.mousephenotype.org/data/search/gene?kw=' + this.keyword, '_blank');
+  window.open('https://www.mousephenotype.org/data/search/gene?kw=' + this.searchControl.value, '_blank');
 }
 
 

@@ -9,8 +9,18 @@
          
             
           
-      <mat-form-field appearance="outline" fxFlex="30%">
+      <!-- <mat-form-field appearance="outline" fxFlex="30%">
               <mat-label>Search for gene symbol</mat-label><input matInput type="search" placeholder="Search Gene Symbol" [(ngModel)]="keyword" name="keyword" placeholder="Search for gene symbol">
+      </mat-form-field> -->
+    
+      <mat-form-field appearance="outline" fxFlex="30%">
+        <mat-label>Search for gene symbol</mat-label>
+        <input type="text" placeholder="Search Gene Symbol" aria-label="Number" matInput [formControl]="searchControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
       </mat-form-field>
       <button mat-raised-button color="accent">
         Search
@@ -25,7 +35,7 @@
         
        <mat-form-field appearance="outline" fxFlex="30%">
           <mat-label>Filter by cell type</mat-label>
-          <mat-select   placeholder="Cell type Filter" [(value)]="cellSelected">
+          <mat-select   placeholder="Cell type Filter" [(value)]="cellSelected" [formControl]="selectControl">
             <mat-option (click)="filterMethod()">None</mat-option>
             <mat-option *ngFor="let cell of cells" [value]="cell"  (click)="filterMethod()">{{cell}}</mat-option>
           </mat-select>

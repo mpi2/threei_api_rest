@@ -8,7 +8,7 @@ import {SlideshowModule} from 'ng-simple-slideshow';
 import { PrivacyPageComponent } from './privacy-page/privacy-page.component';
 import { LearnMorePageComponent } from './learn-more-page/learn-more-page.component';
 import { HighchartsChartComponent } from './highcharts-chart.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule} from '@angular/forms';
 import { MatAutocompleteModule,
@@ -105,7 +105,7 @@ import { MapOfImmuneComponent } from './map-of-immune/map-of-immune.component';
   imports: [
     MatSidenavModule, BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule,
     HttpClientModule, MatRadioModule, MatProgressBarModule, MatSelectModule, MatInputModule, MatCardModule,
-     MatTabsModule,  FlexLayoutModule, MatButtonModule, MatTabsModule, MatIconModule
+     MatTabsModule,  FlexLayoutModule, MatButtonModule, MatTabsModule, MatIconModule, ReactiveFormsModule, MatAutocompleteModule
   ],
   exports: [
     CdkTableModule,
