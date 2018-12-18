@@ -209,10 +209,20 @@ legend: {
     this.getCellTypesDropdown();
     this.getCellSubTypesDropdown();
     this.getAssaysDropdown();
+
+    // this.selectControl.valueChanges.pipe(
+    //   startWith(''),
+    //   map(value => this._filter(value))
+    // );
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
+    if (filterValue.length > 0) {
+      this.selectControl.disable();
+    } else {
+      this.selectControl.enable();
+    }
     return this.geneSymbols.sort().filter(option => option.toLowerCase().includes(filterValue));
   }
 
