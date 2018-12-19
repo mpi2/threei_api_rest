@@ -258,8 +258,14 @@ legend: {
     // console.log('query button clicked with constructSeleted '+this.constructSelected+'
     // cell selected='+this.cellSelected+' cellSubtypeSelected='+this.cellSubtypeSelected);
       this.searchControl.reset('');
-      this.searchControl.enable();
-      this.selectControl.enable();
+      this.searchControl.enable({
+        onlySelf: true,
+        emitEvent: false
+      });
+      this.selectControl.enable({
+        onlySelf: true,
+        emitEvent: false
+      });
       this.cellSelected = null,
       this.cellSubtypeSelected = null, this.assaySelected = null, this.sortFieldSelected = null;
       const filter = new CellFilter(this.searchControl.value, this.cellSelected,
