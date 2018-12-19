@@ -210,18 +210,38 @@ legend: {
     this.getCellSubTypesDropdown();
     this.getAssaysDropdown();
 
-    // this.selectControl.valueChanges.pipe(
-    //   startWith(''),
-    //   map(value => this._filter(value))
-    // );
+    this.selectControl.valueChanges.subscribe(val => {
+      console.log('val=' + val);
+       if (val !== undefined && val !== 'None' && val.length > 0) {
+      this.searchControl.disable({
+        onlySelf: true,
+        emitEvent: false
+      });
+    } else {
+      this.searchControl.enable({
+        onlySelf: true,
+        emitEvent: false
+      });
+    }
+    });
   }
 
   private _filter(value: string): string[] {
+    console.log('value for search=' + value + ' length=' + value.length);
+
     const filterValue = value.toLowerCase();
     if (filterValue.length > 0) {
-      this.selectControl.disable();
-    } else {
-      this.selectControl.enable();
+      this.selectControl.disable({
+        onlySelf: true,
+        emitEvent: false
+      });
+    }
+    if (filterValue.length === 0) {
+      console.log('enabling select');
+      this.selectControl.enable({
+        onlySelf: true,
+        emitEvent: false
+      });
     }
     return this.geneSymbols.sort().filter(option => option.toLowerCase().includes(filterValue));
   }
@@ -238,6 +258,8 @@ legend: {
     // console.log('query button clicked with constructSeleted '+this.constructSelected+'
     // cell selected='+this.cellSelected+' cellSubtypeSelected='+this.cellSubtypeSelected);
       this.searchControl.reset('');
+      this.searchControl.enable();
+      this.selectControl.enable();
       this.cellSelected = null,
       this.cellSubtypeSelected = null, this.assaySelected = null, this.sortFieldSelected = null;
       const filter = new CellFilter(this.searchControl.value, this.cellSelected,
