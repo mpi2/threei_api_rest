@@ -38,6 +38,7 @@ Highcharts.setOptions({
   styleUrls: ['./cell-heatmap.component.css']
 })
 export class CellHeatmapComponent implements OnInit {
+  doAutosuggest = true;
   selectControl = new FormControl(true);
   showEmtpyResultMessage = false;
   cellHeatmapChart: { chart: { type: string; marginTop: number; marginBottom: number;
@@ -243,7 +244,7 @@ legend: {
         emitEvent: false
       });
     }
-    return this.geneSymbols.sort().filter(option => option.toLowerCase().includes(filterValue));
+    return this.geneSymbols.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   filterMethod() {
@@ -291,13 +292,14 @@ legend: {
       this.constructs = this.response['constructs'];
       this.displayCellChart();
       // only do this once on load so we have full gene list all the time for autosuggest
-      if (this.rowHeaders.length > 0 && this.geneSymbols.length === 0 ) {
+      if (this.doAutosuggest) {
         console.log('setting symbols');
         this.geneSymbols = this.rowHeaders;
         this.filteredOptions = this.searchControl.valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value))
       );
+      this.doAutosuggest = false; // set to false so we only do this once
     }
     });
   }

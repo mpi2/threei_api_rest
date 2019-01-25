@@ -32,7 +32,7 @@
               <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
           </mat-select>
         </mat-form-field>  -->
-        <mat-label>OR</mat-label>
+        <em>OR</em>
        <mat-form-field  fxFlex="30%">
           <mat-label>Filter by cell type</mat-label>
           <mat-select   placeholder="Cell type Filter" [(value)]="cellSelected" [formControl]="selectControl">

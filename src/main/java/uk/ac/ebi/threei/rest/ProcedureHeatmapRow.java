@@ -287,7 +287,7 @@ public void calculateTotalSignificantScore() {
 		score+=entry.getValue();
 		}
 	}
-	System.out.println("score for this row="+score);
+	
 	this.totalSignificanceScore=score;
 }
 

@@ -54,6 +54,7 @@ public class DataLoader implements CommandLineRunner {
 	}
 	
 	private static String COMMA = ",";
+	private static int COLUMNS_IN_HEATMAP_CSV=17;
 	private static String KEY_DELIMITER="_";
 	SortedSet<String> geneConstructSymbols = new TreeSet<>(Collections.reverseOrder());//set it up in reverse order so genes are at the top as highcharts row 0 is at the bottom - not what we want!
 
@@ -79,6 +80,7 @@ public class DataLoader implements CommandLineRunner {
 	private List<CellHeatmapRow> cellHeatmapRows;
 	private List<ParameterDetails> parameterDetails;
 	HashMap<String,String> ensemblToSymbolMap=new HashMap<>();
+	private int hitsFileErrorCount=0;
 	
 
 	public static void main(String[] args) {
@@ -202,8 +204,14 @@ public class DataLoader implements CommandLineRunner {
 					String significanceString=columns[11];//integers don't really make sense so convert string to logical interers ascending in significance
 					int significanceScore=SignificanceType.getRankFromSignificanceName(significanceString);
 					String genotype="";
-					if(columns.length>=17) {
+					if(columns.length>=COLUMNS_IN_HEATMAP_CSV) {
 					genotype=columns[16];
+					if(!genotype.equals("Hom") && !genotype.equals("Het") && !genotype.equals("Both") && !genotype.equals("Hemi") && !genotype.equals("Mutant")) {
+						System.err.println("genotype not as expected "+genotype);
+						System.err.println("line="+line);
+						hitsFileErrorCount++;
+						System.out.println("hits File number of errors="+hitsFileErrorCount);
+					}
 					}
 					geneConstructSymbols.add(geneSymbol+KEY_DELIMITER+construct);
 					if (columns.length >= 6) {
@@ -245,6 +253,8 @@ public class DataLoader implements CommandLineRunner {
 					// System.out.println(linesRead);
 				}
 				//if(linesRead>10)break;
+				linesRead++;
+				System.out.println(linesRead);
 			}
 			System.out.println("generated map");
 			System.out.println("number of genes/rows=" + geneConstructSymbols.size());
@@ -372,6 +382,9 @@ public class DataLoader implements CommandLineRunner {
 				String procedureName = "";
 				String[] columns = line.split(COMMA);
 				if (!columns[0].equals("Id")) {// if id is headers so want to ignore
+					if (columns.length == 17) {
+						System.err.println("column number is not equal to what we expect for this line "+line);
+					}
 					String geneSymbol = this.getTrueGeneSymbol(columns[1]);
 					String construct=columns[3];
 					geneConstructSymbols.add(geneSymbol+KEY_DELIMITER+construct);
@@ -481,11 +494,11 @@ public class DataLoader implements CommandLineRunner {
 				
 				Integer value = 0;// default is zero for each cell meaning no data.
 				
-				System.out.println("looking for |"+gene + "_" + header+"|");
+				//System.out.println("looking for |"+gene + "_" + header+"|");
 				//need to look at header and get the parameter names for that cell type, then look get the highest significance from that list and return it
 				
 				value = getHighestSignificanceForCellTypeHeadeer(geneConstructParameterToSignificance2, header, gene, construct);
-				System.out.println("value="+value);
+				
 				row.getProcedureSignificance().put(header,value);
 				
 				//cell
@@ -721,7 +734,7 @@ public class DataLoader implements CommandLineRunner {
 			InputStream inputFS = new FileInputStream(hitsDataFile);
 			BufferedReader br = new BufferedReader(new InputStreamReader(inputFS));
 
-			BufferedWriter writer = new BufferedWriter(new FileWriter(hitsDataFile.getAbsolutePath() + "out"));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(hitsDataFile.getAbsolutePath() + "outCommmentsStripped"));
 			System.out.println("writing to file=" + hitsDataFile.getAbsolutePath() + "out");
 
 			// skip the header of the csv

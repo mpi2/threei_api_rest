@@ -331,7 +331,7 @@ public class CellHeatmapRow {
 		if(this.salmonellaChallenge>2) {
 			score+=this.salmonellaChallenge;
 		}
-		System.out.println("score for this row="+score);
+		
 		this.totalSignificanceScore=score;
 	}
 
