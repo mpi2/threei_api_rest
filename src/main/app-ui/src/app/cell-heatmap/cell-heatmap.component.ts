@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatCard, MatButtonModule, MatButtonToggleBase, MatButtonToggleChange,
   MatButtonToggleDefaultOptions, MatButtonToggleAppearance, MatProgressBar,
     MatRadioModule, MatSelectModule, MatTabChangeEvent } from '@angular/material';
-import {FormControl, ReactiveFormsModule} from '@angular/forms';
+import {FormControl, ReactiveFormsModule, FormGroup} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 
@@ -38,8 +38,12 @@ Highcharts.setOptions({
   styleUrls: ['./cell-heatmap.component.css']
 })
 export class CellHeatmapComponent implements OnInit {
-  doAutosuggest = true;
-  selectControl = new FormControl(true);
+doAutosuggest = true;
+ selectControl = new FormControl(true);
+
+ @Input()
+ parentForm: FormGroup;
+
   showEmtpyResultMessage = false;
   cellHeatmapChart: { chart: { type: string; marginTop: number; marginBottom: number;
     plotBorderWidth: number; height: number; width: number; }; title: { text: string; };
@@ -195,7 +199,7 @@ legend: {
   };
 
 
-  searchControl = new FormControl();
+  // searchControl = new FormControl();
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
 
@@ -214,12 +218,12 @@ legend: {
     this.selectControl.valueChanges.subscribe(val => {
       console.log('val=' + val);
        if (val !== undefined && val !== 'None' && val.length > 0) {
-      this.searchControl.disable({
+      this.parentForm.get('search').disable({
         onlySelf: true,
         emitEvent: false
       });
     } else {
-      this.searchControl.enable({
+      this.parentForm.get('search').enable({
         onlySelf: true,
         emitEvent: false
       });
@@ -232,14 +236,14 @@ legend: {
 
     const filterValue = value.toLowerCase();
     if (filterValue.length > 0) {
-      this.selectControl.disable({
+      this.parentForm.get('search').disable({
         onlySelf: true,
         emitEvent: false
       });
     }
     if (filterValue.length === 0) {
       console.log('enabling select');
-      this.selectControl.enable({
+      this.parentForm.get('search').enable({
         onlySelf: true,
         emitEvent: false
       });
@@ -250,7 +254,7 @@ legend: {
   filterMethod() {
     console.log( 'query button clicked with ' +
     ' cell selected=' + this.cellSelected + ' cellSubtypeSelected=' + this.cellSubtypeSelected );
-      const filter = new CellFilter(this.searchControl.value, this.cellSelected,
+      const filter = new CellFilter(this.parentForm.get('search').value, this.cellSelected,
         this.cellSubtypeSelected, this.assaySelected, this.sortFieldSelected);
     this.getHeatmapData(filter);
   }
@@ -258,8 +262,8 @@ legend: {
   clearFilter() {
     // console.log('query button clicked with constructSeleted '+this.constructSelected+'
     // cell selected='+this.cellSelected+' cellSubtypeSelected='+this.cellSubtypeSelected);
-      this.searchControl.reset('');
-      this.searchControl.enable({
+      this.parentForm.get('search').reset('');
+      this.parentForm.get('search').enable({
         onlySelf: true,
         emitEvent: false
       });
@@ -269,7 +273,7 @@ legend: {
       });
       this.cellSelected = null,
       this.cellSubtypeSelected = null, this.assaySelected = null, this.sortFieldSelected = null;
-      const filter = new CellFilter(this.searchControl.value, this.cellSelected,
+      const filter = new CellFilter(this.parentForm.get('search').value, this.cellSelected,
         this.cellSubtypeSelected, this.assaySelected, this.defaultSortField);
         this.sortFieldSelected = this.defaultSortField;
       this.getHeatmapData(filter);
@@ -295,7 +299,7 @@ legend: {
       if (this.doAutosuggest) {
         console.log('setting symbols');
         this.geneSymbols = this.rowHeaders;
-        this.filteredOptions = this.searchControl.valueChanges.pipe(
+        this.filteredOptions = this.parentForm.get('search').valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value))
       );
@@ -344,7 +348,7 @@ this.heatmapService.getAssaysResponse().subscribe(resp => {
 }
 
 openImpc() {
-  window.open('https://www.mousephenotype.org/data/search/gene?kw=' + this.searchControl.value, '_blank');
+  window.open('https://www.mousephenotype.org/data/search/gene?kw=' + this.parentForm.get('search').value, '_blank');
 }
 
 

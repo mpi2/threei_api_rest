@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './home-page/home-page.component';
-import { DataPageComponent} from './data-page/data-page.component';
 import { AnalysisPageComponent } from './analysis-page/analysis-page.component';
 import { MethodsPageComponent } from './methods-page/methods-page.component';
 import { ContactPageComponent } from './contact-page/contact-page.component';
@@ -30,11 +29,6 @@ const appRoutes: Routes = [
   {
     path: 'home',
     component: HomePageComponent,
-  },
-  {
-    path: 'data',
-    component: DataPageComponent,
-    // outlet: 'popup'
   },
   {
     path: 'more_data',

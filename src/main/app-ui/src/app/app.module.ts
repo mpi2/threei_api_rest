@@ -57,7 +57,6 @@ import { Router } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
 import { HomePageComponent } from './home-page/home-page.component';
 import { FaqPageComponent } from './faq-page/faq-page.component';
-import { DataPageComponent } from './data-page/data-page.component';
 import { AnalysisPageComponent, SafePipe } from './analysis-page/analysis-page.component';
 import { MethodsPageComponent } from './methods-page/methods-page.component';
 import { ContactPageComponent } from './contact-page/contact-page.component';
@@ -91,7 +90,7 @@ import { MapOfImmuneComponent } from './map-of-immune/map-of-immune.component';
     AppComponent,
     SafePipe,
     HomePageComponent,
-    FaqPageComponent, DataPageComponent, AnalysisPageComponent, MethodsPageComponent, ContactPageComponent, GlossaryPageComponent,
+    FaqPageComponent, AnalysisPageComponent, MethodsPageComponent, ContactPageComponent, GlossaryPageComponent,
     PublicationsPageComponent, PrivacyPageComponent, LearnMorePageComponent,
     HighchartsChartComponent,
     ProjectPageComponent,

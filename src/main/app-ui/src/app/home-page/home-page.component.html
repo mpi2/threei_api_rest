@@ -15,14 +15,52 @@
                   <p>The 3i project has established that genetics plays an important role in shaping the immune system. By using a high-throughput, high-density immunophenotyping platform we identified 140 genes (out of 530 screened) that have an impact on the immune system.
                     </p>
                   </div>
+                <form [formGroup]="parentForm">
+                    <mat-card>
+                        <mat-card-content fxLayout="row" fxLayoutGap="20px">
+                  <mat-form-field  fxFlex="30%">
+                    <mat-label>Search for gene symbol</mat-label>
+                    <input type="text" placeholder="Search Gene Symbol" aria-label="Number" matInput  [formControlName]="'search'"  [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete">
+                      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                        {{option}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                  <button mat-raised-button color="accent">
+                    Search
+                  </button>
+                  <!-- <mat-form-field appearance="outline" fxFlex="30%">
+                      <mat-label>Sort by most significant for cell type</mat-label>
+                      <mat-select   placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected" name="sort">
+                          <mat-option (click)="filterMethod()">None</mat-option>
+                          <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>  -->
+                    <em>OR</em>
+                   <mat-form-field  fxFlex="30%">
+                      <mat-label>Filter by cell type</mat-label>
+                      <mat-select   placeholder="Cell type Filter" [(value)]="cellSelected">
+                        <mat-option (click)="filterMethod()">None</mat-option>
+                        <mat-option *ngFor="let cell of cells" [value]="cell"  (click)="filterMethod()">{{cell}}</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                 
+                      <button mat-raised-button color="accent" type="button" (click)="clearFilter()">
+                         Reset
+                      </button>
 
+                  </mat-card-content>
+                </mat-card> 
+                </form>
+              
                 <mat-card>
                     <mat-tab-group mat-stretch-tabs   (selectedTabChange)="tabChanged($event)" [dynamicHeight]="true">
                       <mat-tab> 
                           <ng-template mat-tab-label>
                               <h1 >Cell View Heatmap</h1>
                             </ng-template>                 
-                          <threei-cell-heatmap></threei-cell-heatmap>
+                          <threei-cell-heatmap [parentForm]="parentForm"></threei-cell-heatmap>
                           <!-- <threei-procedure-heatmap></threei-procedure-heatmap> -->
                       </mat-tab>   
                       <mat-tab>         
@@ -30,7 +68,7 @@
                           <h1>Procedure View Heatmap</h1>
                         </ng-template>  
                         <ng-template matTabContent> 
-                                <threei-procedure-heatmap></threei-procedure-heatmap>
+                                <!-- <threei-procedure-heatmap></threei-procedure-heatmap> -->
                          </ng-template> 
                       </mat-tab> 
                     </mat-tab-group>
