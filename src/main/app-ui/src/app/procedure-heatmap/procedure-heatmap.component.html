@@ -4,9 +4,9 @@
         <mat-card-content fxLayout="row" fxLayoutGap="20px">
 
 
-            <mat-form-field appearance="outline" fxFlex="30%">
+            <mat-form-field  fxFlex="30%">
                 <mat-label>Search for gene symbol</mat-label>
-                <input matInput type="text" placeholder="Search Gene Symbol" [formControl]="searchControl" [matAutocomplete]="auto">
+                <input matInput aria-label="Number" type="text" placeholder="Search Gene Symbol" [formControl]="procSearchControl" [matAutocomplete]="auto">
                     <mat-autocomplete #auto="matAutocomplete">
                         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
                           {{option}}
@@ -24,10 +24,10 @@
                     <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
                 </mat-select>
             </mat-form-field> -->
-
-            <mat-form-field appearance="outline" fxFlex="30%">
+            <em>OR</em>
+            <mat-form-field fxFlex="30%">
                 <mat-label>Filter by procedure with significant result</mat-label>
-                <mat-select placeholder="Filter by procedure" [(value)]="procedureFieldSelected" [formControl]="selectControl">
+                <mat-select placeholder="Filter by procedure" [(value)]="procedureFieldSelected" [formControl]="procSelectControl">
                     <mat-option (click)="filterMethod()">None</mat-option>
                     <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
                 </mat-select>

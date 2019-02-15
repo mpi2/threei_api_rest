@@ -34,7 +34,7 @@ Highcharts.setOptions({
 })
 export class ProcedureHeatmapComponent implements OnInit {
   doAutosuggest = true;
-  selectControl = new FormControl(true);
+  procSelectControl = new FormControl(true);
     showEmtpyResultMessage = false;
     Highcharts = Highcharts;
     @ViewChild('searchBox') searchBox;
@@ -183,7 +183,7 @@ chart: {
   }],
 };
 
-  searchControl = new FormControl();
+  procSearchControl = new FormControl();
   options: string[] = ['One', 'Two', 'Three'];
   filteredOptions: Observable<string[]>;
 
@@ -195,15 +195,16 @@ chart: {
     this.sortFieldSelected = this.defaultSortField;
     this.procedureFieldSelected = this.defaultProcedureField;
     this.filterMethod();
-    this.selectControl.valueChanges.subscribe(val => {
+    this.procSelectControl.valueChanges.subscribe(val => {
       console.log('val=' + val);
        if (val !== undefined && val !== 'None' && val.length > 0) {
-      this.searchControl.disable({
+         console.log('disabling searchControl');
+      this.procSearchControl.disable({
         onlySelf: true,
         emitEvent: false
       });
     } else {
-      this.searchControl.enable({
+      this.procSearchControl.enable({
         onlySelf: true,
         emitEvent: false
       });
@@ -215,42 +216,42 @@ chart: {
     console.log('value for search=' + value + ' length=' + value.length);
 
     const filterValue = value.toLowerCase();
-    // if (filterValue.length > 0) {
-    //   this.selectControl.disable({
-    //     onlySelf: true,
-    //     emitEvent: false
-    //   });
-    // }
-    // if (filterValue.length === 0) {
-    //   console.log('enabling select');
-    //   this.selectControl.enable({
-    //     onlySelf: true,
-    //     emitEvent: false
-    //   });
-    // }
+    if (filterValue.length > 0) {
+      this.procSelectControl.disable({
+        onlySelf: true,
+        emitEvent: false
+      });
+    }
+    if (filterValue.length === 0) {
+      console.log('enabling select');
+      this.procSelectControl.enable({
+        onlySelf: true,
+        emitEvent: false
+      });
+    }
     return this.geneSymbols.filter(option => option.toLowerCase().includes(filterValue));
   }
 
 
   clearFilter() {
-    this.searchControl.reset('');
-      this.searchControl.enable({
+    this.procSearchControl.reset('');
+      this.procSearchControl.enable({
         onlySelf: true,
         emitEvent: false
       });
-      this.selectControl.enable({
+      this.procSelectControl.enable({
         onlySelf: true,
         emitEvent: false
       });
       this.constructSelected = null, this.sortFieldSelected = null,  this.procedureFieldSelected = null;
-      const filter = new ProcedureFilter(this.searchControl.value, this.constructSelected,  this.defaultProcedureField);
+      const filter = new ProcedureFilter(this.procSearchControl.value, this.constructSelected,  this.defaultProcedureField);
       this.sortFieldSelected = this.defaultSortField;
       this.procedureFieldSelected = this.defaultProcedureField;
     this.getHeatmapData(filter);
   }
 
   filterMethod() {
-    const filter = new ProcedureFilter(this.searchControl.value, this.constructSelected,  this.procedureFieldSelected);
+    const filter = new ProcedureFilter(this.procSearchControl.value, this.constructSelected,  this.procedureFieldSelected);
     this.getHeatmapData(filter);
   }
 
@@ -300,7 +301,7 @@ chart: {
       if (this.doAutosuggest) {
         console.log('setting symbols');
         this.geneSymbols = this.rowHeaders;
-        this.filteredOptions = this.searchControl.valueChanges.pipe(
+        this.filteredOptions = this.procSearchControl.valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value))
       );
