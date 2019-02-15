@@ -1,10 +1,15 @@
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { MatCard  } from '@angular/material';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatCard, MatButtonModule, MatButtonToggleBase, MatButtonToggleChange,
+  MatButtonToggleDefaultOptions, MatButtonToggleAppearance, MatProgressBar,
+    MatRadioModule, MatSelectModule, MatTabChangeEvent } from '@angular/material';
 import * as Highcharts from 'highcharts/highcharts';
 import * as HC_map from 'highcharts/modules/map';
 import * as HC_exporting from 'highcharts/modules/exporting';
-import { MatRadioModule, MatSelectModule } from '@angular/material';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
+
+import {FormControl, ReactiveFormsModule} from '@angular/forms';
 
 import { HeatmapService } from '../heatmap.service';
 import { ProcedureFilter } from './procedure-filter';
@@ -28,6 +33,8 @@ Highcharts.setOptions({
   styleUrls: ['./procedure-heatmap.component.css']
 })
 export class ProcedureHeatmapComponent implements OnInit {
+  doAutosuggest = true;
+  selectControl = new FormControl(true);
     showEmtpyResultMessage = false;
     Highcharts = Highcharts;
     @ViewChild('searchBox') searchBox;
@@ -51,6 +58,7 @@ export class ProcedureHeatmapComponent implements OnInit {
         headers: string[]; // http response headers
         columnHeaders: string[];
         rowHeaders: string[];
+        geneSymbols: string[] = [];
         response: Response;
         constructColumnData: any[]; // need any as string for construct and ints for col and row indexes
 
@@ -175,6 +183,10 @@ chart: {
   }],
 };
 
+  searchControl = new FormControl();
+  options: string[] = ['One', 'Two', 'Three'];
+  filteredOptions: Observable<string[]>;
+
   constructor(private heatmapService: HeatmapService) {
 
   }
@@ -183,19 +195,62 @@ chart: {
     this.sortFieldSelected = this.defaultSortField;
     this.procedureFieldSelected = this.defaultProcedureField;
     this.filterMethod();
+    this.selectControl.valueChanges.subscribe(val => {
+      console.log('val=' + val);
+       if (val !== undefined && val !== 'None' && val.length > 0) {
+      this.searchControl.disable({
+        onlySelf: true,
+        emitEvent: false
+      });
+    } else {
+      this.searchControl.enable({
+        onlySelf: true,
+        emitEvent: false
+      });
+    }
+    });
+  }
+
+  private _filter(value: string): string[] {
+    console.log('value for search=' + value + ' length=' + value.length);
+
+    const filterValue = value.toLowerCase();
+    // if (filterValue.length > 0) {
+    //   this.selectControl.disable({
+    //     onlySelf: true,
+    //     emitEvent: false
+    //   });
+    // }
+    // if (filterValue.length === 0) {
+    //   console.log('enabling select');
+    //   this.selectControl.enable({
+    //     onlySelf: true,
+    //     emitEvent: false
+    //   });
+    // }
+    return this.geneSymbols.filter(option => option.toLowerCase().includes(filterValue));
   }
 
 
   clearFilter() {
-      this.keyword = null, this.constructSelected = null, this.sortFieldSelected = null,  this.procedureFieldSelected = null;
-      const filter = new ProcedureFilter(this.keyword, this.constructSelected,  this.defaultProcedureField);
+    this.searchControl.reset('');
+      this.searchControl.enable({
+        onlySelf: true,
+        emitEvent: false
+      });
+      this.selectControl.enable({
+        onlySelf: true,
+        emitEvent: false
+      });
+      this.constructSelected = null, this.sortFieldSelected = null,  this.procedureFieldSelected = null;
+      const filter = new ProcedureFilter(this.searchControl.value, this.constructSelected,  this.defaultProcedureField);
       this.sortFieldSelected = this.defaultSortField;
       this.procedureFieldSelected = this.defaultProcedureField;
     this.getHeatmapData(filter);
   }
 
   filterMethod() {
-    const filter = new ProcedureFilter(this.keyword, this.constructSelected,  this.procedureFieldSelected);
+    const filter = new ProcedureFilter(this.searchControl.value, this.constructSelected,  this.procedureFieldSelected);
     this.getHeatmapData(filter);
   }
 
@@ -240,6 +295,17 @@ chart: {
     //     this.resourceLoaded = true;
     //     this.updateDemo2 = true;
     //   } else {
+
+
+      if (this.doAutosuggest) {
+        console.log('setting symbols');
+        this.geneSymbols = this.rowHeaders;
+        this.filteredOptions = this.searchControl.valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+      this.doAutosuggest = false; // set to false so we only do this once
+    }
       this.displayProcedureChart();
       // }
     });
