@@ -9,7 +9,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 //need this annotation if running the rest web service
 import org.springframework.context.annotation.Bean;
-@SpringBootApplication
+//@SpringBootApplication
 public class Application {
 
 	@NotNull
