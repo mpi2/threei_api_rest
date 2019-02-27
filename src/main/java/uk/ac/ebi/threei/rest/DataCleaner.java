@@ -50,6 +50,17 @@ public class DataCleaner {
 				// System.out.println(line);
 
 				String[] columns = line.split(",");
+				
+				if (columns.length > 18 && line.split("\"").length > 1 ) {
+					//if line has 2 lots of quotes and these contain , then strip out the quotes and just leave the field blank
+					//code later saves the line if it now has 18 fields as it should have?
+					String[] delete=line.split("\"");
+					line=removeComments(delete);
+					writer.write(line);
+					writer.newLine();
+					linesWritten++;
+					
+				}else
 				if (columns.length == 18) {
 					// add the line to the file if it's 18 or more columns as indicates it's not
 					// been truncated.
@@ -79,23 +90,12 @@ public class DataCleaner {
 								
 							}else {
 								
-								after=delete[2];
-								speechMarks++;
-								speechMarks++;
-								String first=delete[0];
-								String comment=delete[1];
-								
-								
-								System.out.println("first="+first+" comment="+comment+" after="+after);
-								//delete comment if we have a full comment with both ends of speechmarks
-								line=first+after;
+								line=removeComments(delete);
 								linesJoined++;
 								
 							}
 					
 					}
-					
-					
 					String[] columnsSecondPass = line.split(",");
 					if(columnsSecondPass.length==18) {
 						writer.write(line);
@@ -107,6 +107,9 @@ public class DataCleaner {
 						System.err.println("lines read="+linesRead+" error even after joining lines the columns is not 18 it has "+columnsSecondPass.length+" line="+line);
 					}
 				}
+					
+					
+				
 
 				prevLine = line;
 				linesRead++;
@@ -124,5 +127,20 @@ public class DataCleaner {
 		System.out.println("linesFailed=" + linesFailed);
 		System.out.println("linesJoined="+linesJoined);
 		
+	}
+	private static String removeComments(String[] delete) {
+		String line;
+		String after;
+		after=delete[2];
+//								speechMarks++;
+//								speechMarks++;
+		String first=delete[0];
+		String comment=delete[1];
+		
+		
+		System.out.println("first="+first+" comment="+comment+" after="+after);
+		//delete comment if we have a full comment with both ends of speechmarks
+		line=first+after;
+		return line;
 	}
 }
