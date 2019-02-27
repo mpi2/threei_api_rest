@@ -254,7 +254,7 @@ public class DataLoader implements CommandLineRunner {
 				}
 				//if(linesRead>10)break;
 				linesRead++;
-				System.out.println(linesRead);
+				//System.out.println(linesRead);
 			}
 			System.out.println("generated map");
 			System.out.println("number of genes/rows=" + geneConstructSymbols.size());
