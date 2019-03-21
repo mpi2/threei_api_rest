@@ -15,11 +15,11 @@ public class RootRedirectController {
     private final static Logger log = LoggerFactory.getLogger(RootRedirectController.class);
 
     // Forward to home page so that the angular route is preserved.
-//    @RequestMapping(value = "/**/{[path:[^\\.]*}")
-//    public String redirect() {
-//    	System.out.println("hitting redirect method!!!");
-//        return "forward:/";
-//    }
+    @RequestMapping(value = "/**/{[path:[^\\.]*}")
+    public String redirect() {
+    	System.out.println("hitting redirect method!!!");
+        return "forward:/";
+    }
 
 
 }
