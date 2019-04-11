@@ -24,6 +24,7 @@ import { StatisticalDesignComponent } from './statistical-design/statistical-des
 import { FlowFilesComponent } from './flow-files/flow-files.component';
 import { DataDownloadsComponent } from './data-downloads/data-downloads.component';
 import { MapOfImmuneComponent } from './map-of-immune/map-of-immune.component';
+import { WebstatusComponent } from './webstatus/webstatus.component';
 
 
 const appRoutes: Routes = [
@@ -135,6 +136,11 @@ const appRoutes: Routes = [
     // outlet: 'popup'
   },
 
+  {
+    path: 'webstatus',
+    component: WebstatusComponent,
+    // outlet: 'popup'
+  },
 
    { path: '',   redirectTo: 'home', pathMatch: 'full' }
 //   { path: '**', component: PageNotFoundComponent }

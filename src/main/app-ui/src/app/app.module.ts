@@ -81,6 +81,7 @@ import { StatisticalDesignComponent } from './statistical-design/statistical-des
 import { FlowFilesComponent } from './flow-files/flow-files.component';
 import { DataDownloadsComponent } from './data-downloads/data-downloads.component';
 import { MapOfImmuneComponent } from './map-of-immune/map-of-immune.component';
+import { WebstatusComponent } from './webstatus/webstatus.component';
 
 
 
@@ -100,7 +101,7 @@ import { MapOfImmuneComponent } from './map-of-immune/map-of-immune.component';
     CellHeatmapComponent,
     ProcedureHeatmapComponent, ProcedureHeatmapComponent, DetailsPageComponent, PhenotypeOfTheMonthComponent,
     SlideshowComponent, StatsBlocksComponent, LogosComponent, TemplateComponent, StrengthNLimitationsComponent,
-    AboutComponent, ConsortiumComponent, StatisticalDesignComponent, FlowFilesComponent, DataDownloadsComponent, MapOfImmuneComponent
+    AboutComponent, ConsortiumComponent, StatisticalDesignComponent, FlowFilesComponent, DataDownloadsComponent, MapOfImmuneComponent, WebstatusComponent
   ],
   imports: [
     MatSidenavModule, BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule,
