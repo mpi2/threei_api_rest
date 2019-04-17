@@ -26,6 +26,7 @@ import { DataDownloadsComponent } from './data-downloads/data-downloads.componen
 import { MapOfImmuneComponent } from './map-of-immune/map-of-immune.component';
 import { WebstatusComponent } from './webstatus/webstatus.component';
 import { NewCellTypesComponent } from './new-cell-types/new-cell-types.component';
+import { AcknowledgeThreeiComponent } from './acknowledge-threei/acknowledge-threei.component';
 
 
 const appRoutes: Routes = [
@@ -61,6 +62,11 @@ const appRoutes: Routes = [
   {
     path: 'faq',
     component: FaqPageComponent,
+    // outlet: 'popup'
+  },
+  {
+    path: 'acknowledge',
+    component: AcknowledgeThreeiComponent,
     // outlet: 'popup'
   },
   {
