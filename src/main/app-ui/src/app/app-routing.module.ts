@@ -25,6 +25,7 @@ import { FlowFilesComponent } from './flow-files/flow-files.component';
 import { DataDownloadsComponent } from './data-downloads/data-downloads.component';
 import { MapOfImmuneComponent } from './map-of-immune/map-of-immune.component';
 import { WebstatusComponent } from './webstatus/webstatus.component';
+import { NewCellTypesComponent } from './new-cell-types/new-cell-types.component';
 
 
 const appRoutes: Routes = [
@@ -54,6 +55,11 @@ const appRoutes: Routes = [
   },
   {
     path: 'new_cell_types',
+    component: NewCellTypesComponent,
+    // outlet: 'popup'
+  },
+  {
+    path: 'faq',
     component: FaqPageComponent,
     // outlet: 'popup'
   },

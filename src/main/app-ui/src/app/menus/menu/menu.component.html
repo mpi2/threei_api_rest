@@ -9,6 +9,7 @@
                         <button mat-menu-item [routerLink]="['./publications']" routerLinkActive="active" fragment="publications">Publications</button>
                         <button mat-menu-item [routerLink]="['./consortium']" routerLinkActive="active" fragment="consortium">Consortium</button>
                         <button mat-menu-item [routerLink]="['./contact']" routerLinkActive="active" fragment="contact">Contact</button>
+                        <button mat-menu-item [routerLink]="['./faq']" routerLinkActive="active" fragment="faq">FAQ</button>
                 </mat-menu>
                 
                 <button  fxFlex="20%" mat-button routerLinkActive="active" [matMenuTriggerFor]="methodsMenu">METHODS</button>
@@ -25,7 +26,7 @@
                    <button mat-menu-item (click)="openImagesSearch()" routerLinkActive="active">Images</button>
                     <!-- <button mat-menu-item [routerLink]="['./downloads']" routerLinkActive="active">Data Downloads</button> -->
                     <button mat-menu-item [routerLink]="['./map']" routerLinkActive="active">Map of the Immune System</button>
-                   <!-- <button mat-menu-item [routerLink]="['./new_cell_types']" routerLinkActive="active">New Cell Types</button> -->
+                   <button mat-menu-item [routerLink]="['./new_cell_types']" routerLinkActive="active">New Cell Types</button>
                 </mat-menu>
 
                 <!-- <button fxFlex="20%"  routerLinkActive="active" [routerLink]="['./new_cell_types']" routerLinkActive="active" mat-button>NEW CELL TYPES</button>
