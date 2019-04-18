@@ -17,7 +17,7 @@ public class RootRedirectController {
     // Forward to home page so that the angular route is preserved.
     @RequestMapping(value = "/**/{[path:[^\\.]*}")
     public String redirect() {
-    	System.out.println("hitting redirect method!!!");
+    	//System.out.println("hitting redirect method!!!");
         return "forward:/";
     }
 
