@@ -84,6 +84,7 @@ import { MapOfImmuneComponent } from './map-of-immune/map-of-immune.component';
 import { WebstatusComponent } from './webstatus/webstatus.component';
 import { NewCellTypesComponent } from './new-cell-types/new-cell-types.component';
 import { AcknowledgeThreeiComponent } from './acknowledge-threei/acknowledge-threei.component';
+import { DownloadsComponent } from './downloads/downloads.component';
 
 
 
@@ -103,7 +104,7 @@ import { AcknowledgeThreeiComponent } from './acknowledge-threei/acknowledge-thr
     CellHeatmapComponent,
     ProcedureHeatmapComponent, ProcedureHeatmapComponent, DetailsPageComponent, PhenotypeOfTheMonthComponent,
     SlideshowComponent, StatsBlocksComponent, LogosComponent, TemplateComponent, StrengthNLimitationsComponent,
-    AboutComponent, ConsortiumComponent, StatisticalDesignComponent, FlowFilesComponent, DataDownloadsComponent, MapOfImmuneComponent, WebstatusComponent, NewCellTypesComponent, AcknowledgeThreeiComponent
+    AboutComponent, ConsortiumComponent, StatisticalDesignComponent, FlowFilesComponent, DataDownloadsComponent, MapOfImmuneComponent, WebstatusComponent, NewCellTypesComponent, AcknowledgeThreeiComponent, DownloadsComponent
   ],
   imports: [
     MatSidenavModule, BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule,

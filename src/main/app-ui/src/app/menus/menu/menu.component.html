@@ -23,11 +23,11 @@
 
                 <button fxFlex="20%" mat-button [matMenuTriggerFor]="dataMenu" routerLinkActive="active">MORE DATA</button>
                 <mat-menu #dataMenu="matMenu">
-                    <!-- <button mat-menu-item [routerLink]="['./flow']" routerLinkActive="active">Flow Files</button> -->
-                   <button mat-menu-item (click)="openImagesSearch()" routerLinkActive="active">Images</button>
-                    <!-- <button mat-menu-item [routerLink]="['./downloads']" routerLinkActive="active">Data Downloads</button> -->
-                    <button mat-menu-item [routerLink]="['./map']" routerLinkActive="active">Map of the Immune System</button>
-                   <button mat-menu-item [routerLink]="['./new_cell_types']" routerLinkActive="active">New Cell Types</button>
+                        <button mat-menu-item [routerLink]="['./downloads']" routerLinkActive="active">Data Downloads</button>
+                        <button mat-menu-item [routerLink]="['./flow']" routerLinkActive="active">Flow Files</button>
+                        <button mat-menu-item [routerLink]="['./map']" routerLinkActive="active">Map of the Immune System</button>
+                        <button mat-menu-item [routerLink]="['./new_cell_types']" routerLinkActive="active">New Cell Types</button>
+                        <button mat-menu-item (click)="openImagesSearch()" routerLinkActive="active">Images</button>
                 </mat-menu>
 
                 <!-- <button fxFlex="20%"  routerLinkActive="active" [routerLink]="['./new_cell_types']" routerLinkActive="active" mat-button>NEW CELL TYPES</button>
