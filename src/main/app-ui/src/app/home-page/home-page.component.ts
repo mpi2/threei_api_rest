@@ -19,10 +19,10 @@ export class HomePageComponent implements OnInit {
     console.log('tabChangeEvent => ', tabChangeEvent);
     console.log('index => ', tabChangeEvent.index);
     if(tabChangeEvent.index==0){
-      //this.heatmapService.setCellBusy();
+      // this.heatmapService.setCellBusy();
     }
     if(tabChangeEvent.index==0){
-      //this.heatmapService.setProcedureBusy();
+      // this.heatmapService.setProcedureBusy();
     }
 
   }
