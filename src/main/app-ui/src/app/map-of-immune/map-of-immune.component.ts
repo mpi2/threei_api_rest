@@ -8,7 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class MapOfImmuneComponent implements OnInit {
 
-  video: string = "https://dev.mousephenotype.org/data/threeIAnalysis";
+  video: string = "https://www.mousephenotype.org/data/threeIAnalysis";
   constructor() { }
 
   ngOnInit() {
