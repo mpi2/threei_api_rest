@@ -8,7 +8,7 @@ import { MatTabChangeEvent } from '@angular/material';
 })
 export class HomePageComponent implements OnInit {
 
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None;
 
   constructor() { }
 
