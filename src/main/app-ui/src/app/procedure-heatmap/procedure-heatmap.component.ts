@@ -73,11 +73,11 @@ export class ProcedureHeatmapComponent implements OnInit {
 
 chart: {
       type: 'heatmap',
-      marginTop: 200,
+      marginTop: 270,
       marginBottom: 80,
       plotBorderWidth: 1,
-      height: 111110,
-      width: 1200
+      height: 121110,
+      width: 1100
   },
   title: {
       text: ''
@@ -131,9 +131,10 @@ chart: {
   max: 4,
   },
   legend: {
-    align: 'right',
-    layout: 'vertical',
-    margin: 30,
+    align: 'center',
+    // layout: 'vertical',
+    // margin: 1500,
+    y: 1,
     verticalAlign: 'top',
     backgroundColor: 'whitesmoke',
     itemStyle: {

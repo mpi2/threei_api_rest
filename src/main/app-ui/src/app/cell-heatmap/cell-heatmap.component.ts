@@ -78,11 +78,11 @@ cellChartOptions =  {
 
   chart: {
     type: 'heatmap',
-    marginTop: 200,
+    marginTop: 220,
     marginBottom: 80,
     plotBorderWidth: 1,
     height: 1000,
-    width: 1200,
+    width: 1100,
 },
 title: {
   text: ''
@@ -115,9 +115,9 @@ min: 0,
 max: 4,
 },
 legend: {
-  align: 'right',
-  layout: 'vertical',
-  margin: 30,
+  align: 'left',
+  // layout: 'vertical',
+  margin: 3,
   verticalAlign: 'top',
   backgroundColor: 'whitesmoke',
   itemStyle: {
