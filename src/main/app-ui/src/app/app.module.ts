@@ -111,7 +111,8 @@ import { AcknowledgeThreeiComponent } from './acknowledge-threei/acknowledge-thr
   imports: [
     MatSidenavModule, BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule,
     HttpClientModule, MatRadioModule, MatProgressBarModule, MatSelectModule, MatInputModule, MatCardModule,
-     MatTabsModule,  FlexLayoutModule, MatButtonModule, MatTabsModule, MatIconModule, ReactiveFormsModule, MatAutocompleteModule
+     MatTabsModule,  FlexLayoutModule, MatButtonModule, MatTabsModule, MatIconModule, ReactiveFormsModule, MatAutocompleteModule,
+      MatDialogModule
   ],
   exports: [
     CdkTableModule,
