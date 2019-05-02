@@ -10,14 +10,23 @@
                             <mat-expansion-panel-header>
                                     <mat-panel-title>Reference range</mat-panel-title>
                             </mat-expansion-panel-header>
-            
-            
-            
-                        <p></p>
-                        <p>All tests from the observational screen are carried out on mice of the main Sanger phenotyping pipeline. An average of 84 mice are phenotyped every week on two separate days. Due to operational reasons, wild type controls are only processed on one of these days. Knockout mice enter the pipeline according to their age and mice from one strain are phenotyped on at least two different days to avoid any day effects. Due to this set-up, knockout mice cannot be compared to controls on the same day. Using daily controls would also not take advantage of the many wild type data points that are collected over time. It was therefore decided to use a so-called reference range approach to analyse the data.</p>
-                        <p>Data from at least 70 wild type mice is used to generate a reference range. Knockout lines are considered to be significantly different from wild type mice if 60% of the mice for this strain lie outside the middle 95% of wild type data points, i.e. if they lie above the 97.5th or below the 2.5th percentile of the wild type data. For assays with at least 4 mice per gender, males and females are assessed separately. For assays with 2 or 3 mice per gender, separate reference ranges are constructed for male and female mice, but hits are only called if 60% of samples across both genders are outside their respective reference ranges (3 out of 4 or 4 out of 6).</p>
-                        <p>The reference range approach does not take into account the actual distribution of the knockout data, therefore a p-value cannot be calculated. The reference range approach is a very stringent method to call hits. Assuming that all samples are independent of each other, false positive rates vary between 1 in 4.8 million for 7 mice per gender per knockout line (e.g. 16 week blood) and 1 in 16,000 for 4 mice per knockout line (e.g. for cytotoxicity).</p>
-                        </mat-expansion-panel>
+                        <p>
+                                All tests from the observational screen are carried out on mice of the main Sanger phenotyping pipeline. An average of 84 mice are phenotyped every week on two separate days. Due to operational reasons, wild type controls are only processed on one of these days. Knockout mice enter the pipeline according to their age and mice from one strain are phenotyped on at least two different days to avoid any day effects. Due to this set-up, 
+                                knockout mice cannot be compared to controls on the same day. Using daily controls would also not take advantage of the many wild type data points that are collected over time. 
+                        </p>
+                        <p>
+                                Therefore we decided to use reference range (RR) approach to analyse the data.
+                        </p>
+                        <p>
+                                Data from at least 70 wild type mice is used to generate a reference range. Knockout lines are considered to be significantly different from wild type mice if 60% of the mice for this strain lie outside the middle 95% of wild type data points, i.e. if they lie above the 97.5th or below the 2.5th percentile of the wild type data. For assays with at least 4 mice per gender, males and females are assessed separately. For assays with 2 or 3 mice per gender, separate RRs are constructed for male and female mice, but hits are only called if 60% of samples across both genders are outside their respective reference ranges (3 out of 4 or 4 out of 6).   
+                        </p>
+                        <p>
+                                For flow cytometry assays of tissues other than blood, we constructed temporary reference range (TRR), by comparing each KO mouse to at least 70 WT closest in time and combining relation to TRR (“within”, “above”, “below”) across all KO mouse from a strain.
+                        <p>
+                                The reference range approach does not take into account the actual distribution of the knockout data, therefore a p-value cannot be calculated. The reference range approach is a very stringent method to call hits.
+                                 Assuming that all samples are independent of each other, false positive rates vary between 1 in 4.8 million for 7 mice per gender per knockout line (e.g. 16 week blood) and 1 in 16,000 for 4 mice per knockout line (e.g. for cytotoxicity).
+                        </p>
+                    </mat-expansion-panel>
             
             
             
