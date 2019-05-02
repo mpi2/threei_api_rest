@@ -55,7 +55,7 @@ import { AppComponent  } from './app.component';
 import { MenusModule } from './menus/menus.module';
 import { Router } from '@angular/router';
 import { AppRoutingModule } from './app-routing.module';
-import { HomePageComponent } from './home-page/home-page.component';
+import { HomePageComponent, OverviewDialog } from './home-page/home-page.component';
 import { FaqPageComponent } from './faq-page/faq-page.component';
 import { DataPageComponent } from './data-page/data-page.component';
 import { AnalysisPageComponent, SafePipe } from './analysis-page/analysis-page.component';
@@ -94,6 +94,7 @@ import { AcknowledgeThreeiComponent } from './acknowledge-threei/acknowledge-thr
     AppComponent,
     SafePipe,
     HomePageComponent,
+    OverviewDialog,
     FaqPageComponent, DataPageComponent, AnalysisPageComponent, MethodsPageComponent, ContactPageComponent, GlossaryPageComponent,
     PublicationsPageComponent, PrivacyPageComponent, LearnMorePageComponent,
     HighchartsChartComponent,
@@ -104,7 +105,8 @@ import { AcknowledgeThreeiComponent } from './acknowledge-threei/acknowledge-thr
     ProcedureHeatmapComponent, ProcedureHeatmapComponent, DetailsPageComponent, PhenotypeOfTheMonthComponent,
     SlideshowComponent, StatsBlocksComponent, LogosComponent, TemplateComponent, StrengthNLimitationsComponent,
     AboutComponent, ConsortiumComponent, StatisticalDesignComponent, FlowFilesComponent, DataDownloadsComponent,
-     MapOfImmuneComponent, WebstatusComponent, NewCellTypesComponent, AcknowledgeThreeiComponent
+     MapOfImmuneComponent, WebstatusComponent, NewCellTypesComponent, AcknowledgeThreeiComponent,
+     OverviewDialog
   ],
   imports: [
     MatSidenavModule, BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule,
@@ -152,6 +154,7 @@ import { AcknowledgeThreeiComponent } from './acknowledge-threei/acknowledge-thr
     MatTreeModule,
     ScrollingModule,
   ],
+  entryComponents: [OverviewDialog],
   providers: [],
   bootstrap: [AppComponent]
 })

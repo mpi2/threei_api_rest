@@ -1,5 +1,5 @@
 import { Component, OnInit , ViewEncapsulation} from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material';
+import { MatTabChangeEvent, MatDialog } from '@angular/material';
 
 @Component({
   selector: 'threei-home-page',
@@ -10,9 +10,13 @@ export class HomePageComponent implements OnInit {
 
   encapsulation: ViewEncapsulation.None;
 
-  constructor() { }
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit() {
+  }
+
+  expandOverview() {
+    console.log('expand overveiw clicked');
   }
 
   tabChanged = (tabChangeEvent: MatTabChangeEvent): void => {
@@ -27,4 +31,18 @@ export class HomePageComponent implements OnInit {
 
   }
 
+  openDialog() {
+    const dialogRef = this.dialog.open(OverviewDialog);
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   console.log(`Dialog result: ${result}`);
+    // });
+  }
+
 }
+
+@Component({
+  selector: 'overview-dialog',
+  templateUrl: 'overview-dialog.html',
+})
+export class OverviewDialog {}

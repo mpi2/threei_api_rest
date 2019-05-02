@@ -3,36 +3,14 @@
 
 
   <mat-sidenav-content id="page-content"  fxFlex="100%">
-      <div fxLayout="row" fxLayout.xs="row" fxLayoutWrap>
-          <h1 fxFlex="50%"> Over 500 Mouse KO Lines</h1><h1 fxFlex="50%"> Over 300 Immunological Phenotypes</h1>
-      </div>
-                 <!--  -->
-                 <mat-accordion>
-                    <mat-expansion-panel [expanded]="false">
-                        <mat-expansion-panel-header color="accent">
-                            <mat-panel-title color="accent">
-                                <button mat-raised-button color="accent" type="button">
-                                    Project Overview (click to view)
-                                </button>
-                                    
-                            </mat-panel-title>
-
-                        </mat-expansion-panel-header>
-                      
-                            <!-- <div fxLayout="row" fxLayout.xs="row" fxLayoutWrap>
-                              <div fxFlex="50%"> -->
-                                <p>The 3i project has established that genetics plays an important role in shaping the immune system. By using a high-throughput, high-density immunophenotyping platform we identified 140 genes (out of 530 screened) that have an impact on the immune system when knocked out in C57BL/6N mice.
-                                </p>
-                              <!-- </div> -->
-                              <!-- <div fxFlex="50%"> -->
-                                <img src="assets/images/3i_webpage_first_page_new.jpg" width="750">
-                              <!-- </div> -->
-                            <!-- </div> -->
-                       </mat-expansion-panel>
-                  </mat-accordion>
-                       
-                    
-
+      <mat-card fxLayout="row" fxLayout.xs="row" fxLayoutWrap>
+          <button mat-raised-button coor="accent" (click)="openDialog()" fxFlex="40%">
+              Click here to see project overview
+           <img src="assets/images/small_overview.jpg" width="300">
+          </button>
+          <div fxFlex="60%"><h2>Over 300 Immunological Phenotypes</h2><h2>Over 500 Mouse KO Lines</h2></div>
+          
+      </mat-card>
                 <mat-card>
                     <mat-tab-group mat-stretch-tabs   (selectedTabChange)="tabChanged($event)" [dynamicHeight]="true">
                       <mat-tab> 
