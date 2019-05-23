@@ -64,7 +64,61 @@
 
                     <execution>
 
-                       
+                        <id>install-dependencies</id>
+
+                        <phase>validate</phase>
+
+                        <goals>
+
+                            <goal>exec</goal>
+
+                        </goals>
+
+                        <configuration>
+
+                            <executable>${npm.executable}</executable>
+
+                            <workingDirectory>src/main/app-ui</workingDirectory>
+
+                            <arguments>
+
+                                <argument>install</argument>
+
+                            </arguments>
+
+                        </configuration>
+
+                    </execution>
+
+                    <execution>
+
+                        <id>build-angular-app</id>
+
+                        <phase>validate</phase>
+
+                        <goals>
+
+                            <goal>exec</goal>
+
+                        </goals>
+
+                        <configuration>
+
+                            <executable>ng</executable>
+
+                            <workingDirectory>src/main/app-ui</workingDirectory>
+
+                            <arguments>
+
+                                <argument>build</argument>
+					              <argument>--prod</argument>
+            
+                                
+                               
+
+                            </arguments>
+
+                        </configuration>
 
                     </execution>
 
@@ -75,7 +129,7 @@
  
             <plugin>
 <!--need this plugin without the repackage and the above plugins for running the loader with all for running the app and api  -->
-               <!--  <groupId>org.springframework.boot</groupId>
+                <groupId>org.springframework.boot</groupId>
 
                 <artifactId>spring-boot-maven-plugin</artifactId>
 
@@ -91,7 +145,7 @@
 
                     </execution>
 
-                </executions> -->
+                </executions>
 
             </plugin> 
 
