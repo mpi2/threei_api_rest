@@ -59,7 +59,7 @@ public class DataLoader implements CommandLineRunner {
 	
 	private static String COMMA = ",";
 	private static int COLUMNS_IN_HEATMAP_CSV=17;
-	private static String KEY_DELIMITER="_";
+	private static String KEY_DELIMITER="&&";
 	SortedSet<String> geneConstructSymbols = new TreeSet<>(Collections.reverseOrder());//set it up in reverse order so genes are at the top as highcharts row 0 is at the bottom - not what we want!
 
 	private HashMap<String, Integer> geneConstructParameterToSignificance;
@@ -101,7 +101,7 @@ public class DataLoader implements CommandLineRunner {
 		
 		if (args.length > 1) {// we need two files at least - 1 for hit data per parameter and 1 for what
 								// parameters are in what cell!
-			String hitsDataFileLocation = args[0];// 171218_3i_data_for_heat_map.csv
+			String hitsDataFileLocation = args[0];// 171218_3i_data_for_heat_map.csv, 171218_3i_data_for_heat_map.csvcleaned
 			File hitsDataFile = new File(hitsDataFileLocation);
 			if (hitsDataFile.exists()) {
 				System.out.println("hits file exists");
