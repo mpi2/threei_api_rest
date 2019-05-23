@@ -275,6 +275,12 @@ public class CellHeatmapService {
 				for(CellHeatmapRow row: rows) {
 					if(row.getGene().equalsIgnoreCase(gene.getMarkerSymbol())) {
 						filteredRows.add(row);
+					}else {
+						for(String synonym:gene.getMarkerSynonym()) {
+							if(row.getGene().equalsIgnoreCase(synonym)) {
+								filteredRows.add(row);
+							}
+						}
 					}
 				}
 			}

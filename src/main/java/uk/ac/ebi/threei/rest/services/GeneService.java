@@ -96,9 +96,7 @@ public class GeneService {
 		QueryResponse rsp = solrClient.query(query);
 
 		List<GeneDTO> genes = rsp.getBeans(GeneDTO.class);
-		if(genes.size()>0){
-			
-			
+		if(genes.size()>0){	
 			return genes;
 		}else{
 			System.err.println("too few genes returned from 3i gene solr service for keywords");
