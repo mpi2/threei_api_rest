@@ -62,7 +62,7 @@
 
                 <executions>
 
-                    <execution>
+                    <!-- <execution>
 
                         <id>install-dependencies</id>
 
@@ -120,7 +120,7 @@
 
                         </configuration>
 
-                    </execution>
+                    </execution> -->
 
                 </executions>
 
