@@ -125,31 +125,29 @@
                 </executions>
 
             </plugin>
+           
             
- 
-            <plugin>
-<!--need this plugin without the repackage and the above plugins for running the loader with all for running the app and api  -->
+             <plugin>
                 <groupId>org.springframework.boot</groupId>
-
                 <artifactId>spring-boot-maven-plugin</artifactId>
-
+                <configuration>
+                    <mainClass>org.springframework.boot.loader.PropertiesLauncher</mainClass>
+                </configuration>
                 <executions>
-
                     <execution>
-
                         <goals>
-
                             <goal>repackage</goal>
-
                         </goals>
-
+                        <configuration>
+                            <classifier>exec</classifier>
+                        </configuration>
                     </execution>
-
                 </executions>
-
-            </plugin> 
+            </plugin>
 
         </plugins>
+        
+        
 
 </build>
 
