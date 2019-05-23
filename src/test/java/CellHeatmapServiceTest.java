@@ -27,7 +27,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import uk.ac.ebi.threei.rest.Application;
+import uk.ac.ebi.threei.Application;
 import uk.ac.ebi.threei.rest.CellHeatmapRow;
 import uk.ac.ebi.threei.rest.controllers.Filter;
 import uk.ac.ebi.threei.rest.services.CellHeatmapService;

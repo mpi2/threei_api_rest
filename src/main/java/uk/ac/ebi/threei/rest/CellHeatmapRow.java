@@ -17,7 +17,7 @@ public class CellHeatmapRow {
 	private String id;
 	private String gene;
 	private String construct;
-	Map<String, Integer> procedureSignificance = new HashMap<>();// map of procedure name to significance string.
+	public Map<String, Integer> procedureSignificance = new HashMap<>();// map of procedure name to significance string.
 
 	// hard coding these so we can use spring ordering easily - seems wierd but we
 	// already have the columns hard coded for order and display name anyway so not

@@ -1,5 +1,5 @@
 
-package uk.ac.ebi.threei.rest;
+package uk.ac.ebi.threei;
 
 import javax.validation.constraints.NotNull;
 
@@ -9,6 +9,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 //need this annotation if running the rest web service
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+
+@ComponentScan({"uk.ac.ebi.threei.rest", "uk.ac.ebi.threei.rest.repositories"})
 @SpringBootApplication
 public class Application {
 

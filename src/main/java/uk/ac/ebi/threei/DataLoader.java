@@ -1,16 +1,13 @@
-package uk.ac.ebi.threei.rest;
+package uk.ac.ebi.threei;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -28,13 +25,19 @@ import org.apache.solr.client.solrj.SolrServerException;
 import org.apache.solr.client.solrj.impl.HttpSolrClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.ExitCodeEvent;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Component;
 
+import org.springframework.boot.WebApplicationType;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
+
+import uk.ac.ebi.threei.rest.CellHeatmapRow;
+import uk.ac.ebi.threei.rest.CellParameter;
+import uk.ac.ebi.threei.rest.Data;
+import uk.ac.ebi.threei.rest.DisplayProcedureMapper;
+import uk.ac.ebi.threei.rest.ProcedureHeatmapRow;
+import uk.ac.ebi.threei.rest.SignificanceType;
 import uk.ac.ebi.threei.rest.procedure.ParameterDetails;
 import uk.ac.ebi.threei.rest.repositories.CellHeatmapRowsRepository;
 import uk.ac.ebi.threei.rest.repositories.CellParameterRepository;
@@ -43,7 +46,8 @@ import uk.ac.ebi.threei.rest.repositories.ProcedureHeatmapRowsRepository;
 import uk.ac.ebi.threei.rest.services.GeneService;
 
 //need this annotation if using the loader - comment out if not...?
-//@SpringBootApplication
+@ComponentScan({"uk.ac.ebi.threei.rest", "uk.ac.ebi.threei.rest.repositories"})
+@SpringBootApplication
 public class DataLoader implements CommandLineRunner {
 	
 	//wont run without this but doesn't use it - annoying!!!
@@ -85,12 +89,16 @@ public class DataLoader implements CommandLineRunner {
 
 	public static void main(String[] args) {
 		System.out.println("running main method in DataLoader!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		SpringApplication.run(DataLoader.class, args);
+		new SpringApplicationBuilder(DataLoader.class)
+        .web(WebApplicationType.NONE) // .REACTIVE, .SERVLET
+        .run(args);
 	}
 
 	@Override
 	public void run(String... args) {
 		System.out.println("Loading in DataLoader!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		
+		
 		if (args.length > 1) {// we need two files at least - 1 for hit data per parameter and 1 for what
 								// parameters are in what cell!
 			String hitsDataFileLocation = args[0];// 171218_3i_data_for_heat_map.csv
