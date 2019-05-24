@@ -1,9 +1,13 @@
 <p></p>
                     <h3 style="font-size:2em;letter-spacing: -1px">Statistical Design</h3><br/>
                     <p></p>
-                    <p>Due to different work flows, we use different statistical test to determine if the phenotyping results of a knockout line differ from the wild type mice. The two main approaches we are using are a reference range approach for continuous data and a Fisher’s exact test for categorical data.</p>
-                    <p>Our statistical analysis is designed to differentiate as efficiently as possible between lines that show a phenotype and lines that do not. However, the criteria for calling a hit are very stringent, in order to make sure that when you order a mouse in, the phenotype we have observed will hold up. The other side of the coin is that we are likely to underestimate the number of true hits, i.e. have a higher number of false negatives. Therefore we encourage you to take a look at the raw data for phenotypes you are interested in and judge for yourself if a borderline case might actually be a true pheotype, even if it hasn't met our very stringent statistical criteria.</p>
-                      <br/>
+                    <p>Due to different work flows, we use different statistical tests to determine if the phenotyping results of a knockout line differ from the wild type mice. The two main approaches we are using are a reference range approach for continuous data and a Fisher’s exact test for categorical data.</p>
+                    <p>Our statistical analysis is designed to differentiate as efficiently as possible between lines that show a phenotype and lines that do not. However, the criteria for calling a hit are very stringent, in order to make sure that when you order a mouse in, the phenotype we have observed will hold up. The other side of the coin is that we are likely to miss true hits, i.e. have a higher number of false negatives. Therefore we encourage you to take a look at the raw data for phenotypes you are interested in and judge for yourself if a borderline case might actually be a true phenotype, even if it hasn't met our very stringent statistical criteria.</p>
+                    <p>
+                            For every candidate hit identified in the high-throughput analysis, we went back to the underlying raw data (FCS files for flow cytometry etc) for the candidate strain and appropriate controls and a final call was made by an expert in the field. 
+                    </p>  
+                    
+                    <br/>
                     <mat-accordion>
             
                         <mat-expansion-panel>
@@ -11,20 +15,40 @@
                                     <mat-panel-title>Reference range</mat-panel-title>
                             </mat-expansion-panel-header>
                         <p>
-                                All tests from the observational screen are carried out on mice of the main Sanger phenotyping pipeline. An average of 84 mice are phenotyped every week on two separate days. Due to operational reasons, wild type controls are only processed on one of these days. Knockout mice enter the pipeline according to their age and mice from one strain are phenotyped on at least two different days to avoid any day effects. Due to this set-up, 
-                                knockout mice cannot be compared to controls on the same day. Using daily controls would also not take advantage of the many wild type data points that are collected over time. 
+                                All tests from the observational screen are carried out on mice of the main Sanger phenotyping pipeline. 
+                                An average of 84 mice are phenotyped every week on two separate days. Due to operational reasons, wild type controls are only processed on one of these days. Knockout mice enter the pipeline according to their age and mice from one strain are phenotyped on at least two different days to avoid any day effects. 
+                                Due to this set-up, knockout mice cannot be compared to controls on the same day. Using daily controls would also not take advantage of the many wild type data points that are collected over time. 
+                                        
                         </p>
+                        Hence we wanted an approach which would:
+                        <ol>
+                            <li>
+                                allow to use wild-type controls accumulated during the study
+                            </li>
+                            <li>
+                                allow to test also samples from days when controls were not tested
+                            </li>
+                            <li>
+                                be robust to any outliers and mitigate batch effects
+                            </li>
+                            <li>
+                                would work for assays with small number of animals per strain
+                            </li>
+                            <li>
+                                allow sex-specific testing 
+                            </li>
+                        </ol>
                         <p>
                                 Therefore we decided to use reference range (RR) approach to analyse the data.
                         </p>
                         <p>
-                                Data from at least 70 wild type mice is used to generate a reference range. Knockout lines are considered to be significantly different from wild type mice if 60% of the mice for this strain lie outside the middle 95% of wild type data points, i.e. if they lie above the 97.5th or below the 2.5th percentile of the wild type data. For assays with at least 4 mice per gender, males and females are assessed separately. For assays with 2 or 3 mice per gender, separate RRs are constructed for male and female mice, but hits are only called if 60% of samples across both genders are outside their respective reference ranges (3 out of 4 or 4 out of 6).   
+                                Data from at least 70 wild type mice was used to generate a reference range. Knockout lines are considered to be significantly different from wild type mice if 60% of the mice for this strain lie outside the middle 95% of wild type data points, i.e. if they lie above the 97.5th or below the 2.5th percentile of the wild type data. For assays with 2 or 3 mice per gender, separate RRs are constructed for male and female mice, but hits are only called if 60% of samples across both genders are outside their respective reference ranges (3 out of 4 or 4 out of 6).
+                                 For assays with at least 4 mice per gender (Blood flow cytometry), males and females are assessed fully separately.        
                         </p>
                         <p>
-                                For flow cytometry assays of tissues other than blood, we constructed temporary reference range (TRR), by comparing each KO mouse to at least 70 WT closest in time and combining relation to TRR (“within”, “above”, “below”) across all KO mouse from a strain.
+                                For flow cytometry assays of tissues other than blood, we constructed time-window reference range (TRR), by comparing each KO mouse to at least 70 WT of matching sex closest in time and combining relation to TRR (“within”, “above”, “below”) across all KO mouse from a strain.
                         <p>
-                                The reference range approach does not take into account the actual distribution of the knockout data, therefore a p-value cannot be calculated. The reference range approach is a very stringent method to call hits.
-                                 Assuming that all samples are independent of each other, false positive rates vary between 1 in 4.8 million for 7 mice per gender per knockout line (e.g. 16 week blood) and 1 in 16,000 for 4 mice per knockout line (e.g. for cytotoxicity).
+                                The reference range approach does not take into account the actual distribution of the knockout data, therefore a p-value cannot be calculated. Assuming that all samples are independent of each other, false positive rates vary between 1 in 4.8 million for 7 mice per gender per knockout line (e.g. 16 week blood) and 1 in 16,000 for 4 mice per knockout line (e.g. for cytotoxicity). For estimates of false positive rate based on WT data resampling, please see our paper todo CITE WHEN AVAILABLE.
                         </p>
                     </mat-expansion-panel>
             
@@ -38,8 +62,12 @@
             
             
                         <p></p>
-                        <p>The screen for antinuclear antibodies in serum and the test for worm burden in Trichuris infection have a very different data structure than the other assays, as wild types are usually negative and positivity is a strong indication for an abnormal phenotype. These assays are therefore analysed with the categorical Fisher’s exact test. </p>
-                        <p>Even though the intensity of antinuclear antibody is quantified on a continuous scale, the main readout is the presence or absence of antibody staining. The data is split into negative (scores 0-1) and positive samples (scores 2-5) and analysed categorically. Similarly, worms in the cecum could be counted to assess worm burden, but the more important finding is that worms are present at all.</p>
+                        <p>
+                            The screen for antinuclear antibodies in serum and the test for worm burden in Trichuris infection have a very different data structure than the other assays, as wild types are usually negative and positivity is a strong indication for an abnormal phenotype. These assays are therefore analysed with the categorical Fisher’s exact test.
+                         </p>
+                        <p>
+                                Even though the intensity of antinuclear antibody is quantified on a continuous scale, the main readout is the presence or absence of antibody staining. The data is split into negative (scores 0-1) and positive samples (scores 2-5) and analysed categorically. Similarly, worms in the cecum could be counted to assess worm burden, but the more important finding is that worms are present at all.
+                        </p>
                         </mat-expansion-panel>
                         <mat-expansion-panel>
                                 <mat-expansion-panel-header>
