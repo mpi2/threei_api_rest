@@ -83,8 +83,35 @@
                         <h3>Type of data: </h3>
                         <p>Cell numbers for each population, expressed as percentage of parent gate, percentage of CD45+ cells.</p>
                         <h3>Statistical test: </h3>
-                        <p>Sex-specific reference range. Manual verification of candidate strains.</p>
+                        <p>Sex-specific, time-window reference range (TRR), manual verification of candidate hits</p>
+                        <h3>Details</h3>
+                        <p>
+                            Reference ranges were constructed based on samples that were analysed with the same protocol (i.e. separate reference ranges were constructed before and after the panel change early on and for manually gated data and data analysed with a semi-supervised gating strategy).
+                        </p>
+                        <p>
+                            We used TRR and semi-supervised gating for samples. For strains where some samples were reanalysed with automated gating and others analysed only with manual gating, we used the best available data for each sample and compared it to the appropriate reference range. Results were then aggregated.
+Cell subset measurements for all mice are available to download from the  “More data” tab. Data and code used for identification of candidate hits are available on <a href="https://github.com/AnnaLorenc/3i_heatmapping" target="_blank">github</a>. Final calls were made by an experienced researcher after reanalysis of the data in FlowJo. 
+                        </p>
                         </mat-expansion-panel>
+
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                 <mat-panel-title>Flow-cytometric analysis of blood</mat-panel-title>
+                            </mat-expansion-panel-header>
+        
+                    
+                    <h3>Type of data: </h3>
+                    <p>Cell numbers for each population, expressed as percentage of parent gate and as absolute numbers</p>
+                    <h3>Statistical test: </h3>
+                    <p>Sex-specific reference range, manual verification of candidate hits</p>
+                    <h3>Details</h3>
+                    <p>
+                        Cell subset measurements for all mice are available to download from the  “More data” tab. Data and code used for identification of candidate hits are available on <a href="https://github.com/AnnaLorenc/3i_heatmapping" target="_blank">github</a>. Final calls were made by an experienced researcher after reanalysis of the data in FlowJo. 
+                    </p>
+                    </mat-expansion-panel>
+
+
+
             
                         <mat-expansion-panel>
                                 <mat-expansion-panel-header>
@@ -96,7 +123,9 @@
                         <h3>Type of data:</h3>
                         <p>Number of cells per field of view, percentage of interacting cells, cell volume, cell shape (roundness), number and length of dendrites  </p>
                         <h3>Statistical test:</h3>
-                        <p>Sex-specific reference range. Manual verification of candidate strains.</p>
+                        <p>Reference range, manual verification of candidate strains
+                            Measurements for all mice are available to download from the  “More data” tab. Data and code used for identification of candidate hits are available on <a href="https://github.com/AnnaLorenc/3i_heatmapping" target="_blank">github</a>. Final calls were made by an experienced researcher after reinspection of the raw and processed data in Definiens Developer. 
+                            </p>
                     </mat-expansion-panel>
             
                     <mat-expansion-panel>
@@ -113,8 +142,9 @@
                             <p>Reference range</p>
                             <h3>Details:</h3>
                         <p> 
-                                Since the assay generates a curve consisting of different target:effector ratios rather than a single value, a curve is considered to be outside the reference range if three consecutive values lie outside their reference range interval.
-
+                            Since the assay generates a curve consisting of different target:effector ratios rather than a single value, a curve is considered to be outside the reference range if three consecutive values lie outside their reference range interval.
+                            Data for all mice is available to download from the “More data” tab.
+                            
                         </p>
                     </mat-expansion-panel>
             
@@ -129,7 +159,9 @@
                         <h3>Statistical test</h3>
                         <p>Fisher’s exact test </p>
                         <h3>Details:</h3>
-                        <p>Approximately 10% of wild type mice show a positive staining for antinuclear antibodies. Against this background, 4 out of 6 samples for a given knockout line need to be positive to reach a p-value below 0.01.</p>
+                        <p>Approximately 10% of wild type mice show a positive staining for antinuclear antibodies. Against this background, 4 out of 6 samples for a given knockout line need to be positive to reach a p-value below 0.01.
+                            Data for all mice is available to download from the “More data” tab.                            
+                        </p>
                         </mat-expansion-panel>
             
             
@@ -141,13 +173,17 @@
                             </mat-expansion-panel-header>
             
                             <h3>Type of data:</h3>
-                        <p>Weight loss:  Percentage of reduction in body weight compared to the start of the experiment, from the daily weight measurements
-                                Survival: Number of mice having to be culled because of excessive weight loss before the end of the experiment
+                        <p>Weight loss: Percentage of reduction in body weight compared to the start of the experiment, from daily weight measurements
+                            Survival: Number of mice having to be sacrificed because of excessive weight loss before the end of the experiment
+                            
                         </p>
                         <h3>Statistical test:</h3>
-                        <p>Mixed model with concurrent WTs for weight loss, Fisher’s exact test for the number of culled mice</p>
+                        <p>Mixed model with concurrent wt controls for weight loss, Fisher’s exact test for the number of sacrificed mice
+
+                        </p>
                         <h3>Details:</h3>
-                        <p>Weight loss hits were identified by fitting a robust mixed model (corresponding to two-way Anova) with a p-value cut-off of 0.0001, in comparison to concurrent wt controls, taking into account sex and genotype, using the R package Phenstat.  Residuals were assumed to be normally distributed. Calls were made when a genotype has a significant main effect on weight loss.
+                        <p>
+                            Weight loss hits were identified by fitting a robust mixed model (corresponding to two-way Anova) with a p-value cut-off of 0.0001, in comparison to concurrent wt controls, taking into account sex and genotype, using the R package <a href="http://bioconductor.org/packages/release/bioc/html/PhenStat.html">Phenstat</a>.  Residuals were assumed to be normally distributed. Calls were made when a genotype has a significant main effect on weight loss.
                         </p>
                         </mat-expansion-panel>
             
@@ -190,7 +226,11 @@
                         <h3>Type of data:</h3><p>Presence or absence of worms in the cecum as categorical measure  </p>
                         <h3>Statistical test:</h3><p>Fisher’s exact test  </p>
                         <h3>Details:</h3>
-                        <p>>Wild type mice clear a Trichuris muris infection completely. Presence of worms in the cecum at day 33 therefore indicates a higher susceptibility. Approximately 10% of wild type mice have a low number of worms in the cecum at day 33. Against this background, 4 out of 6 samples for a given knockout line need to be positive to reach a p-value below 0.01.</p></mat-expansion-panel>
+                        <p>Wild type mice clear a Trichuris muris infection completely. Presence of worms in the cecum at day 33 therefore indicates a higher susceptibility. Approximately 10% of wild type mice have a low number of worms in the cecum at day 33. Against this background, 4 out of 6 samples for a given knockout line need to be positive to reach a p-value below 0.01.
+                            Data for all mice is available to download from the “More data” tab.
+                            
+
+                        </p></mat-expansion-panel>
             
             
                     <mat-expansion-panel>
@@ -202,15 +242,22 @@
             
                         <h3>Type of data:</h3>
                         <p>Histology scores: Histology sections from mid and distal colon are assessed in four different categories indicating damage to the gut. Categories are scored individually (each on scale 0-3) and combined as a total score.
+                            Weight loss: Percentage of reduction in body weight compared to the start of the experiment, from the daily weight measurements.
+                            Survival: Number of mice having to be sacrificed because of excessive weight loss before the end of the experiment.
                         </p>
                         <p>Weight loss:  Percentage of reduction in body weight compared to the start of the experiment, from the daily weight measurements.</p>
             
                         <p>Survival: Number of mice having to be culled because of excessive weight loss before the end of the experiment.</p>
                         <h3>Statistical test:</h3>
-                        <p>Weight loss/ histology scores: sex-matched reference range, 70 individuals closest in starting weight (histology) or age (weight loss).</p>
+                        <p>Weight loss/ histology scores: sex-matched reference range, 70 individuals closest in starting weight (histology) or age (weight loss). 
+                            </p>
                         <p>
-                            Survival: Fisher’s exact test with a p-value cut-off of 0.01, comparing the frequency of culled mice in a mutant strain with wt population, combining data from both sexes.
+                            Survival: Fisher’s exact test with a p-value cut-off of 0.01, comparing the frequency of sacrificed mice in a mutant strain with the wt population, combining data from both sexes.
                         </p> 
+                        <h3>Details</h3>
+                        <p>
+                            Measurements for all mice are available to download from the  “More data” tab. Data and code used for identification of candidate hits are available on <a href="https://github.com/AnnaLorenc/3i_heatmapping" target="_blank">github</a>. Final calls were made by an experienced researcher after reinspection of the raw and processed data. 
+                        </p>
                     
                     
                     </mat-expansion-panel>
