@@ -27,6 +27,7 @@ import { MapOfImmuneComponent } from './map-of-immune/map-of-immune.component';
 import { WebstatusComponent } from './webstatus/webstatus.component';
 import { NewCellTypesComponent } from './new-cell-types/new-cell-types.component';
 import { AcknowledgeThreeiComponent } from './acknowledge-threei/acknowledge-threei.component';
+import { ContributorsComponent } from './contributors/contributors.component';
 
 
 const appRoutes: Routes = [
@@ -52,6 +53,11 @@ const appRoutes: Routes = [
   {
     path: 'contact',
     component: ContactPageComponent,
+    // outlet: 'popup'
+  },
+  {
+    path: 'contributors',
+    component: ContributorsComponent,
     // outlet: 'popup'
   },
   {

@@ -9,6 +9,8 @@
                         <button mat-menu-item [routerLink]="['./publications']" routerLinkActive="active" fragment="publications">Publications</button>
                         <button mat-menu-item [routerLink]="['./consortium']" routerLinkActive="active" fragment="consortium">Consortium</button>
                         <button mat-menu-item [routerLink]="['./contact']" routerLinkActive="active" fragment="contact">Contact</button>
+                        <button mat-menu-item [routerLink]="['./contributors']" routerLinkActive="active" fragment="contributors">3i team and Collaborators</button>
+
                         <button mat-menu-item [routerLink]="['./faq']" routerLinkActive="active" fragment="faq">FAQ</button>
                         <button mat-menu-item [routerLink]="['./acknowledge']" routerLinkActive="active" fragment="acknowledge">How to acknowledge 3i in publications</button>
                 </mat-menu>
@@ -33,7 +35,7 @@
                 <!-- <button fxFlex="20%"  routerLinkActive="active" [routerLink]="['./new_cell_types']" routerLinkActive="active" mat-button>NEW CELL TYPES</button>
                 <button fxFlex="20%" routerLinkActive="active" [routerLink]="['./whats_new']"  routerLinkActive="active" mat-button>WHAT'S NEW</button> -->
                 
-                <span class="software" *ngIf="!topMenu">Software v3.0</span>
+                <span class="software" *ngIf="!topMenu">Software v3.0 &nbsp;&nbsp; <a style="color:white" href="https://www.ebi.ac.uk/data-protection/privacy-notice/mousephenotype-org">Data protection - EBI</a></span>
 
 </mat-toolbar>
 
