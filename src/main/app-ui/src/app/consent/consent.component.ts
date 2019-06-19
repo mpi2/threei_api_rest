@@ -10,7 +10,7 @@ export class ConsentComponent {
 
   constructor(public snackBar: MatSnackBar) {
       this.snackBar.openFromComponent(CustomSnackBar, {
-         duration: 200000,
+         duration: 20000000,
          verticalPosition: 'top',
          horizontalPosition: 'right',
       });
