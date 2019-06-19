@@ -85,6 +85,7 @@ import { WebstatusComponent } from './webstatus/webstatus.component';
 import { NewCellTypesComponent } from './new-cell-types/new-cell-types.component';
 import { AcknowledgeThreeiComponent } from './acknowledge-threei/acknowledge-threei.component';
 import { ContributorsComponent } from './contributors/contributors.component';
+import { ConsentComponent } from './consent/consent.component';
 
 
 
@@ -108,7 +109,8 @@ import { ContributorsComponent } from './contributors/contributors.component';
     AboutComponent, ConsortiumComponent, StatisticalDesignComponent, FlowFilesComponent, DataDownloadsComponent,
      MapOfImmuneComponent, WebstatusComponent, NewCellTypesComponent, AcknowledgeThreeiComponent,
      OverviewDialog,
-     ContributorsComponent
+     ContributorsComponent,
+     ConsentComponent
   ],
   imports: [
     MatSidenavModule, BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule,
