@@ -85,7 +85,7 @@ import { WebstatusComponent } from './webstatus/webstatus.component';
 import { NewCellTypesComponent } from './new-cell-types/new-cell-types.component';
 import { AcknowledgeThreeiComponent } from './acknowledge-threei/acknowledge-threei.component';
 import { ContributorsComponent } from './contributors/contributors.component';
-import { ConsentComponent } from './consent/consent.component';
+import { ConsentComponent, CustomSnackBar } from './consent/consent.component';
 
 
 
@@ -110,7 +110,7 @@ import { ConsentComponent } from './consent/consent.component';
      MapOfImmuneComponent, WebstatusComponent, NewCellTypesComponent, AcknowledgeThreeiComponent,
      OverviewDialog,
      ContributorsComponent,
-     ConsentComponent
+     ConsentComponent, CustomSnackBar
   ],
   imports: [
     MatSidenavModule, BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule,
@@ -159,7 +159,7 @@ import { ConsentComponent } from './consent/consent.component';
     MatTreeModule,
     ScrollingModule,
   ],
-  entryComponents: [OverviewDialog],
+  entryComponents: [OverviewDialog, CustomSnackBar],
   providers: [],
   bootstrap: [AppComponent]
 })
