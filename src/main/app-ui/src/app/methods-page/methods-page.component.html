@@ -124,67 +124,6 @@
 
 
 
-
-                        <h3>Flow Cytometry</h3>
-                        <ul>
-                            <li>Panels</li>
-                            <li>Panel change</li>
-                        </ul>                   
-                        <p>
-                        The project started in late autumn 2013. In mid-2014, we decided to change the original antibody panels to make them more compatible with the
-                         IMPC panels and to replace a few antibodies that had not been working as well as expected. For the T cell panel, this change happened on 9th of June 2014, for the B cell panel on 15th of September 2014. Data collected before and after the panel changes is not directly comparable and was analysed separately (constructing separate reference ranges before and after the panel change). 
-                        </p>
-                        
-                        <h3>Flow cytometry: gating</h3>
-                        <ul>
-                            <li>Gating strategy</li>
-                        <li>Manual and automated gating</li>
-                        </ul>
-
-                        <p>
-                                We were aware at the start of the project that manual gating of all FCS files would be very time-consuming and started immediately to explore different algorithms to automate the gating process.
-                                 However, quality control of ongoing phenotyping meant that we still had to gate all files manually before the automated gating was in place. We eventually teamed up with <a href="http://www.terryfoxlab.ca/people-detail/ryan-brinkman/">Ryan Brinkman’s team in Vancouver</a> and developed a semi-supervised gating
-                                  algorithm for all our panels except blood after the initial panel change in summer 2014. Getting this right and performing the required validations took longer than anticipated and we therefore ended up with a complete set of manually gated data and an almost complete set of data gated automatically with a semi-supervised algorithm. Both datasets are available in the data download section.
-                        </p>
-
-                        <p>
-                                Data sent to the IMPC for graphing on the website is based on manual gating. For the consortium publication CITE WHEN OUT, 
-                                we reanalysed all available data with the semi-supervised algorithm and refined the hit calling accordingly. Hits displayed online are therefore based on manual gating but verified with automated gating.
-                                 We found that automated gating reduced temporal drift in many parameters but had not a huge impact on the hit calling as the reference range only calls extreme phenotypes. 
-                                 For further analysis, especially for potential phenotypes that have not made our stringent cut-off criteria, we recommend using the automated data wherever possible.
-                        </p>
-                        <p>
-                                Automated semi-supervised gating
-                                Computational gating was performed by Ryan Brinkman’s team with <a href="https://www.bioconductor.org/packages/release/bioc/html/flowClean.html">flowClean</a>, UFO, and <a href="https://www.bioconductor.org/packages/release/bioc/html/flowDensity.html">flowDensity</a>. 
-                                FlowClean was used to perform acquisition-based quality checking to remove anomalous events. Files with fewer than 20,000 events were removed from further analysis. UFO was used to identify outlier samples (e.g., batch effects). FlowDensity was used to enumerate cell populations by automating a predefined gating approach using sequential, supervised bivariate gating analysis to set the best cut-off for an individual marker using characteristics of the density distribution.
-                                The parameters for each individual cell population were pre-defined once for all files. The automated analysis data was validated against matched manually analysed data.
-                                In the <a href="downloads">Data download</a> section we provide information about what sort of gating was used for any specific sample.
-                                
-                        </p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                         <mat-expansion-panel>
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>Cytotoxic T cell function</mat-panel-title>
@@ -314,14 +253,7 @@
                     </mat-expansion-panel>
                     </mat-accordion>
             
-                    <h3>Flow Cytometry</h3>
-                    <ul>
-                        <li>Panels</li>
-                        <li>Panel change</li>
-                    </ul>
-
-                    <p>After initial phase of the project, we altered flow cytometry panels for compatibility with IMPC panels. Data gathered before and after this panel change is not directly comparable and hence it was analysed separately when assessing phenotypes (we prepared reference range specific for this initial samples). Aforementioned change happened on XXX for B cell panel (spleen and MLN) and on XXX for T, M and BM panel. IMPC panel was added on this date.
-                    </p>
+                    
 
                     <h3>Flow Cytrometry: gating</h3>
                     <ul>
