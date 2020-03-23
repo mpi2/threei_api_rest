@@ -241,7 +241,7 @@ public class DataLoader implements CommandLineRunner {
 					
 						
 					if(pDetails.getProcedureName().equals("Fertility of Homozygous Knock-out Mice")) {	
-					System.out.println("adding parameterDetails ="+pDetails);
+					//System.out.println("adding parameterDetails ="+pDetails);
 					}
 					//pDetails.setFieldsFromMap();//set the variables from the map so we can use repo sorting on fields
 					//we could empty the map after this to save space and loading time from rest service- but can keep for debugging?
@@ -262,7 +262,7 @@ public class DataLoader implements CommandLineRunner {
 				}
 				//if(linesRead>10)break;
 				linesRead++;
-				System.out.println(linesRead);
+				//System.out.println(linesRead);
 			}
 			System.out.println("generated map");
 			System.out.println("number of genes/rows=" + geneConstructSymbols.size());
