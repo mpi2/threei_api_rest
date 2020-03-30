@@ -1,0 +1,75 @@
+<!-- <div><button mat-fab color="accent">
+    Search
+  </button>
+</div> -->
+<form (ngSubmit)="filterMethod()" #loginForm="ngForm">
+
+  <mat-card>
+    <mat-card-content fxLayout="row" fxLayoutGap="20px">
+
+
+
+      <!-- <mat-form-field appearance="outline" fxFlex="30%">
+              <mat-label>Search for gene symbol</mat-label><input matInput type="search" placeholder="Search Gene Symbol" [(ngModel)]="keyword" name="keyword" placeholder="Search for gene symbol">
+      </mat-form-field> -->
+
+      <mat-form-field  fxFlex="30%">
+        <mat-label>Search for gene symbol</mat-label>
+        <input type="text" placeholder="Search Gene Symbol" aria-label="Number" matInput [formControl]="searchControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button mat-raised-button color="accent">
+        Search
+      </button>
+      <!-- <mat-form-field appearance="outline" fxFlex="30%">
+          <mat-label>Sort by most significant for cell type</mat-label>
+          <mat-select   placeholder="sort highest sig to lowest" [(value)]="sortFieldSelected" name="sort">
+              <mat-option (click)="filterMethod()">None</mat-option>
+              <mat-option *ngFor="let header of columnHeaders" [value]="header" (click)="filterMethod()">{{header}}</mat-option>
+          </mat-select>
+        </mat-form-field>  -->
+      <em>OR</em>
+      <mat-form-field  fxFlex="30%">
+        <mat-label>Filter by cell type</mat-label>
+        <mat-select   placeholder="Cell type Filter" [(value)]="cellSelected" [formControl]="selectControl">
+          <mat-option (click)="filterMethod()">None</mat-option>
+          <mat-option *ngFor="let cell of cells" [value]="cell"  (click)="filterMethod()">{{cell}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <button mat-raised-button color="accent" type="button" (click)="clearFilter()">
+        Reset
+      </button>
+    </mat-card-content>
+  </mat-card>
+</form>
+<mat-card>
+  <mat-card-content>
+    <!-- <mat-progress-bar *ngIf="!resourceLoaded"></mat-progress-bar> -->
+    <mat-progress-bar *ngIf="!resourceLoaded" mode="indeterminate"></mat-progress-bar>
+
+    <div *ngIf="!showEmtpyResultMessage">
+
+      <highcharts-chart
+        [Highcharts]="Highcharts"
+        [options]="cellChartOptions"
+        [(update)]="updatechart"
+
+
+      ></highcharts-chart>
+    </div>
+    <div *ngIf='showEmtpyResultMessage'>
+      <button mat-raised-button color="primary" (click)="openImpc()">
+        Search IMPC website for {{keyword}}
+      </button>
+      A knockout mouse for this gene and filter combination has currently not been phenotyped by the 3i consortium.
+      To see if ES cells or a knockout mouse exist and whether it has been phenotyped by another member institute of the International Mouse Phenotyping Consortium (IMPC), please click on this button.
+    </div>
+  </mat-card-content>
+</mat-card>
+
+

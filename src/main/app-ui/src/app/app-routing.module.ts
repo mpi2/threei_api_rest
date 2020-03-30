@@ -28,6 +28,7 @@ import { WebstatusComponent } from './webstatus/webstatus.component';
 import { NewCellTypesComponent } from './new-cell-types/new-cell-types.component';
 import { AcknowledgeThreeiComponent } from './acknowledge-threei/acknowledge-threei.component';
 import { ContributorsComponent } from './contributors/contributors.component';
+import {HumanHomeComponent} from "./human-home/human-home.component";
 
 
 const appRoutes: Routes = [
@@ -159,8 +160,13 @@ const appRoutes: Routes = [
     component: WebstatusComponent,
     // outlet: 'popup'
   },
+  {
+    path: 'human',
+    component: HumanHomeComponent,
+    // outlet: 'popup'
+  },
 
-   { path: '',   redirectTo: 'home', pathMatch: 'full' }
+   { path: '',   redirectTo: 'human', pathMatch: 'full' }
 //   { path: '**', component: PageNotFoundComponent }
 ];
 

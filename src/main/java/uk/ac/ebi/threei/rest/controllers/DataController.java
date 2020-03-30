@@ -38,6 +38,7 @@ import uk.ac.ebi.threei.rest.services.GeneDTO;
 import uk.ac.ebi.threei.rest.services.GeneService;
 import uk.ac.ebi.threei.rest.services.ParameterDetailsService;
 import uk.ac.ebi.threei.rest.services.ProcedureHeatmapService;
+import uk.ac.ebi.threei.rest.services.human.HumanCellHeatmapService;
 
 @RequestMapping(value = "/api")
 @RestController
@@ -52,6 +53,11 @@ public class DataController {
 	
 	@Autowired
 	CellHeatmapService cellHeatmapService;
+	
+	@Autowired
+	HumanCellHeatmapService humanCellHeatmapService;
+	
+	
 	@Autowired
 	ProcedureHeatmapService procedureHeatmapservice;
 	@Autowired
@@ -60,6 +66,7 @@ public class DataController {
 	List<CellHeatmapRow> cellRows;
 	@Autowired
 	private ParameterDetailsService parameterDetailsServce;
+	
 	
 	@CrossOrigin(origins = "*", maxAge = 3600)
 	@RequestMapping("/procedure_page")
@@ -236,6 +243,30 @@ public class DataController {
 		Data data = cellHeatmapService.getCellHeatmapData(filter);
 		return new ResponseEntity<Data>(data, HttpStatus.OK);
 	}
+	
+	/**
+	 * 
+	 * @param model
+	 * @param keyword
+	 * @param construct
+	 * @return
+	 */
+	@CrossOrigin(origins = "*", maxAge = 3600)
+	@RequestMapping("/human_cell_heatmap")
+	@ResponseBody
+	public HttpEntity<Data> cellHumanHeatmap(Model model, @RequestParam(value = "keyword", required = false) String keyword,
+			@RequestParam(value = "construct", required = false) String constructFilter, @RequestParam(value = "cellType", required = false) String cellTypeFilter, @RequestParam(value = "cellSubType", required = false) String cellSubTypeFilter, @RequestParam(value = "assay", required = false) String assayFilter, @RequestParam(value = "sort", required = false) String sortField) {
+		System.out.println("sortField="+sortField);
+		Filter filter=new Filter();
+		filter.setKeyword(keyword);
+		filter.setConstructFilter(constructFilter);
+		filter.setCellTypeFilter(cellTypeFilter);
+		filter.setCellSubTypeFilter(cellSubTypeFilter);
+		filter.setAssayFilter(assayFilter);
+		filter.setSortField(sortField);
+		Data data = humanCellHeatmapService.getCellHeatmapData(filter);
+		return new ResponseEntity<Data>(data, HttpStatus.OK);
+	}
 
 	
 
@@ -245,7 +276,7 @@ public class DataController {
 	public ResponseEntity<Types> cellTypes(Model model) {
 		
 		
-		Types types=cellHeatmapService.cellTypes();
+		Types types=humanCellHeatmapService.cellTypes();
 		
 		return new ResponseEntity<Types>(types, HttpStatus.OK);
 	}
@@ -258,7 +289,7 @@ public class DataController {
 	public HttpEntity<Types> cellSubTypes(Model model) {
 		
 
-		Types types = cellHeatmapService.cellSubTypes();
+		Types types = humanCellHeatmapService.cellSubTypes();
 		return new ResponseEntity<Types>(types, HttpStatus.OK);
 	}
 	
@@ -267,7 +298,7 @@ public class DataController {
 	@ResponseBody
 	public ResponseEntity<Types> assays(Model model) {
 		
-		Types types = cellHeatmapService.getAssays();
+		Types types = humanCellHeatmapService.getAssays();
 		return new ResponseEntity<Types>(types, HttpStatus.OK);
 	}
 
@@ -277,7 +308,7 @@ public class DataController {
 	@RequestMapping("/constructs")
 	@ResponseBody
 	public HttpEntity<Types> constructController(Model model, @RequestParam(value = "heatmapType", required = false, defaultValue="procedure") String heatmapType) {
-		Types types = cellHeatmapService.getConstructs();
+		Types types = humanCellHeatmapService.getConstructs();
 		return new ResponseEntity<Types>(types, HttpStatus.OK);
 	}
 	
