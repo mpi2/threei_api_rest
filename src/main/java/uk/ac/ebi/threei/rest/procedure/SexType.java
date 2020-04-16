@@ -22,8 +22,10 @@ public enum SexType {
 	public static SexType getByDisplayName(String displayName) {
 		switch (displayName) {
 			case "female":	return SexType.female;
+			case "F": return SexType.female;
 			case "hermaphrodite": return SexType.hermaphrodite;
 			case "male": return SexType.male;
+			case "M": return SexType.male;
 			case "no data": return SexType.no_data;
 			case "Male/Female": return SexType.both;
 			default: throw new IllegalArgumentException("No enum constant " + SexType.class + "." + displayName);

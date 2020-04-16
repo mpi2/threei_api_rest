@@ -1,21 +1,56 @@
 <mat-sidenav-content id="page-content"  fxFlex="100%">
-  <mat-card fxLayout="row" fxLayout.xs="row" fxLayoutAlign="space-around center" >
-    <button mat-raised-button coor="primary" (click)="openDialog()" fxFlex="45%">
-      Click to see project overview
-      <img src="assets/images/small_overview.jpg" width="250">
-    </button>
-    <div fxFlex="45%"><h2>Human Coronovirus Immunological Phenotypes</h2><h2>Data Updated Daily</h2></div>
+<!--  <mat-card fxLayout="row" fxLayout.xs="row" fxLayoutAlign="space-around center" >-->
+<!--    <button mat-raised-button coor="primary" (click)="openDialog()" fxFlex="45%">-->
+<!--      Click to see project overview-->
+<!--      <img src="assets/images/small_overview.jpg" width="250">-->
+<!--    </button>-->
+<!--    <div fxFlex="45%"><h2>Human Coronovirus Immunological Phenotypes</h2><h2>Data Updated Daily</h2></div>-->
 
+<!--  </mat-card>-->
+  <mat-card>
+    <h1>COVID-IP</h1>
+    <h2>Study description</h2>
+    <p>COVID-IP is a fast response study of adaptive immune parameters in patients with COVID19 and their link to clinical outcomes.
+    Whereas we process and interpret the data to inform the clinical teams, we strongly believe that many more researchers in the community may benefit from an early access to our data. To better understand immunological response to the virus and improve treatment, we are making the data available to the community as soon as possible.
+    </p>
+    <h2>Principal investigators</h2>
+    <p>
+    Professor Adrian Hayday, Peter Gorer Dept of Immunobiology (Guy’s Hospital)
+    Professor Jonathan Edgeworth, Centre for Infectious Disease Research [CIDR] (St.Thomas’ Hospital)
+    Dr Manu Shankar-Hari, NIHR Clinician Scientist; Consultant in Intensive Care Medicine (St.Thomas’ Hospital)
+    </p>
+    <h2>Patients</h2>
+    <p>
+      Samples are acquired from newly admitted patients in St. Thomas’ Hospital, along with sample collection for the Public Health England ISARIC study. [No more details here on purpose – we might add later]
+    </p>
+    <h2>Clinical data</h2>
+    <p>
+    To protect patients’ privacy, we provide approximate values of age and no sampling dates.
+    </p>
+
+    <h2>Data licence</h2>
+    <p>
+    Creative Commons Attribution License, CC-BY 4.0
+    (free to use and share, provided it is attributed to our study).
+    </p>
+    <h2>Contact</h2>
+    <p>Technical issues with the webpage/data download XXX
+    Study anna.lorenc@kcl.ac.uk
+    </p>
+
+    <h2>Assays and SOPs</h2>
+    <p>[to be filled in later]
+    </p>
   </mat-card>
   <mat-card>
-    <mat-tab-group mat-stretch-tabs   (selectedTabChange)="tabChanged($event)" [dynamicHeight]="true">
-      <mat-tab>
-        <ng-template mat-tab-label>
-          <h1 >Human Cell View Heatmap</h1>
-        </ng-template>
-        <threei-human-cell-heatmap></threei-human-cell-heatmap>
+<!--    <mat-tab-group mat-stretch-tabs   (selectedTabChange)="tabChanged($event)" [dynamicHeight]="true">-->
+<!--      <mat-tab>-->
+<!--        <ng-template mat-tab-label>-->
+<!--          <h1 >Human Cell View Heatmap</h1>-->
+<!--        </ng-template>-->
+<!--        <threei-human-cell-heatmap></threei-human-cell-heatmap>-->
         <!-- <threei-procedure-heatmap></threei-procedure-heatmap> -->
-      </mat-tab>
+<!--      </mat-tab>-->
 <!--      <mat-tab>-->
 <!--        <ng-template mat-tab-label>-->
 <!--          <h1>Procedure View Heatmap</h1>-->
@@ -24,7 +59,7 @@
 <!--          <threei-procedure-heatmap></threei-procedure-heatmap>-->
 <!--        </ng-template>-->
 <!--      </mat-tab>-->
-    </mat-tab-group>
+<!--    </mat-tab-group>-->
   </mat-card>
 
 

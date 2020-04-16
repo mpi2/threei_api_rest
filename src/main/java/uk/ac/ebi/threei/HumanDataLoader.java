@@ -31,18 +31,20 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.repository.CrudRepository;
 
 import uk.ac.ebi.threei.rest.CellHeatmapRow;
-import uk.ac.ebi.threei.rest.CellParameter;
 import uk.ac.ebi.threei.rest.Data;
 import uk.ac.ebi.threei.rest.DisplayProcedureMapper;
+import uk.ac.ebi.threei.rest.HumanCellParameter;
 import uk.ac.ebi.threei.rest.ProcedureHeatmapRow;
 import uk.ac.ebi.threei.rest.SignificanceType;
 import uk.ac.ebi.threei.rest.procedure.ParameterDetails;
 import uk.ac.ebi.threei.rest.repositories.CellHeatmapRowsRepository;
-import uk.ac.ebi.threei.rest.repositories.CellParameterRepository;
 import uk.ac.ebi.threei.rest.repositories.ParameterDetailsRepository;
 import uk.ac.ebi.threei.rest.repositories.ProcedureHeatmapRowsRepository;
+import uk.ac.ebi.threei.rest.repositories.human.HumanCellHeatmapRowsRepository;
+import uk.ac.ebi.threei.rest.repositories.human.HumanProcedureHeatmapRowsRepository;
 import uk.ac.ebi.threei.rest.services.GeneService;
 
 //need this annotation if using the loader - comment out if not...?
@@ -68,23 +70,21 @@ public class HumanDataLoader implements CommandLineRunner {
 	GeneService geneService;
 	
 	@Autowired
-	private CellParameterRepository cellParameterRepository;
-
+	private HumanProcedureHeatmapRowsRepository procedureRowsRespository;
 	@Autowired
-	private ProcedureHeatmapRowsRepository procedureRowsRespository;
-	@Autowired
-	private CellHeatmapRowsRepository cellRowsRespository;
+	private HumanCellHeatmapRowsRepository cellRowsRespository;
 	@Autowired
 	ParameterDetailsRepository parameterDetailsRepository;
 
 
-	private List<CellParameter> cellParameters;
+	private List<HumanCellParameter> humanCellParameters;
 	private Set<String> uniqueCellTypesForHeaders;
 	private List<ProcedureHeatmapRow> procedureRowData;
 	private List<CellHeatmapRow> cellHeatmapRows;
 	private List<ParameterDetails> parameterDetails;
 	HashMap<String,String> ensemblToSymbolMap=new HashMap<>();
 	private int hitsFileErrorCount=0;
+	//private HumanCellParameterRepository humanCellParameterRepository;
 	
 
 	public static void main(String[] args) {
@@ -129,8 +129,9 @@ public class HumanDataLoader implements CommandLineRunner {
 			File cellFile = new File(cellFileLocation);
 			if (cellFile.exists()) {
 				System.out.println("Cell file exists! We can now get the data");
-				cellParameters = this.getData(cellFile);
-				uniqueCellTypesForHeaders=this.getUniqueCellTypesForHeaders(cellParameters);
+				HumanParameterFileLoader humanParameterFileLoader=new HumanParameterFileLoader();
+				humanCellParameters = humanParameterFileLoader.getData(cellFile);
+				uniqueCellTypesForHeaders=this.getUniqueCellTypesForHeaders(humanCellParameters);
 				int i=0;
 				for(String key: uniqueCellTypesForHeaders) {
 					System.out.println("uniqueCellTypesForHeaders="+key);
@@ -139,8 +140,8 @@ public class HumanDataLoader implements CommandLineRunner {
 				}
 				//now we need to construct the cell type map by looping though the headers for celltype and then allocating if
 				//any of the parameters associated to that header for that gene are significant using the prev loaded hit file
-				//cellTypeData=createCellTypeHeatmap(uniqueCellTypesForHeaders, cellParameters, geneConstructParameterToSignificance );
-				cellHeatmapRows=getCellHeatmapRowsFromCsv(uniqueCellTypesForHeaders, cellParameters, geneConstructParameterToSignificance );
+				//cellTypeData=createCellTypeHeatmap(uniqueCellTypesForHeaders, HumanCellParamters, geneConstructParameterToSignificance );
+				cellHeatmapRows=getCellHeatmapRowsFromCsv(uniqueCellTypesForHeaders, humanCellParameters, geneConstructParameterToSignificance );
 				//we need to add some of the procedure data to the cell rows as requested by Lucie
 				cellHeatmapRows=addSomeProceduresToCellRows(cellHeatmapRows, procedureRowData);
 				//need to add significance score after adding the extra procedure rows otherwise can't order based on significance for whole row
@@ -165,7 +166,7 @@ public class HumanDataLoader implements CommandLineRunner {
 			System.exit(1);
 		}
 		
-		// HashMap<String, CellParameter> uniqueCellNames=new HashMap<>();
+		// HashMap<String, HumanCellParamter> uniqueCellNames=new HashMap<>();
 		// procedure heatmap data
 		String path = System.getProperty("user.home") + File.separator + "Documents";
 		File outputFile=new File(path+File.separator+"humanCellOutput.csv");
@@ -187,7 +188,7 @@ public class HumanDataLoader implements CommandLineRunner {
 	 * @return
 	 */
 	private List<ParameterDetails> getDetailsFromCsv(File hitsDataFile) {
-		// read in file line by line and add to CellParameter objects for loading into
+		// read in file line by line and add to HumanCellParamter objects for loading into
 		// mongodb
 		
 		List<ParameterDetails> parameterDetails=new ArrayList<>();
@@ -317,7 +318,7 @@ public class HumanDataLoader implements CommandLineRunner {
 	private Integer getHighestSignificanceForCellTypeHeadeer(
 			HashMap<String, Integer> geneConstructParameterToSignificance2, String header, String gene, String construct) {
 		int highestSignficance = 0;
-		List<String> parameterIdsForHeader = this.getParametersForCellType(header, cellParameters);
+		List<String> parameterIdsForHeader = this.getParametersForCellType(header, humanCellParameters);
 
 		for (String paramId : parameterIdsForHeader) {
 			String key=gene + KEY_DELIMITER +construct+KEY_DELIMITER+ paramId;//parameter name isn't enough here as they belong to multiple cellt types but parameter ids don't, need procedure name as well to match cell file and hits file unique row.
@@ -337,14 +338,14 @@ public class HumanDataLoader implements CommandLineRunner {
 		return highestSignficance;
 	}
 
-	private List<String> getParametersForCellType(String header, List<CellParameter> cellParameters2) {
-		List<String> cellParameterNames=new ArrayList<>();
-		for(CellParameter cParam:cellParameters2) {
-			if(cParam.getCellType().equals(header)){
-				cellParameterNames.add(cParam.getParameterId());
+	private List<String> getParametersForCellType(String header, List<HumanCellParameter> humanCellParameters) {
+		List<String> humanCellParamterNames=new ArrayList<>();
+		for(HumanCellParameter cParam:humanCellParameters) {
+			if(cParam.getParameterId().equals(header)){
+				humanCellParamterNames.add(cParam.getParameterId());
 			};
 		}
-		return cellParameterNames;
+		return humanCellParamterNames;
 	}
 
 	private void saveDataToFile(File outputFile, List<CellHeatmapRow> rows) throws IOException {
@@ -387,7 +388,7 @@ public class HumanDataLoader implements CommandLineRunner {
 		System.out.println("deleting data from mongodb!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 		cellRowsRespository.deleteAll();
 		procedureRowsRespository.deleteAll();
-		cellParameterRepository.deleteAll();
+		//humanCellParameterRepository.deleteAll();
 		parameterDetailsRepository.deleteAll();
 		//dataRepository.save(procedureData);
 		System.out.println("saving data to mongodb!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -395,14 +396,14 @@ public class HumanDataLoader implements CommandLineRunner {
 		procedureRowsRespository.saveAll(procedureRowData);
 		cellRowsRespository.saveAll(cellHeatmapRows);
 		//dataRepository.save(cellTypeData);
-		// cellParameters
-		saveParemeterToCells();
+		// HumanCellParamters
+		//saveParemeterToCells();
 	}
 
-	private Set<String> getUniqueCellTypesForHeaders(List<CellParameter> cellParameters2) {
+	private Set<String> getUniqueCellTypesForHeaders(List<HumanCellParameter> humanCellParamters) {
 		Set<String> headers=new TreeSet<>();
-		for(CellParameter cell:cellParameters) {
-			String cellType=cell.getCellType();
+		for(HumanCellParameter cell:humanCellParameters) {
+			String cellType=cell.getPublicPopulationName();
 			headers.add(cellType);
 		}
 		return headers;
@@ -414,7 +415,7 @@ public class HumanDataLoader implements CommandLineRunner {
 	 * @return
 	 */
 	private List<ProcedureHeatmapRow> getProcedureHeatmapRowsFromCsv(File hitsDataFile) {
-		// read in file line by line and add to CellParameter objects for loading into
+		// read in file line by line and add to HumanCellParamter objects for loading into
 		// mongodb
 		Data procedureData = new Data();
 		List<ProcedureHeatmapRow> heatmapRows=new ArrayList<>();
@@ -525,7 +526,7 @@ public class HumanDataLoader implements CommandLineRunner {
 	}
 	
 	
-	private List<CellHeatmapRow> getCellHeatmapRowsFromCsv(Set<String> uniqueCellTypesForHeaders2, List<CellParameter> cellParameters2,
+	private List<CellHeatmapRow> getCellHeatmapRowsFromCsv(Set<String> uniqueCellTypesForHeaders2, List<HumanCellParameter> HumanCellParamters2,
 			HashMap<String, Integer> geneConstructParameterToSignificance2) {
 		List<CellHeatmapRow> cellHeatmapRows=new ArrayList<>();
 		Map<String, CellHeatmapRow> cellHeatmapRowsMap=new LinkedHashMap<>();
@@ -574,7 +575,7 @@ public class HumanDataLoader implements CommandLineRunner {
 
 
 //	private Data getProcedureDataFromCsv(File hitsDataFile) {
-//		// read in file line by line and add to CellParameter objects for loading into
+//		// read in file line by line and add to HumanCellParamter objects for loading into
 //		// mongodb
 //		Data procedureData = new Data();
 //		procedureData.setHeatmapType("procedure");
@@ -676,7 +677,7 @@ public class HumanDataLoader implements CommandLineRunner {
 	
 	public HashMap<String, Integer> getGeneToParameterHitsFromFile(File hitsDataFile) {
 
-		// read in file line by line and add to CellParameter objects for loading into
+		// read in file line by line and add to HumanCellParamter objects for loading into
 		// mongodb
 		//Data procedureData = new Data();
 		//procedureData.setHeatmapType("procedure");
@@ -777,7 +778,7 @@ public class HumanDataLoader implements CommandLineRunner {
 	 * @return
 	 */
 	private Data cleanFile(File hitsDataFile) {
-		// read in file line by line and add to CellParameter objects for loading into
+		// read in file line by line and add to HumanCellParamter objects for loading into
 		// mongodb
 		Data procedureData = new Data();
 		HashMap<String, Integer> geneProcedureDisplayNameToValueMap = new HashMap<>();
@@ -832,55 +833,7 @@ public class HumanDataLoader implements CommandLineRunner {
 		System.out.println("procedureData=" + procedureData.writeData());
 		return procedureData;
 	}
-
 	
-	
-	
-
-	private void saveParemeterToCells() {
-		for (CellParameter cellParam : cellParameters) {
-			//System.out.println("cellParam=" + cellParam.toString());
-			cellParameterRepository.save(cellParam);
-		}
-
-	}
-
-	private List<CellParameter> getData(File cellFile) {
-		// read in file line by line and add to CellParameter objects for loading into
-		// mongodb
-		List<CellParameter> inputList = new ArrayList<CellParameter>();
-		try {
-
-			InputStream inputFS = new FileInputStream(cellFile);
-			BufferedReader br = new BufferedReader(new InputStreamReader(inputFS));
-			// skip the header of the csv
-			// String line;
-			// while ((line = br.readLine()) != null) {
-			// System.out.println(line);
-			// }
-
-			inputList = br.lines().skip(1).map(mapToItem).collect(Collectors.toList());
-			br.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return inputList;
-
-	}
-
-	private Function<String, CellParameter> mapToItem = (line) -> {
-		String[] p = line.split(COMMA);// a CSV has comma separated lines
-		CellParameter cell = new CellParameter();
-		cell.setParameterId(p[0].trim());// <-- this is the first column in the csv file
-		cell.setParameterName(p[1].trim());
-		cell.setCellType(p[2].trim());
-		if (p[3] != null && p[3].trim().length() > 0) {
-			cell.setCellSubtype(p[3].trim());
-		}
-		cell.setAssay(p[4].trim());
-		// more initialization goes here
-		return cell;
-	};
 	
 	
 

@@ -1,10 +1,10 @@
 Manifest-Version: 1.0
+Built-By: jwarren
+Build-Jdk: 11.0.2
 Implementation-Title: uk.ac.ebi.threei.rest
 Implementation-Version: 0.1.0
-Built-By: jwarren
 Implementation-Vendor-Id: org.springframework
-Build-Jdk: 1.8.0_191
-Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
- ot-starter-parent/uk.ac.ebi.threei.rest
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-boot
+ -starter-parent/uk.ac.ebi.threei.rest
 Created-By: Maven Integration for Eclipse
 
