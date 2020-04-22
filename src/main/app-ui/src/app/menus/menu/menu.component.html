@@ -1,9 +1,9 @@
     <mat-toolbar  style="min-height: 100px !important; min-height: 100px !important;" role="toolbar"  [ngClass]="{'bottom': !topMenu}" >
-   
+
                       <img *ngIf="topMenu" fxFlex="40%" src="assets/images/impc.png" alt="IMPC Logo"/>
-                    
-                <button fxFlex="40%" mat-button  [routerLink]="['./home']" routerLinkActive="active">HOME</button>
-                <button fxFlex="20%" mat-button routerLinkActive="active" [matMenuTriggerFor]="projectMenu">PROJECT</button>
+                <button fxFlex="40%" mat-button  [routerLink]="['./home']" routerLinkActive="active">COVID-IP</button>
+                <button fxFlex="40%" mat-button  [routerLink]="['./threei-data']" routerLinkActive="active">3i Data</button>
+                <button fxFlex="20%" mat-button routerLinkActive="active" [matMenuTriggerFor]="projectMenu">3i PROJECT</button>
                 <mat-menu #projectMenu="matMenu" >
                         <button mat-menu-item [routerLink]="['./about']" routerLinkActive="active">About 3i</button>
                         <button mat-menu-item [routerLink]="['./publications']" routerLinkActive="active" fragment="publications">Publications</button>
@@ -14,16 +14,16 @@
                         <button mat-menu-item [routerLink]="['./faq']" routerLinkActive="active" fragment="faq">FAQ</button>
                         <button mat-menu-item [routerLink]="['./acknowledge']" routerLinkActive="active" fragment="acknowledge">How to acknowledge 3i in publications</button>
                 </mat-menu>
-                
-                <button  fxFlex="20%" mat-button routerLinkActive="active" [matMenuTriggerFor]="methodsMenu">METHODS</button>
+
+                <button  fxFlex="20%" mat-button routerLinkActive="active" [matMenuTriggerFor]="methodsMenu">3i METHODS</button>
                 <mat-menu #methodsMenu="matMenu">
                         <button mat-menu-item [routerLink]="['./strengths']" routerLinkActive="active">Strengths and Limitations</button>
                         <button mat-menu-item [routerLink]="['./methods']" routerLinkActive="active">Experimental Design and Protocols</button>
                         <button mat-menu-item [routerLink]="['./statistical']" routerLinkActive="active">Statistical Design</button>
                 </mat-menu>
-               
 
-                <button fxFlex="20%" mat-button [matMenuTriggerFor]="dataMenu" routerLinkActive="active">MORE DATA</button>
+
+                <button fxFlex="20%" mat-button [matMenuTriggerFor]="dataMenu" routerLinkActive="active">3i MORE DATA</button>
                 <mat-menu #dataMenu="matMenu">
                         <button mat-menu-item [routerLink]="['./downloads']" routerLinkActive="active">Data Downloads</button>
                         <button mat-menu-item [routerLink]="['./flow']" routerLinkActive="active">Flow Files</button>
@@ -34,8 +34,8 @@
 
                 <!-- <button fxFlex="20%"  routerLinkActive="active" [routerLink]="['./new_cell_types']" routerLinkActive="active" mat-button>NEW CELL TYPES</button>
                 <button fxFlex="20%" routerLinkActive="active" [routerLink]="['./whats_new']"  routerLinkActive="active" mat-button>WHAT'S NEW</button> -->
-                
-                <span class="software" *ngIf="!topMenu">Software v3.2 &nbsp;&nbsp; <a style="color:white" href="https://www.ebi.ac.uk/data-protection/privacy-notice/mousephenotype-org">Data protection - EBI</a></span>
+
+                <span class="software" *ngIf="!topMenu">Software v3.3 &nbsp;&nbsp; <a style="color:white" href="https://www.ebi.ac.uk/data-protection/privacy-notice/mousephenotype-org">Data protection - EBI</a></span>
 
 </mat-toolbar>
 
