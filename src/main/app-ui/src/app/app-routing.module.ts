@@ -33,7 +33,7 @@ import {HumanHomeComponent} from "./human-home/human-home.component";
 
 const appRoutes: Routes = [
   {
-    path: 'threei-data',
+    path: 'home',
     component: HomePageComponent,
   },
   {
@@ -161,10 +161,11 @@ const appRoutes: Routes = [
     // outlet: 'popup'
   },
   {
-    path: 'home',
+    path: 'human',
     component: HumanHomeComponent,
     // outlet: 'popup'
   },
+
    { path: '',   redirectTo: 'human', pathMatch: 'full' }
 //   { path: '**', component: PageNotFoundComponent }
 ];

@@ -88,6 +88,7 @@ import { ContributorsComponent } from './contributors/contributors.component';
 import { ConsentComponent, CustomSnackBar } from './consent/consent.component';
 import { HumanHomeComponent } from './human-home/human-home.component';
 import { HumanCellHeatmapComponent } from './human-cell-heatmap/human-cell-heatmap.component';
+import { CovidLayoutComponent } from './covid-layout/covid-layout.component';
 
 
 
@@ -112,7 +113,7 @@ import { HumanCellHeatmapComponent } from './human-cell-heatmap/human-cell-heatm
      MapOfImmuneComponent, WebstatusComponent, NewCellTypesComponent, AcknowledgeThreeiComponent,
      OverviewDialog,
      ContributorsComponent,
-     ConsentComponent, CustomSnackBar, HumanHomeComponent, HumanCellHeatmapComponent
+     ConsentComponent, CustomSnackBar, HumanHomeComponent, HumanCellHeatmapComponent, CovidLayoutComponent
   ],
   imports: [
     MatSidenavModule, BrowserModule, MenusModule, AppRoutingModule, SlideshowModule, MatExpansionModule, FormsModule,
